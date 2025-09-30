@@ -23,55 +23,103 @@ struct SampleCodePage {
     {
       id: 1,
       title: 'Hello World',
-      description: '最基本的仓颉程序示例',
+      description: '最基本的ArkTS程序示例',
       category: '基础语法',
-      code: `main() {
-    println("Hello, World!")
+      code: `@Entry
+@Component
+struct HelloWorld {
+  build() {
+    Column() {
+      Text('Hello, World!')
+        .fontSize(20)
+        .fontWeight(FontWeight.Bold)
+    }
+    .width('100%')
+    .height('100%')
+    .justifyContent(FlexAlign.Center)
+  }
 }`,
-      language: 'cangjie'
+      language: 'arkts'
     },
     {
       id: 2,
       title: '变量声明',
-      description: '展示仓颉中的变量声明和初始化',
+      description: '展示ArkTS中的变量声明和状态管理',
       category: '基础语法',
-      code: `main() {
-    // 可变变量
-    var name: String = "仓颉"
-    var age: Int64 = 25
-    
-    // 不可变变量
-    let pi: Float64 = 3.14159
-    let isActive: Bool = true
-    
-    println("姓名: \${name}, 年龄: \${age}")
-    println("π的值: \${pi}, 状态: \${isActive}")
+      code: `@Entry
+@Component
+struct VariableExample {
+  @State name: string = 'ArkTS'
+  @State age: number = 25
+  @State isActive: boolean = true
+  
+  // 常量声明
+  private readonly PI: number = 3.14159
+
+  build() {
+    Column() {
+      Text(\`姓名: \${this.name}, 年龄: \${this.age}\`)
+        .fontSize(16)
+        .margin(10)
+      Text(\`π的值: \${this.PI}, 状态: \${this.isActive}\`)
+        .fontSize(16)
+        .margin(10)
+      
+      Button('修改年龄')
+        .onClick(() => {
+          this.age++
+        })
+    }
+    .width('100%')
+    .height('100%')
+    .justifyContent(FlexAlign.Center)
+  }
 }`,
-      language: 'cangjie'
+      language: 'arkts'
     },
     {
       id: 3,
       title: '数组操作',
       description: '数组的创建、访问和操作',
       category: '数据类型',
-      code: `main() {
-    // 创建数组
-    var numbers: Array<Int64> = [1, 2, 3, 4, 5]
-    let fruits: Array<String> = ["苹果", "香蕉", "橙子"]
-    
-    // 访问元素
-    println("第一个数字: \${numbers[0]}")
-    println("水果数量: \${fruits.size}")
-    
-    // 添加元素
-    numbers.append(6)
-    
-    // 遍历数组
-    for (fruit in fruits) {
-        println("水果: \${fruit}")
+      code: `@Entry
+@Component
+struct ArrayExample {
+  @State numbers: number[] = [1, 2, 3, 4, 5]
+  @State fruits: string[] = ['苹果', '香蕉', '橙子']
+
+  build() {
+    Column() {
+      Text(\`第一个数字: \${this.numbers[0]}\`)
+        .fontSize(16)
+        .margin(5)
+      Text(\`水果数量: \${this.fruits.length}\`)
+        .fontSize(16)
+        .margin(5)
+      
+      Button('添加数字')
+        .onClick(() => {
+          this.numbers.push(this.numbers.length + 1)
+        })
+        .margin(10)
+      
+      List() {
+        ForEach(this.fruits, (fruit: string, index: number) => {
+          ListItem() {
+            Text(\`\${index}: \${fruit}\`)
+              .fontSize(14)
+              .padding(5)
+          }
+        })
+      }
+      .height(150)
     }
+    .width('100%')
+    .height('100%')
+    .padding(20)
+  }
 }`,
-      language: 'cangjie'
+      language: 'arkts'
     },
     {
       id: 4,
@@ -79,23 +127,55 @@ struct SampleCodePage {
       description: '函数的定义和调用示例',
       category: '函数',
       code: `// 计算两个数的和
-func add(a: Int64, b: Int64): Int64 {
-    return a + b
+function add(a: number, b: number): number {
+  return a + b
 }
 
 // 带默认参数的函数
-func greet(name: String, greeting: String = "你好"): String {
-    return "\${greeting}, \${name}!"
+function greet(name: string, greeting: string = '你好'): string {
+  return \`\${greeting}, \${name}!\`
 }
 
-main() {
-    let result = add(10, 20)
-    println("10 + 20 = \${result}")
-    
-    println(greet("张三"))
-    println(greet("李四", "欢迎"))
+@Entry
+@Component
+struct FunctionExample {
+  @State result: number = 0
+  @State message: string = ''
+
+  build() {
+    Column() {
+      Text(\`计算结果: \${this.result}\`)
+        .fontSize(16)
+        .margin(10)
+      
+      Text(this.message)
+        .fontSize(16)
+        .margin(10)
+      
+      Button('计算 10 + 20')
+        .onClick(() => {
+          this.result = add(10, 20)
+        })
+        .margin(5)
+      
+      Button('问候张三')
+        .onClick(() => {
+          this.message = greet('张三')
+        })
+        .margin(5)
+      
+      Button('欢迎李四')
+        .onClick(() => {
+          this.message = greet('李四', '欢迎')
+        })
+        .margin(5)
+    }
+    .width('100%')
+    .height('100%')
+    .justifyContent(FlexAlign.Center)
+  }
 }`,
-      language: 'cangjie'
+      language: 'arkts'
     },
     {
       id: 5,
@@ -103,258 +183,527 @@ main() {
       description: '面向对象编程基础',
       category: '面向对象',
       code: `class Person {
-    var name: String
-    var age: Int64
-    
-    init(name: String, age: Int64) {
-        this.name = name
-        this.age = age
-    }
-    
-    func introduce(): String {
-        return "我是\${this.name}，今年\${this.age}岁"
-    }
-    
-    func birthday() {
-        this.age += 1
-        println("\${this.name}过生日了，现在\${this.age}岁")
-    }
+  private name: string
+  private age: number
+  
+  constructor(name: string, age: number) {
+    this.name = name
+    this.age = age
+  }
+  
+  introduce(): string {
+    return \`我是\${this.name}，今年\${this.age}岁\`
+  }
+  
+  birthday(): void {
+    this.age++
+    console.log(\`\${this.name}过生日了，现在\${this.age}岁\`)
+  }
+  
+  getName(): string {
+    return this.name
+  }
+  
+  getAge(): number {
+    return this.age
+  }
 }
 
-main() {
-    let person = Person("小明", 20)
-    println(person.introduce())
-    person.birthday()
+@Entry
+@Component
+struct ClassExample {
+  @State person: Person = new Person('小明', 20)
+  @State introduction: string = ''
+
+  build() {
+    Column() {
+      Text(this.introduction)
+        .fontSize(16)
+        .margin(10)
+      
+      Button('自我介绍')
+        .onClick(() => {
+          this.introduction = this.person.introduce()
+        })
+        .margin(5)
+      
+      Button('过生日')
+        .onClick(() => {
+          this.person.birthday()
+          this.introduction = this.person.introduce()
+        })
+        .margin(5)
+    }
+    .width('100%')
+    .height('100%')
+    .justifyContent(FlexAlign.Center)
+  }
 }`,
-      language: 'cangjie'
+      language: 'arkts'
     },
     {
       id: 6,
       title: '异步编程',
-      description: '使用async/await进行异步编程',
+      description: '使用Promise和async/await进行异步编程',
       category: '并发编程',
-      code: `import std.sync.*
-
-async func fetchData(id: Int64): String {
-    // 模拟网络请求延迟
-    sleep(Duration.millisecond * 1000)
-    return "数据\${id}"
+      code: `// 模拟异步数据获取
+async function fetchData(id: number): Promise<string> {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(\`数据\${id}\`)
+    }, 1000)
+  })
 }
 
-async func processData(): Unit {
-    println("开始获取数据...")
+async function processData(): Promise<void> {
+  console.log('开始获取数据...')
+  
+  try {
+    const data1 = await fetchData(1)
+    const data2 = await fetchData(2)
     
-    let data1 = await fetchData(1)
-    let data2 = await fetchData(2)
-    
-    println("获取到: \${data1}")
-    println("获取到: \${data2}")
+    console.log(\`获取到: \${data1}\`)
+    console.log(\`获取到: \${data2}\`)
+  } catch (error) {
+    console.error('获取数据失败:', error)
+  }
 }
 
-main() {
-    spawn {
-        await processData()
+@Entry
+@Component
+struct AsyncExample {
+  @State status: string = '准备就绪'
+  @State data: string[] = []
+
+  build() {
+    Column() {
+      Text(\`状态: \${this.status}\`)
+        .fontSize(16)
+        .margin(10)
+      
+      ForEach(this.data, (item: string) => {
+        Text(item)
+          .fontSize(14)
+          .margin(5)
+      })
+      
+      Button('开始异步处理')
+        .onClick(async () => {
+          this.status = '处理中...'
+          this.data = []
+          
+          try {
+            const result1 = await fetchData(1)
+            this.data.push(result1)
+            
+            const result2 = await fetchData(2)
+            this.data.push(result2)
+            
+            this.status = '处理完成'
+          } catch (error) {
+            this.status = '处理失败'
+          }
+        })
+        .margin(10)
     }
-    
-    println("主线程继续执行...")
-    sleep(Duration.second * 3)
+    .width('100%')
+    .height('100%')
+    .justifyContent(FlexAlign.Center)
+  }
 }`,
-      language: 'cangjie'
+      language: 'arkts'
     },
     {
       id: 7,
-      title: '泛型函数',
+      title: '泛型使用',
       description: '泛型的使用示例',
       category: '高级特性',
       code: `// 泛型函数
-func swap<T>(a: T, b: T): (T, T) {
-    return (b, a)
+function swap<T>(a: T, b: T): [T, T] {
+  return [b, a]
 }
 
 // 泛型类
 class Box<T> {
-    var value: T
-    
-    init(value: T) {
-        this.value = value
-    }
-    
-    func getValue(): T {
-        return this.value
-    }
-    
-    func setValue(newValue: T) {
-        this.value = newValue
-    }
+  private value: T
+  
+  constructor(value: T) {
+    this.value = value
+  }
+  
+  getValue(): T {
+    return this.value
+  }
+  
+  setValue(newValue: T): void {
+    this.value = newValue
+  }
 }
 
-main() {
-    let (x, y) = swap(10, 20)
-    println("交换后: x=\${x}, y=\${y}")
-    
-    let stringBox = Box("Hello")
-    println("字符串盒子: \${stringBox.getValue()}")
-    
-    let intBox = Box(42)
-    println("整数盒子: \${intBox.getValue()}")
+@Entry
+@Component
+struct GenericExample {
+  @State swapResult: string = ''
+  @State boxValue: string = ''
+
+  build() {
+    Column() {
+      Text(this.swapResult)
+        .fontSize(16)
+        .margin(10)
+      
+      Text(this.boxValue)
+        .fontSize(16)
+        .margin(10)
+      
+      Button('测试交换')
+        .onClick(() => {
+          const [x, y] = swap(10, 20)
+          this.swapResult = \`交换后: x=\${x}, y=\${y}\`
+        })
+        .margin(5)
+      
+      Button('测试泛型类')
+        .onClick(() => {
+          const stringBox = new Box('Hello')
+          const intBox = new Box(42)
+          
+          this.boxValue = \`字符串盒子: \${stringBox.getValue()}, 整数盒子: \${intBox.getValue()}\`
+        })
+        .margin(5)
+    }
+    .width('100%')
+    .height('100%')
+    .justifyContent(FlexAlign.Center)
+  }
 }`,
-      language: 'cangjie'
+      language: 'arkts'
     },
     {
       id: 8,
       title: '错误处理',
-      description: '使用Result类型进行错误处理',
+      description: '使用try-catch进行错误处理',
       category: '高级特性',
-      code: `import std.collection.*
-
-func divide(a: Float64, b: Float64): Result<Float64, String> {
-    if (b == 0.0) {
-        return Err("除数不能为零")
-    }
-    return Ok(a / b)
+      code: `// 除法函数
+function divide(a: number, b: number): number {
+  if (b === 0) {
+    throw new Error('除数不能为零')
+  }
+  return a / b
 }
 
-func parseNumber(str: String): Result<Int64, String> {
-    try {
-        return Ok(Int64.parse(str))
-    } catch (e: Exception) {
-        return Err("无法解析数字: \${str}")
-    }
+// 数字解析函数
+function parseNumber(str: string): number {
+  const result = parseInt(str)
+  if (isNaN(result)) {
+    throw new Error(\`无法解析数字: \${str}\`)
+  }
+  return result
 }
 
-main() {
-    // 处理除法结果
-    match (divide(10.0, 2.0)) {
-        case Ok(result) => println("结果: \${result}")
-        case Err(error) => println("错误: \${error}")
+@Entry
+@Component
+struct ErrorHandlingExample {
+  @State results: string[] = []
+
+  build() {
+    Column() {
+      ForEach(this.results, (result: string) => {
+        Text(result)
+          .fontSize(14)
+          .margin(5)
+      })
+      
+      Button('测试除法')
+        .onClick(() => {
+          this.results = []
+          
+          try {
+            const result = divide(10, 2)
+            this.results.push(\`结果: \${result}\`)
+          } catch (error) {
+            this.results.push(\`错误: \${error.message}\`)
+          }
+          
+          try {
+            const result = divide(10, 0)
+            this.results.push(\`结果: \${result}\`)
+          } catch (error) {
+            this.results.push(\`错误: \${error.message}\`)
+          }
+        })
+        .margin(5)
+      
+      Button('测试解析')
+        .onClick(() => {
+          this.results = []
+          
+          try {
+            const num = parseNumber('123')
+            this.results.push(\`解析成功: \${num}\`)
+          } catch (error) {
+            this.results.push(\`解析失败: \${error.message}\`)
+          }
+          
+          try {
+            const num = parseNumber('abc')
+            this.results.push(\`解析成功: \${num}\`)
+          } catch (error) {
+            this.results.push(\`解析失败: \${error.message}\`)
+          }
+        })
+        .margin(5)
     }
-    
-    // 处理解析结果
-    match (parseNumber("123")) {
-        case Ok(num) => println("解析成功: \${num}")
-        case Err(error) => println("解析失败: \${error}")
-    }
+    .width('100%')
+    .height('100%')
+    .padding(20)
+  }
 }`,
-      language: 'cangjie'
+      language: 'arkts'
     },
-    
-    // 更多基础语法示例
     {
       id: 9,
       title: '条件语句',
       description: '展示if-else条件判断的使用',
       category: '基础语法',
-      code: `main() {
-    let score: Int64 = 85
-    
-    // 基本if-else
-    if (score >= 90) {
-        println("优秀")
-    } else if (score >= 80) {
-        println("良好")
-    } else if (score >= 60) {
-        println("及格")
-    } else {
-        println("不及格")
+      code: `@Entry
+@Component
+struct ConditionalExample {
+  @State score: number = 85
+  @State result: string = ''
+  @State grade: string = ''
+
+  build() {
+    Column() {
+      Text(\`分数: \${this.score}\`)
+        .fontSize(16)
+        .margin(10)
+      
+      Text(this.result)
+        .fontSize(16)
+        .margin(10)
+      
+      Text(\`等级: \${this.grade}\`)
+        .fontSize(16)
+        .margin(10)
+      
+      Button('评估分数')
+        .onClick(() => {
+          // 基本if-else
+          if (this.score >= 90) {
+            this.result = '优秀'
+          } else if (this.score >= 80) {
+            this.result = '良好'
+          } else if (this.score >= 60) {
+            this.result = '及格'
+          } else {
+            this.result = '不及格'
+          }
+          
+          // 三元运算符
+          const passResult = this.score >= 60 ? '通过' : '未通过'
+          this.result += \` - \${passResult}\`
+          
+          // switch语句
+          if (this.score >= 90) {
+            this.grade = 'A'
+          } else if (this.score >= 80) {
+            this.grade = 'B'
+          } else if (this.score >= 70) {
+            this.grade = 'C'
+          } else if (this.score >= 60) {
+            this.grade = 'D'
+          } else {
+            this.grade = 'F'
+          }
+        })
+        .margin(5)
+      
+      Slider({
+        value: this.score,
+        min: 0,
+        max: 100,
+        step: 1
+      })
+        .width('80%')
+        .onChange((value: number) => {
+          this.score = Math.round(value)
+        })
+        .margin(10)
     }
-    
-    // 三元运算符
-    let result = score >= 60 ? "通过" : "未通过"
-    println("考试结果: \${result}")
-    
-    // when表达式
-    let grade = when (score) {
-        case 90..100 => "A"
-        case 80..89 => "B"
-        case 70..79 => "C"
-        case 60..69 => "D"
-        case _ => "F"
-    }
-    println("等级: \${grade}")
+    .width('100%')
+    .height('100%')
+    .justifyContent(FlexAlign.Center)
+  }
 }`,
-      language: 'cangjie'
+      language: 'arkts'
     },
     {
       id: 10,
       title: '循环语句',
       description: '各种循环结构的使用方法',
       category: '基础语法',
-      code: `main() {
-    // for循环
-    println("=== for循环 ===")
-    for (i in 1..5) {
-        println("数字: \${i}")
+      code: `@Entry
+@Component
+struct LoopExample {
+  @State results: string[] = []
+
+  build() {
+    Column() {
+      Text('循环语句示例')
+        .fontSize(20)
+        .fontWeight(FontWeight.Bold)
+        .margin(10)
+      
+      List() {
+        ForEach(this.results, (item: string, index: number) => {
+          ListItem() {
+            Text(item)
+              .fontSize(14)
+              .padding(5)
+          }
+        })
+      }
+      .height('60%')
+      .width('100%')
+      .border({ width: 1, color: Color.Gray })
+      .margin(10)
+      
+      Button('执行for循环')
+        .onClick(() => {
+          this.results = []
+          // for循环
+          for (let i = 1; i <= 5; i++) {
+            this.results.push(\`for循环 - 数字: \${i}\`)
+          }
+        })
+        .margin(5)
+      
+      Button('执行while循环')
+        .onClick(() => {
+          this.results = []
+          // while循环
+          let count = 0
+          while (count < 3) {
+            this.results.push(\`while循环 - 计数: \${count}\`)
+            count++
+          }
+        })
+        .margin(5)
+      
+      Button('遍历数组')
+        .onClick(() => {
+          this.results = []
+          // 遍历数组
+          const colors = ['红色', '绿色', '蓝色']
+          colors.forEach((color, index) => {
+            this.results.push(\`\${index}: \${color}\`)
+          })
+        })
+        .margin(5)
+      
+      Button('清空结果')
+        .onClick(() => {
+          this.results = []
+        })
+        .margin(5)
     }
-    
-    // while循环
-    println("=== while循环 ===")
-    var count: Int64 = 0
-    while (count < 3) {
-        println("计数: \${count}")
-        count += 1
-    }
-    
-    // do-while循环
-    println("=== do-while循环 ===")
-    var num: Int64 = 0
-    do {
-        println("执行: \${num}")
-        num += 1
-    } while (num < 2)
-    
-    // 遍历数组
-    println("=== 遍历数组 ===")
-    let colors = ["红色", "绿色", "蓝色"]
-    for (color in colors) {
-        println("颜色: \${color}")
-    }
-    
-    // 带索引的遍历
-    for ((index, color) in colors.enumerate()) {
-        println("\${index}: \${color}")
-    }
+    .width('100%')
+    .height('100%')
+    .padding(20)
+  }
 }`,
-      language: 'cangjie'
+      language: 'arkts'
     },
     {
       id: 11,
       title: '字符串操作',
       description: '字符串的各种操作方法',
       category: '基础语法',
-      code: `main() {
-    let text: String = "Hello, 仓颉语言!"
-    
-    // 字符串长度
-    println("长度: \${text.size}")
-    
-    // 字符串拼接
-    let greeting = "你好" + ", " + "世界"
-    println("拼接: \${greeting}")
-    
-    // 字符串插值
-    let name = "张三"
-    let age = 25
-    println("我是\${name}，今年\${age}岁")
-    
-    // 字符串方法
-    println("大写: \${text.toUpperCase()}")
-    println("小写: \${text.toLowerCase()}")
-    println("包含'仓颉': \${text.contains("仓颉")}")
-    println("以'Hello'开头: \${text.startsWith("Hello")}")
-    println("以'!'结尾: \${text.endsWith("!")}")
-    
-    // 字符串分割
-    let sentence = "苹果,香蕉,橙子"
-    let fruits = sentence.split(",")
-    for (fruit in fruits) {
-        println("水果: \${fruit}")
+      code: `@Entry
+@Component
+struct StringExample {
+  @State text: string = 'Hello, ArkTS语言!'
+  @State results: string[] = []
+
+  build() {
+    Column() {
+      Text('字符串操作示例')
+        .fontSize(20)
+        .fontWeight(FontWeight.Bold)
+        .margin(10)
+      
+      TextInput({ text: this.text })
+        .width('90%')
+        .margin(10)
+        .onChange((value: string) => {
+          this.text = value
+        })
+      
+      List() {
+        ForEach(this.results, (item: string, index: number) => {
+          ListItem() {
+            Text(item)
+              .fontSize(14)
+              .padding(5)
+          }
+        })
+      }
+      .height('50%')
+      .width('100%')
+      .border({ width: 1, color: Color.Gray })
+      .margin(10)
+      
+      Button('字符串基本操作')
+        .onClick(() => {
+          this.results = []
+          // 字符串长度
+          this.results.push(\`长度: \${this.text.length}\`)
+          
+          // 字符串拼接
+          const greeting = '你好' + ', ' + '世界'
+          this.results.push(\`拼接: \${greeting}\`)
+          
+          // 字符串插值
+          const name = '张三'
+          const age = 25
+          this.results.push(\`我是\${name}，今年\${age}岁\`)
+        })
+        .margin(5)
+      
+      Button('字符串方法')
+        .onClick(() => {
+          this.results = []
+          this.results.push(\`大写: \${this.text.toUpperCase()}\`)
+          this.results.push(\`小写: \${this.text.toLowerCase()}\`)
+          this.results.push(\`包含'ArkTS': \${this.text.includes('ArkTS')}\`)
+          this.results.push(\`以'Hello'开头: \${this.text.startsWith('Hello')}\`)
+          this.results.push(\`以'!'结尾: \${this.text.endsWith('!')}\`)
+        })
+        .margin(5)
+      
+      Button('字符串分割和替换')
+        .onClick(() => {
+          this.results = []
+          // 字符串分割
+          const sentence = '苹果,香蕉,橙子'
+          const fruits = sentence.split(',')
+          fruits.forEach((fruit, index) => {
+            this.results.push(\`水果\${index}: \${fruit}\`)
+          })
+          
+          // 字符串替换
+          const replaced = this.text.replace('Hello', 'Hi')
+          this.results.push(\`替换后: \${replaced}\`)
+        })
+        .margin(5)
     }
-    
-    // 字符串替换
-    let replaced = text.replace("Hello", "Hi")
-    println("替换后: \${replaced}")
+    .width('100%')
+    .height('100%')
+    .padding(20)
+  }
 }`,
-      language: 'cangjie'
+      language: 'arkts'
     },
     
     // 更多数据类型示例
@@ -363,155 +712,310 @@ main() {
       title: 'Map字典操作',
       description: 'Map数据结构的创建和操作',
       category: '数据类型',
-      code: `import std.collection.*
+      code: `@Entry
+@Component
+struct MapExample {
+  @State scores: Map<string, number> = new Map()
+  @State results: string[] = []
 
-main() {
-    // 创建Map
-    var scores: HashMap<String, Int64> = HashMap<String, Int64>()
-    
-    // 添加元素
-    scores["张三"] = 85
-    scores["李四"] = 92
-    scores["王五"] = 78
-    
-    // 访问元素
-    println("张三的分数: \${scores["张三"]}")
-    
-    // 检查键是否存在
-    if (scores.contains("李四")) {
-        println("李四的分数: \${scores["李四"]}")
+  build() {
+    Column() {
+      Text('Map字典操作示例')
+        .fontSize(20)
+        .fontWeight(FontWeight.Bold)
+        .margin(10)
+      
+      List() {
+        ForEach(this.results, (item: string, index: number) => {
+          ListItem() {
+            Text(item)
+              .fontSize(14)
+              .padding(5)
+          }
+        })
+      }
+      .height('60%')
+      .width('100%')
+      .border({ width: 1, color: Color.Gray })
+      .margin(10)
+      
+      Button('初始化Map')
+        .onClick(() => {
+          this.results = []
+          // 创建Map并添加元素
+          this.scores.set('张三', 85)
+          this.scores.set('李四', 92)
+          this.scores.set('王五', 78)
+          
+          this.results.push('Map已初始化')
+          this.results.push(\`总人数: \${this.scores.size}\`)
+        })
+        .margin(5)
+      
+      Button('访问和检查元素')
+        .onClick(() => {
+          this.results = []
+          // 访问元素
+          const zhangSanScore = this.scores.get('张三')
+          this.results.push(\`张三的分数: \${zhangSanScore}\`)
+          
+          // 检查键是否存在
+          if (this.scores.has('李四')) {
+            const liSiScore = this.scores.get('李四')
+            this.results.push(\`李四的分数: \${liSiScore}\`)
+          }
+        })
+        .margin(5)
+      
+      Button('遍历Map')
+        .onClick(() => {
+          this.results = []
+          this.results.push('=== 所有分数 ===')
+          // 遍历Map
+          this.scores.forEach((score, name) => {
+            this.results.push(\`\${name}: \${score}分\`)
+          })
+        })
+        .margin(5)
+      
+      Button('删除元素')
+        .onClick(() => {
+          this.results = []
+          // 删除元素
+          this.scores.delete('王五')
+          this.results.push('删除王五')
+          this.results.push(\`删除后总人数: \${this.scores.size}\`)
+          
+          // 获取所有键和值
+          const names = Array.from(this.scores.keys())
+          const allScores = Array.from(this.scores.values())
+          this.results.push(\`所有姓名: \${names.join(', ')}\`)
+          this.results.push(\`所有分数: \${allScores.join(', ')}\`)
+        })
+        .margin(5)
     }
-    
-    // 遍历Map
-    println("=== 所有分数 ===")
-    for ((name, score) in scores) {
-        println("\${name}: \${score}分")
-    }
-    
-    // Map大小
-    println("总人数: \${scores.size}")
-    
-    // 删除元素
-    scores.remove("王五")
-    println("删除王五后，总人数: \${scores.size}")
-    
-    // 获取所有键和值
-    let names = scores.keys()
-    let allScores = scores.values()
-    println("所有姓名: \${names}")
-    println("所有分数: \${allScores}")
+    .width('100%')
+    .height('100%')
+    .padding(20)
+  }
 }`,
-      language: 'cangjie'
+      language: 'arkts'
     },
     {
       id: 13,
       title: 'Set集合操作',
       description: 'Set数据结构的使用方法',
       category: '数据类型',
-      code: `import std.collection.*
+      code: `@Entry
+@Component
+struct SetExample {
+  @State uniqueNumbers: Set<number> = new Set()
+  @State otherNumbers: Set<number> = new Set()
+  @State results: string[] = []
 
-main() {
-    // 创建Set
-    var uniqueNumbers: HashSet<Int64> = HashSet<Int64>()
-    
-    // 添加元素
-    uniqueNumbers.put(1)
-    uniqueNumbers.put(2)
-    uniqueNumbers.put(3)
-    uniqueNumbers.put(2) // 重复元素不会被添加
-    
-    println("Set大小: \${uniqueNumbers.size}")
-    
-    // 检查元素是否存在
-    if (uniqueNumbers.contains(2)) {
-        println("包含数字2")
+  build() {
+    Column() {
+      Text('Set集合操作示例')
+        .fontSize(20)
+        .fontWeight(FontWeight.Bold)
+        .margin(10)
+      
+      List() {
+        ForEach(this.results, (item: string, index: number) => {
+          ListItem() {
+            Text(item)
+              .fontSize(14)
+              .padding(5)
+          }
+        })
+      }
+      .height('60%')
+      .width('100%')
+      .border({ width: 1, color: Color.Gray })
+      .margin(10)
+      
+      Button('创建和添加元素')
+        .onClick(() => {
+          this.results = []
+          // 创建Set并添加元素
+          this.uniqueNumbers.clear()
+          this.uniqueNumbers.add(1)
+          this.uniqueNumbers.add(2)
+          this.uniqueNumbers.add(3)
+          this.uniqueNumbers.add(2) // 重复元素不会被添加
+          
+          this.results.push(\`Set大小: \${this.uniqueNumbers.size}\`)
+          
+          // 检查元素是否存在
+          if (this.uniqueNumbers.has(2)) {
+            this.results.push('包含数字2')
+          }
+        })
+        .margin(5)
+      
+      Button('遍历Set')
+        .onClick(() => {
+          this.results = []
+          this.results.push('=== Set中的元素 ===')
+          // 遍历Set
+          this.uniqueNumbers.forEach((num) => {
+            this.results.push(\`数字: \${num}\`)
+          })
+        })
+        .margin(5)
+      
+      Button('Set操作')
+        .onClick(() => {
+          this.results = []
+          // 创建另一个Set
+          this.otherNumbers.clear()
+          this.otherNumbers.add(3)
+          this.otherNumbers.add(4)
+          this.otherNumbers.add(5)
+          
+          // 并集操作
+          const union = new Set([...this.uniqueNumbers, ...this.otherNumbers])
+          this.results.push(\`并集: \${Array.from(union).join(', ')}\`)
+          
+          // 交集操作
+          const intersection = new Set(
+            Array.from(this.uniqueNumbers).filter(x => this.otherNumbers.has(x))
+          )
+          this.results.push(\`交集: \${Array.from(intersection).join(', ')}\`)
+        })
+        .margin(5)
+      
+      Button('删除元素')
+        .onClick(() => {
+          this.results = []
+          // 删除元素
+          this.uniqueNumbers.delete(1)
+          this.results.push(\`删除1后的Set: \${Array.from(this.uniqueNumbers).join(', ')}\`)
+          this.results.push(\`Set大小: \${this.uniqueNumbers.size}\`)
+        })
+        .margin(5)
     }
-    
-    // 遍历Set
-    println("=== Set中的元素 ===")
-    for (num in uniqueNumbers) {
-        println("数字: \${num}")
-    }
-    
-    // 创建另一个Set
-    var otherNumbers: HashSet<Int64> = HashSet<Int64>()
-    otherNumbers.put(3)
-    otherNumbers.put(4)
-    otherNumbers.put(5)
-    
-    // Set操作
-    let union = uniqueNumbers.union(otherNumbers)
-    println("并集: \${union}")
-    
-    let intersection = uniqueNumbers.intersect(otherNumbers)
-    println("交集: \${intersection}")
-    
-    // 删除元素
-    uniqueNumbers.remove(1)
-    println("删除1后的Set: \${uniqueNumbers}")
+    .width('100%')
+    .height('100%')
+    .padding(20)
+  }
 }`,
-      language: 'cangjie'
+      language: 'arkts'
     },
     {
       id: 14,
-      title: '元组和结构体',
-      description: '元组和结构体的定义与使用',
+      title: '类和接口',
+      description: '类和接口的定义与使用',
       category: '数据类型',
-      code: `// 定义结构体
-struct Point {
-    var x: Float64
-    var y: Float64
-    
-    init(x: Float64, y: Float64) {
-        this.x = x
-        this.y = y
-    }
-    
-    func distance(): Float64 {
-        return Math.sqrt(this.x * this.x + this.y * this.y)
-    }
+      code: `// 定义接口
+interface Shape {
+  area(): number
+  perimeter(): number
 }
 
-struct Rectangle {
-    var width: Float64
-    var height: Float64
-    
-    init(width: Float64, height: Float64) {
-        this.width = width
-        this.height = height
-    }
-    
-    func area(): Float64 {
-        return this.width * this.height
-    }
-    
-    func perimeter(): Float64 {
-        return 2.0 * (this.width + this.height)
-    }
+// 定义类
+class Point {
+  x: number
+  y: number
+  
+  constructor(x: number, y: number) {
+    this.x = x
+    this.y = y
+  }
+  
+  distance(): number {
+    return Math.sqrt(this.x * this.x + this.y * this.y)
+  }
 }
 
-main() {
-    // 使用元组
-    let coordinates: (Float64, Float64) = (3.0, 4.0)
-    println("坐标: (\${coordinates.0}, \${coordinates.1})")
-    
-    // 元组解构
-    let (x, y) = coordinates
-    println("x: \${x}, y: \${y}")
-    
-    // 使用结构体
-    let point = Point(3.0, 4.0)
-    println("点到原点的距离: \${point.distance()}")
-    
-    let rect = Rectangle(5.0, 3.0)
-    println("矩形面积: \${rect.area()}")
-    println("矩形周长: \${rect.perimeter()}")
-    
-    // 命名元组
-    let person: (name: String, age: Int64) = (name: "小明", age: 20)
-    println("姓名: \${person.name}, 年龄: \${person.age}")
+class Rectangle implements Shape {
+  width: number
+  height: number
+  
+  constructor(width: number, height: number) {
+    this.width = width
+    this.height = height
+  }
+  
+  area(): number {
+    return this.width * this.height
+  }
+  
+  perimeter(): number {
+    return 2 * (this.width + this.height)
+  }
+}
+
+@Entry
+@Component
+struct ClassExample {
+  @State results: string[] = []
+
+  build() {
+    Column() {
+      Text('类和接口示例')
+        .fontSize(20)
+        .fontWeight(FontWeight.Bold)
+        .margin(10)
+      
+      List() {
+        ForEach(this.results, (item: string, index: number) => {
+          ListItem() {
+            Text(item)
+              .fontSize(14)
+              .padding(5)
+          }
+        })
+      }
+      .height('60%')
+      .width('100%')
+      .border({ width: 1, color: Color.Gray })
+      .margin(10)
+      
+      Button('测试Point类')
+        .onClick(() => {
+          this.results = []
+          // 使用类
+          const point = new Point(3, 4)
+          this.results.push(\`坐标: (\${point.x}, \${point.y})\`)
+          this.results.push(\`点到原点的距离: \${point.distance().toFixed(2)}\`)
+        })
+        .margin(5)
+      
+      Button('测试Rectangle类')
+        .onClick(() => {
+          this.results = []
+          const rect = new Rectangle(5, 3)
+          this.results.push(\`矩形宽度: \${rect.width}, 高度: \${rect.height}\`)
+          this.results.push(\`矩形面积: \${rect.area()}\`)
+          this.results.push(\`矩形周长: \${rect.perimeter()}\`)
+        })
+        .margin(5)
+      
+      Button('对象和解构')
+        .onClick(() => {
+          this.results = []
+          // 对象字面量
+          const person = { name: '小明', age: 20 }
+          this.results.push(\`姓名: \${person.name}, 年龄: \${person.age}\`)
+          
+          // 解构赋值
+          const { name, age } = person
+          this.results.push(\`解构后 - 姓名: \${name}, 年龄: \${age}\`)
+          
+          // 数组解构
+          const coordinates = [3, 4]
+          const [x, y] = coordinates
+          this.results.push(\`坐标解构 - x: \${x}, y: \${y}\`)
+        })
+        .margin(5)
+    }
+    .width('100%')
+    .height('100%')
+    .padding(20)
+  }
 }`,
-      language: 'cangjie'
+      language: 'arkts'
     },
     
     // 更多函数示例
@@ -563,7 +1067,7 @@ main() {
     
     println("(5 * 2) + 1 = \${doubleAndAddOne(5)}")
 }`,
-      language: 'cangjie'
+      language: 'typescript'
     },
     {
       id: 16,
@@ -1943,7 +2447,7 @@ main() {
       Column() {
         // 代码头部
         Row() {
-          Text('仓颉代码')
+          Text('ArkTs代码')
             .fontSize(12)
             .fontColor('#666666')
           

@@ -31,7 +31,7 @@ export struct ExamPage {
     {
       id: 'basic',
       title: '基础入门考核',
-      description: '测试仓颉语言基础语法和概念',
+      description: '测试ArkTS基础语法和概念',
       difficulty: '简单',
       questionCount: 20,
       timeLimit: 30,
@@ -64,7 +64,7 @@ export struct ExamPage {
     {
       id: 'comprehensive',
       title: '综合能力考核',
-      description: '全面测试仓颉语言掌握程度',
+      description: '全面测试ArkTS语言掌握程度',
       difficulty: '综合',
       questionCount: 50,
       timeLimit: 90,

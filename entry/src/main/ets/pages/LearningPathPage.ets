@@ -50,99 +50,55 @@ struct LearningPathPage {
 
   aboutToAppear() {
     this.initializeLearningPath()
-    this.loadQuestionCounts()
-    this.loadUserProgress()
   }
 
-  initializeLearningPath() {
-    this.learningModules = [
-      {
-        id: 'basic_syntax',
-        title: '基础语法',
-        description: '学习仓颉语言的基本语法结构，包括变量、数据类型、运算符等',
-        category: '语法基础',
-        totalQuestions: 0,
-        completedQuestions: 0,
-        isUnlocked: true
-      },
-      {
-        id: 'control_flow',
-        title: '控制流程',
-        description: '掌握条件语句、循环语句等控制流程的使用',
-        category: '数据类型',
-        totalQuestions: 0,
-        completedQuestions: 0,
-        isUnlocked: false,
-        prerequisite: ['basic_syntax']
-      },
-      {
-        id: 'functions',
-        title: '函数',
-        description: '学习函数的定义、调用、参数传递等概念',
-        category: '函数',
-        totalQuestions: 0,
-        completedQuestions: 0,
-        isUnlocked: false,
-        prerequisite: ['control_flow']
-      },
-      {
-        id: 'classes',
-        title: '类与对象',
-        description: '理解面向对象编程的核心概念',
-        category: '面向对象',
-        totalQuestions: 0,
-        completedQuestions: 0,
-        isUnlocked: false,
-        prerequisite: ['functions']
-      },
-      {
-        id: 'generics',
-        title: '泛型',
-        description: '掌握泛型编程的使用方法',
-        category: '并发编程',
-        totalQuestions: 0,
-        completedQuestions: 0,
-        isUnlocked: false,
-        prerequisite: ['classes']
-      },
-      {
-        id: 'advanced',
-        title: '高级特性',
-        description: '学习仓颉语言的高级特性和最佳实践',
-        category: '高级特性',
-        totalQuestions: 0,
-        completedQuestions: 0,
-        isUnlocked: false,
-        prerequisite: ['generics']
-      }
-    ]
+  async initializeLearningPath() {
+    try {
+      const dbManager = DatabaseManager.getInstance()
+      const categories = await dbManager.getAllCategories()
+      
+      console.info(`学习路线页面 - 获取到分类: ${categories.join(', ')}`)
+      
+      // 根据真实分类创建学习模块
+      this.learningModules = categories.map((category, index): LearningModule => {
+        const module: LearningModule = {
+          id: `module_${index}`,
+          title: category,
+          description: `学习${category}相关的知识点和题目`,
+          category: category,
+          totalQuestions: 0,
+          completedQuestions: 0,
+          isUnlocked: index === 0, // 第一个模块默认解锁
+          prerequisite: index > 0 ? [`module_${index - 1}`] : undefined
+        }
+        return module
+      })
+      
+      // 加载题目数量和用户进度
+      await this.loadQuestionCounts()
+      await this.loadUserProgress()
+      
+    } catch (error) {
+      console.error('初始化学习路线失败:', error)
+      // 如果获取失败，使用空数组
+      this.learningModules = []
+    }
   }
 
   async loadQuestionCounts() {
     try {
-      const context = getContext(this)
-      const fileData = await context.resourceManager.getRawFileContent('cangjie.json')
-      const decoder = new util.TextDecoder('utf-8')
-      const jsonStr = decoder.decodeWithStream(new Uint8Array(fileData.buffer))
-      const questions: Question[] = JSON.parse(jsonStr)
+      const dbManager = DatabaseManager.getInstance()
+      const categoryCountsMap = await dbManager.getCategoryQuestionCounts()
       
-      console.info(`学习路线页面 - 加载了 ${questions.length} 个题目`)
-      
-      // 统计每个分类的题目数量
-       const categoryCounts: Record<string, number> = {}
-       questions.forEach((question: Question) => {
-         const category = question.category
-         categoryCounts[category] = (categoryCounts[category] || 0) + 1
-       })
-      
-      console.info(`学习路线页面 - 分类统计: ${JSON.stringify(categoryCounts)}`)
+      console.info(`学习路线页面 - 获取分类题目数量`)
       
       // 更新模块的题目数量
       this.learningModules.forEach(module => {
-        const count = categoryCounts[module.category] || 0
+        const count = categoryCountsMap.get(module.category) || 0
         module.totalQuestions = count
         console.info(`学习路线页面 - 模块 "${module.title}" (分类: ${module.category}) 题目数量: ${count}`)
       })
+      
       // 触发状态更新
       this.learningModules = [...this.learningModules]
     } catch (error) {

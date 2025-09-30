@@ -856,7 +856,7 @@ export class DatabaseManager {
       const favoriteQuestions: FavoriteQuestion[] = []
       try {
         const context = getContext(this)
-        const fileData = await context.resourceManager.getRawFileContent('cangjie.json')
+        const fileData = await context.resourceManager.getRawFileContent('arkts.json')
         const decoder = new util.TextDecoder('utf-8')
         const jsonStr = decoder.decodeWithStream(new Uint8Array(fileData.buffer))
         const allQuestions: Question[] = JSON.parse(jsonStr)
@@ -943,7 +943,7 @@ export class DatabaseManager {
       const wrongQuestions: WrongQuestion[] = []
       try {
         const context = getContext(this)
-        const fileData = await context.resourceManager.getRawFileContent('cangjie.json')
+        const fileData = await context.resourceManager.getRawFileContent('arkts.json')
         const decoder = new util.TextDecoder('utf-8')
         const jsonStr = decoder.decodeWithStream(new Uint8Array(fileData.buffer))
         const allQuestions: Question[] = JSON.parse(jsonStr)
@@ -993,6 +993,96 @@ export class DatabaseManager {
     } catch (error) {
       console.error('获取错题失败:', error)
       return []
+    }
+  }
+
+  // 获取随机错题（用于错题复习模块）
+  async getRandomWrongQuestion(): Promise<WrongQuestion | null> {
+    try {
+      if (!this.rdbStore) {
+        throw new Error('数据库未初始化')
+      }
+
+      // 获取未掌握的错题记录
+      const resultSet = await this.rdbStore.querySql(`
+        SELECT question_id, wrong_count, last_wrong_date, is_mastered 
+        FROM wrong_questions 
+        WHERE is_mastered = 0
+        ORDER BY last_wrong_date DESC
+      `)
+
+      const wrongRecords: WrongRecord[] = []
+      if (resultSet.rowCount > 0) {
+        resultSet.goToFirstRow()
+        do {
+          wrongRecords.push({
+            id: resultSet.getLong(0),
+            wrongCount: resultSet.getLong(1),
+            lastWrongDate: resultSet.getString(2),
+            isMastered: resultSet.getLong(3) === 1
+          })
+        } while (resultSet.goToNextRow())
+      }
+      resultSet.close()
+
+      if (wrongRecords.length === 0) {
+        return null
+      }
+
+      // 随机选择一个错题
+      const randomIndex = Math.floor(Math.random() * wrongRecords.length)
+      const selectedRecord = wrongRecords[randomIndex]
+
+      // 从题库文件中加载题目详情
+      try {
+        const context = getContext(this)
+        const fileData = await context.resourceManager.getRawFileContent('arkts.json')
+        const decoder = new util.TextDecoder('utf-8')
+        const jsonStr = decoder.decodeWithStream(new Uint8Array(fileData.buffer))
+        const allQuestions: Question[] = JSON.parse(jsonStr)
+
+        const question = allQuestions.find(q => q.id === selectedRecord.id)
+        if (question) {
+          // 获取用户的错误答案
+          let userAnswer = ''
+          try {
+            const answerResultSet = await this.rdbStore.querySql(
+              'SELECT user_answer FROM answer_records WHERE question_id = ? AND is_correct = 0 ORDER BY created_at DESC LIMIT 1',
+              [selectedRecord.id]
+            )
+            if (answerResultSet.rowCount > 0) {
+              answerResultSet.goToFirstRow()
+              userAnswer = answerResultSet.getString(0)
+            }
+            answerResultSet.close()
+          } catch (error) {
+            console.error('获取用户答案失败:', error)
+          }
+
+          const wrongQuestion: WrongQuestion = {
+            questionId: question.id,
+            type: question.type,
+            category: question.category,
+            difficulty: question.difficulty,
+            question: question.question,
+            options: question.options,
+            correctAnswer: question.answer.join(','),
+            explanation: question.explanation,
+            userAnswer: userAnswer,
+            wrongCount: selectedRecord.wrongCount,
+            lastWrongTime: selectedRecord.lastWrongDate,
+            isResolved: selectedRecord.isMastered
+          }
+          return wrongQuestion
+        }
+      } catch (error) {
+        console.error('加载题库文件失败:', error)
+      }
+
+      return null
+    } catch (error) {
+      console.error('获取随机错题失败:', error)
+      return null
     }
   }
 
@@ -1521,7 +1611,7 @@ export class DatabaseManager {
   async getAllQuestions(): Promise<Question[]> {
     try {
       const context = getContext(this)
-      const fileData = await context.resourceManager.getRawFileContent('cangjie.json')
+      const fileData = await context.resourceManager.getRawFileContent('arkts.json')
       const decoder = new util.TextDecoder('utf-8')
       const jsonStr = decoder.decodeWithStream(new Uint8Array(fileData.buffer))
       const allQuestions: Question[] = JSON.parse(jsonStr)
@@ -1531,6 +1621,89 @@ export class DatabaseManager {
     } catch (error) {
       console.error('[DatabaseManager] 加载题库文件失败:', error)
       return []
+    }
+  }
+
+  // 获取每个分类的题目总数
+  async getCategoryQuestionCounts(): Promise<Map<string, number>> {
+    try {
+      const allQuestions = await this.getAllQuestions()
+      const categoryCountMap = new Map<string, number>()
+      
+      // 统计每个分类的题目数量
+      allQuestions.forEach(question => {
+        const category = question.category || '未分类'
+        const currentCount = categoryCountMap.get(category) || 0
+        categoryCountMap.set(category, currentCount + 1)
+      })
+      
+      console.info(`[DatabaseManager] 分类题目数量统计:`)
+      categoryCountMap.forEach((count, category) => {
+        console.info(`[DatabaseManager] ${category}: ${count}题`)
+      })
+      
+      return categoryCountMap
+    } catch (error) {
+      console.error('[DatabaseManager] 获取分类题目数量失败:', error)
+      return new Map<string, number>()
+    }
+  }
+
+  /**
+   * 获取所有分类列表
+   * @returns 分类名称数组
+   */
+  async getAllCategories(): Promise<string[]> {
+    try {
+      const allQuestions = await this.getAllQuestions()
+      const categorySet = new Set<string>()
+      
+      // 收集所有分类
+      allQuestions.forEach(question => {
+        const category = question.category || '未分类'
+        categorySet.add(category)
+      })
+      
+      const categories = Array.from(categorySet).sort()
+      console.info(`[DatabaseManager] 获取到分类列表: ${categories.join(', ')}`)
+      
+      return categories
+    } catch (error) {
+      console.error('[DatabaseManager] 获取分类列表失败:', error)
+      return []
+    }
+  }
+
+  /**
+   * 获取每个难度的题目数量
+   * @returns Map<难度, 题目数量>
+   */
+  async getDifficultyQuestionCounts(): Promise<Map<string, number>> {
+    try {
+      const allQuestions = await this.getAllQuestions()
+      const difficultyCountMap = new Map<string, number>()
+      
+      // 初始化三个难度
+      difficultyCountMap.set('简单', 0)
+      difficultyCountMap.set('中等', 0)
+      difficultyCountMap.set('困难', 0)
+      
+      // 统计每个难度的题目数量
+      allQuestions.forEach(question => {
+        const difficulty = question.difficulty || '中等'
+        const currentCount = difficultyCountMap.get(difficulty) || 0
+        difficultyCountMap.set(difficulty, currentCount + 1)
+      })
+      
+      console.info(`[DatabaseManager] 难度题目数量统计:`)
+      difficultyCountMap.forEach((count, difficulty) => {
+        console.info(`[DatabaseManager] ${difficulty}: ${count}题`)
+      })
+      
+      return difficultyCountMap
+    } catch (error) {
+      console.error('[DatabaseManager] 获取难度题目数量失败:', error)
+      return new Map<string, number>()
     }
   }
   // 插入Offer
@@ -1831,3 +2004,6 @@ interface ExamRecord {
   duration: number
   passed: boolean
 }
+
+// 导出接口
+export { WrongQuestion }

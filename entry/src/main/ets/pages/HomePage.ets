@@ -1,6 +1,7 @@
 import router from '@ohos.router'
 import { util } from '@kit.ArkTS'
-import { DatabaseManager } from '../common/DatabaseManager'
+import { DatabaseManager, WrongQuestion } from '../common/DatabaseManager'
+import { DifficultyColorStyle } from './DailyQuestionPage'
 
 interface QuestionOptions {
   A: string
@@ -30,10 +31,15 @@ interface UserStats {
 }
 
 interface AnswerRecord {
-  answerTime: number
+  questionId: number
+  userAnswer: string
+  correctAnswer: string
   isCorrect: boolean
+  answerTime: number
+  questionType: string
   category: string
   difficulty: string
+  createdAt: string
 }
 
 interface CategoryStat {
@@ -65,12 +71,16 @@ interface DifficultyMapStat {
   correct: number
 }
 
-@Entry
+interface Question {
+  category: string
+}
+
 @Component
 export struct HomePage {
   @State currentDate: string = ''
   @State currentWeekday: string = ''
   @State dailyQuestion: DailyQuestion | null = null
+  @State wrongQuestion: WrongQuestion | null = null
   @StorageProp('refreshHome') @Watch('onRefreshHome') refreshHomeNumber: number = 0;
 
   @State userStats: UserStats = {
@@ -89,6 +99,7 @@ export struct HomePage {
     medium: { total: 0, correct: 0, accuracy: 0 },
     hard: { total: 0, correct: 0, accuracy: 0 }
   }
+  @State allCategories: string[] = []
 
   async aboutToAppear() {
     this.updateDateTime()
@@ -96,7 +107,9 @@ export struct HomePage {
     await this.initAchievements()
     // 检查数据库状态
     await DatabaseManager.getInstance().checkDatabaseStatus()
+    await this.loadAllCategories()
     await this.loadDailyQuestion()
+    await this.loadWrongQuestion()
     await this.loadUserStats()
     await this.loadStatistics()
   }
@@ -108,6 +121,8 @@ export struct HomePage {
     if (this.refreshHomeNumber > 0) {
       await this.loadUserStats()
       await this.loadStatistics()
+      await this.loadAllCategories()
+      await this.loadWrongQuestion()
       this.refreshHomeNumber = 0;
     }
   }
@@ -135,6 +150,36 @@ export struct HomePage {
     }
   }
 
+  async loadAllCategories() {
+    try {
+      const context = getContext(this)
+      const fileData = await context.resourceManager.getRawFileContent('arkts.json')
+      const decoder = new util.TextDecoder('utf-8')
+      const jsonStr = decoder.decodeWithStream(new Uint8Array(fileData.buffer))
+      const questions: Question[] = JSON.parse(jsonStr)
+      
+      // 提取所有分类
+      const categorySet = new Set<string>()
+      questions.forEach((q: Question) => categorySet.add(q.category))
+      this.allCategories = Array.from(categorySet)
+      
+      console.info(`[HomePage] 动态加载了 ${this.allCategories.length} 个分类: ${JSON.stringify(this.allCategories)}`)
+    } catch (error) {
+      console.error('[HomePage] 加载分类失败:', error)
+      // 如果加载失败，使用默认分类
+      this.allCategories = [
+        '基础知识',
+        '语法基础', 
+        '函数编程',
+        '面向对象',
+        '数据结构',
+        '高级特性',
+        '并发编程',
+        '性能优化'
+      ]
+    }
+  }
+
   updateDateTime() {
     const now = new Date()
     const year = now.getFullYear()
@@ -151,7 +196,7 @@ export struct HomePage {
     // 实际实现时会根据日期确保每天的题目固定
     try {
       const context = getContext(this)
-      const fileData = await context.resourceManager.getRawFileContent('cangjie.json')
+      const fileData = await context.resourceManager.getRawFileContent('arkts.json')
       const decoder = new util.TextDecoder('utf-8')
       const jsonStr = decoder.decodeWithStream(new Uint8Array(fileData.buffer))
       const questions: DailyQuestion[] = JSON.parse(jsonStr)
@@ -163,6 +208,21 @@ export struct HomePage {
       this.dailyQuestion = questions[randomIndex]
     } catch (error) {
       console.error('加载每日一题失败:', error)
+    }
+  }
+
+  async loadWrongQuestion() {
+    // 从错题本中随机选择一道题作为错题复习
+    try {
+      const dbManager = DatabaseManager.getInstance()
+      this.wrongQuestion = await dbManager.getRandomWrongQuestion()
+      if (this.wrongQuestion) {
+        console.info('加载错题复习成功:', this.wrongQuestion.questionId)
+      } else {
+        console.info('暂无错题可复习')
+      }
+    } catch (error) {
+      console.error('加载错题复习失败:', error)
     }
   }
 
@@ -210,10 +270,10 @@ export struct HomePage {
         console.info('[HomePage] 没有找到任何答题记录')
       }
       
-      this.calculateCategoryStats(answerRecords)
+      await this.calculateCategoryStats(answerRecords)
       
       console.info('[HomePage] 开始计算难度统计...')
-      this.calculateDifficultyStats(answerRecords)
+      await this.calculateDifficultyStats(answerRecords)
       console.info(`[HomePage] 计算后的难度统计:`, JSON.stringify(this.difficultyStats))
       
       // 检查每个难度的具体数据
@@ -226,111 +286,139 @@ export struct HomePage {
     }
   }
 
-  calculateCategoryStats(answerRecords: AnswerRecord[]) {
-    // 定义所有可能的分类
-    const allCategories = [
-      '基础知识',
-      '语法基础', 
-      '函数编程',
-      '面向对象',
-      '数据结构',
-      '高级特性',
-      '并发编程',
-      '性能优化'
-    ]
+  async calculateCategoryStats(answerRecords: AnswerRecord[]) {
+    console.info(`[calculateCategoryStats] 开始计算分类统计，答题记录数量: ${answerRecords.length}`)
+    console.info(`[calculateCategoryStats] 动态分类数量: ${this.allCategories.length}, 分类: ${JSON.stringify(this.allCategories)}`)
     
-    const categoryMap = new Map<string, CategoryMapStat>()
-    
-    // 初始化所有分类，确保都显示
-    allCategories.forEach(category => {
-      const newStat: CategoryMapStat = { total: 0, correct: 0 }
-      categoryMap.set(category, newStat)
-    })
-    
-    // 统计答题记录
-    answerRecords.forEach(record => {
-      const category = record.category || '未分类'
-      if (!categoryMap.has(category)) {
-        const newStat: CategoryMapStat = { total: 0, correct: 0 }
-        categoryMap.set(category, newStat)
-      }
-      const stat = categoryMap.get(category)!
-      stat.total++
-      if (record.isCorrect) {
-        stat.correct++
-      }
-    })
-
-    this.categoryStats = Array.from(categoryMap.entries()).map((entry) => {
-      const category = entry[0]
-      const stat = entry[1]
-      const categoryStat: CategoryStat = {
-        category: category,
-        total: stat.total,
-        correct: stat.correct,
-        accuracy: stat.total > 0 ? Math.round((stat.correct / stat.total) * 100) : 0
-      }
-      return categoryStat
-    }).sort((a, b) => {
-      // 先按答题数量排序，再按分类名称排序
-      if (b.total !== a.total) {
-        return b.total - a.total
-      }
-      return a.category.localeCompare(b.category)
-    }).slice(0, 5) // 只显示前5个分类
+    try {
+      // 获取每个分类的总题目数量
+      const dbManager = DatabaseManager.getInstance()
+      const categoryQuestionCounts: Map<string, number> = await dbManager.getCategoryQuestionCounts()
+      console.info(`[calculateCategoryStats] 获取到分类题目数量:`, categoryQuestionCounts)
+      
+      // 统计每个分类已回答的题目数量
+      const answeredCountMap = new Map<string, number>()
+      
+      // 初始化所有分类的已回答数量为0
+      this.allCategories.forEach(category => {
+        answeredCountMap.set(category, 0)
+      })
+      
+      // 统计已回答的题目数量（使用Set去重，避免重复计算同一题目）
+      const answeredQuestionIds = new Set<number>()
+      answerRecords.forEach((record, index) => {
+        const category = record.category || '未分类'
+        const questionId = record.questionId
+        
+        if (index < 5) { // 只打印前5条记录的详细信息
+          console.info(`[calculateCategoryStats] 记录${index}: category=${category}, questionId=${questionId}`)
+        }
+        
+        // 使用questionId去重，确保同一题目只计算一次
+        const uniqueKey = `${category}_${questionId}`
+        if (!answeredQuestionIds.has(questionId)) {
+          answeredQuestionIds.add(questionId)
+          const currentCount = answeredCountMap.get(category) || 0
+          answeredCountMap.set(category, currentCount + 1)
+        }
+      })
+      
+      // 生成最终的分类统计数据
+      this.categoryStats = this.allCategories.map(category => {
+        const answeredCount = answeredCountMap.get(category) || 0
+        const totalCount = categoryQuestionCounts.get(category) || 0
+        
+        const categoryStat: CategoryStat = {
+          category: category,
+          total: totalCount, // 这里的total表示该分类的总题目数量
+          correct: answeredCount, // 这里的correct表示已回答的题目数量
+          accuracy: totalCount > 0 ? Math.round((answeredCount / totalCount) * 100) : 0
+        }
+        
+        console.info(`[calculateCategoryStats] ${category}: ${answeredCount}/${totalCount} (${categoryStat.accuracy}%)`)
+        return categoryStat
+      }).filter(stat => stat.total > 0) // 只显示有题目的分类
+        .sort((a, b) => {
+          // 先按总题目数量排序，再按分类名称排序
+          if (b.total !== a.total) {
+            return b.total - a.total
+          }
+          return a.category.localeCompare(b.category)
+        })
+        
+    } catch (error) {
+      console.error('[calculateCategoryStats] 计算分类统计失败:', error)
+      this.categoryStats = []
+    }
   }
 
-  calculateDifficultyStats(answerRecords: AnswerRecord[]) {
+  async calculateDifficultyStats(answerRecords: AnswerRecord[]) {
     console.info(`[calculateDifficultyStats] 开始处理 ${answerRecords.length} 条记录`)
     
-    let easyStats: DifficultyMapStat = { total: 0, correct: 0 }
-    let mediumStats: DifficultyMapStat = { total: 0, correct: 0 }
-    let hardStats: DifficultyMapStat = { total: 0, correct: 0 }
-
-    answerRecords.forEach((record, index) => {
-      const difficulty = record.difficulty || '中等'
-      console.info(`[calculateDifficultyStats] 记录${index}: 难度=${difficulty}, 正确=${record.isCorrect}`)
+    try {
+      // 获取每个难度的总题目数量
+      const dbManager = DatabaseManager.getInstance()
+      const difficultyQuestionCounts: Map<string, number> = await dbManager.getDifficultyQuestionCounts()
+      console.info(`[calculateDifficultyStats] 获取到难度题目数量:`, difficultyQuestionCounts)
       
-      if (difficulty === '简单') {
-        easyStats.total++
-        if (record.isCorrect) {
-          easyStats.correct++
+      // 统计每个难度正确回答的题目数量（使用Set去重，避免重复计算同一题目）
+      const correctAnswerCounts = new Map<string, number>()
+      correctAnswerCounts.set('简单', 0)
+      correctAnswerCounts.set('中等', 0)
+      correctAnswerCounts.set('困难', 0)
+      
+      const answeredQuestionIds = new Set<number>()
+      answerRecords.forEach((record, index) => {
+        const difficulty = record.difficulty || '中等'
+        const questionId = record.questionId
+        
+        if (index < 5) { // 只打印前5条记录的详细信息
+          console.info(`[calculateDifficultyStats] 记录${index}: 难度=${difficulty}, questionId=${questionId}, 正确=${record.isCorrect}`)
         }
-        console.info(`[calculateDifficultyStats] 简单难度更新: ${easyStats.correct}/${easyStats.total}`)
-      } else if (difficulty === '中等') {
-        mediumStats.total++
-        if (record.isCorrect) {
-          mediumStats.correct++
+        
+        // 只统计正确回答的题目，并使用questionId去重
+        if (record.isCorrect && !answeredQuestionIds.has(questionId)) {
+          answeredQuestionIds.add(questionId)
+          const currentCount = correctAnswerCounts.get(difficulty) || 0
+          correctAnswerCounts.set(difficulty, currentCount + 1)
         }
-        console.info(`[calculateDifficultyStats] 中等难度更新: ${mediumStats.correct}/${mediumStats.total}`)
-      } else if (difficulty === '困难') {
-        hardStats.total++
-        if (record.isCorrect) {
-          hardStats.correct++
-        }
-        console.info(`[calculateDifficultyStats] 困难难度更新: ${hardStats.correct}/${hardStats.total}`)
-      } else {
-        console.warn(`[calculateDifficultyStats] 未知难度: ${difficulty}`)
-      }
-    })
-    
-    console.info(`[calculateDifficultyStats] 最终统计 - 简单: ${easyStats.correct}/${easyStats.total}, 中等: ${mediumStats.correct}/${mediumStats.total}, 困难: ${hardStats.correct}/${hardStats.total}`)
+      })
+      
+      // 获取各难度的总题目数量和正确回答数量
+      const easyTotal = difficultyQuestionCounts.get('简单') || 0
+      const mediumTotal = difficultyQuestionCounts.get('中等') || 0
+      const hardTotal = difficultyQuestionCounts.get('困难') || 0
+      
+      const easyCorrect = correctAnswerCounts.get('简单') || 0
+      const mediumCorrect = correctAnswerCounts.get('中等') || 0
+      const hardCorrect = correctAnswerCounts.get('困难') || 0
+      
+      console.info(`[calculateDifficultyStats] 最终统计 - 简单: ${easyCorrect}/${easyTotal}, 中等: ${mediumCorrect}/${mediumTotal}, 困难: ${hardCorrect}/${hardTotal}`)
 
-    this.difficultyStats = {
-      easy: {
-        total: easyStats.total,
-        correct: easyStats.correct,
-        accuracy: easyStats.total > 0 ? Math.round((easyStats.correct / easyStats.total) * 100) : 0
-      },
-      medium: {
-        total: mediumStats.total,
-        correct: mediumStats.correct,
-        accuracy: mediumStats.total > 0 ? Math.round((mediumStats.correct / mediumStats.total) * 100) : 0
-      },
-      hard: {
-        total: hardStats.total,
-        correct: hardStats.correct,
-        accuracy: hardStats.total > 0 ? Math.round((hardStats.correct / hardStats.total) * 100) : 0
+      this.difficultyStats = {
+        easy: {
+          total: easyTotal, // 这里的total表示该难度的总题目数量
+          correct: easyCorrect, // 这里的correct表示正确回答的题目数量
+          accuracy: easyTotal > 0 ? Math.round((easyCorrect / easyTotal) * 100) : 0
+        },
+        medium: {
+          total: mediumTotal, // 这里的total表示该难度的总题目数量
+          correct: mediumCorrect, // 这里的correct表示正确回答的题目数量
+          accuracy: mediumTotal > 0 ? Math.round((mediumCorrect / mediumTotal) * 100) : 0
+        },
+        hard: {
+          total: hardTotal, // 这里的total表示该难度的总题目数量
+          correct: hardCorrect, // 这里的correct表示正确回答的题目数量
+          accuracy: hardTotal > 0 ? Math.round((hardCorrect / hardTotal) * 100) : 0
+        }
+      }
+      
+    } catch (error) {
+      console.error('[calculateDifficultyStats] 计算难度统计失败:', error)
+      this.difficultyStats = {
+        easy: { total: 0, correct: 0, accuracy: 0 },
+        medium: { total: 0, correct: 0, accuracy: 0 },
+        hard: { total: 0, correct: 0, accuracy: 0 }
       }
     }
   }
@@ -347,31 +435,38 @@ export struct HomePage {
         // 每日一题卡片
         this.DailyQuestionCard()
         
+        // 错题复习卡片
+        this.WrongQuestionCard()
+        
         // 数据统计区域
         this.StatsSection()
       }
       .width('100%')
-      .padding({ left: 16, right: 16, top: 20, bottom: 20 })
+      .padding({bottom: 20 })
     }
     .backgroundColor('#F5F5F5')
     .height('100%')
   }
 
   @Builder GreetingSection() {
-    Column() {
-      Text(`${this.currentDate} ${this.currentWeekday}`)
-        .fontSize(16)
-        .fontColor('#666666')
-        .margin({ bottom: 8 })
-      
-      Text('Hello, 仓颉编程学习者')
-        .fontSize(24)
+    Column({ space: 8 }) {
+      // App名称
+      Text('ArkTs学习手册')
+        .fontSize(28)
         .fontWeight(FontWeight.Bold)
-        .fontColor('#333333')
+        .fontFamily('cjzj')
+        .fontColor('#2C3E50')
+
+      // 描述文字
+      Text('ArkTs从入门到精通,陪您一路成长～')
+        .fontSize(16)
+        .fontColor($r('app.color.secondary_text_color'))
+        .margin({ top: 8 })
     }
+    .padding(16)
     .width('100%')
+    .backgroundColor(Color.White)
     .alignItems(HorizontalAlign.Start)
-    .margin({ bottom: 32 })
   }
 
   @Builder FunctionIconsSection() {
@@ -434,13 +529,15 @@ export struct HomePage {
           this.FunctionIcon('我的日记', $r('app.media.ic_diary'), () => {
             router.pushUrl({ url: 'pages/DiaryPage' })
           })
+          Blank().width('20%')
+          Blank().width('20%')
           // 空白占位
-          this.FunctionIcon('我的offer', $r('app.media.icon_fun_offer'), () => {
-            router.pushUrl({ url: 'pages/MyOfferPage' })
-          })
-          this.FunctionIcon('offer对比', $r('app.media.icon_vs'), () => {
-            router.pushUrl({ url: 'pages/OfferComparisonPage' })
-          })
+          // this.FunctionIcon('我的offer', $r('app.media.icon_fun_offer'), () => {
+          //   router.pushUrl({ url: 'pages/MyOfferPage' })
+          // })
+          // this.FunctionIcon('offer对比', $r('app.media.icon_vs'), () => {
+          //   router.pushUrl({ url: 'pages/OfferComparisonPage' })
+          // })
         }
         .width('100%')
         .justifyContent(FlexAlign.SpaceBetween)
@@ -453,7 +550,7 @@ export struct HomePage {
       Column() {
         // 工具专区标题
         Row() {
-          Text('工具专区')
+          Text('常用工具')
             .fontSize(18)
             .fontWeight(FontWeight.Bold)
             .fontColor('#333333')
@@ -499,39 +596,33 @@ export struct HomePage {
         .width('100%')
         .justifyContent(FlexAlign.SpaceBetween)
         .margin({ bottom: 24 })
+        .visibility(Visibility.None)
 
       }
       .padding(8)
       .margin({ bottom: 32 })
       .backgroundColor(Color.White)
       .borderRadius(12)
-    }
+    }.padding({left: 16, right: 16}).margin({top: 16})
 
   }
 
   @Builder FunctionIcon(title: string, icon: Resource, onClick: () => void) {
     Column() {
       Stack() {
-        Circle({ width: 60, height: 60 })
-          .fill('#F5F5F5')
-          .shadow({
-            radius: 8,
-            color: '#00000010',
-            offsetX: 0,
-            offsetY: 2
-          })
 
         Image(icon)
           .width(32)
           .height(32)
-          .fillColor('#007AFF')
+          .fillColor('#F36D40')
       }
       .width(60)
       .height(60).margin({bottom: 6})
 
       Text(title)
         .fontSize(12)
-        .fontColor('#333333')
+        .fontColor('#666666')
+        .fontWeight(FontWeight.Bold)
         .textAlign(TextAlign.Center)
     }
     .width('20%')
@@ -542,44 +633,37 @@ export struct HomePage {
   @Builder DailyQuestionCard() {
     Column() {
       Row() {
-        Text('每日一题')
+        Text('每日随机一题')
           .fontSize(18)
           .fontWeight(FontWeight.Bold)
-          .fontColor('#333333')
+          .fontColor('#FFFFFF')
         
         Blank()
         
-        Text('点击答题')
+        Text('去答题')
           .fontSize(14)
-          .fontColor('#007AFF')
-          .onClick(() => {
-            router.pushUrl({
-              url: 'pages/DailyQuestionPage',
-              params: { question: this.dailyQuestion }
-            })
-          })
+          .fontColor('#FFFFFF')
+
       }
       .width('100%')
       .margin({ bottom: 16 })
 
       if (this.dailyQuestion) {
         Column() {
-          Text(this.dailyQuestion.question)
-            .fontSize(16)
-            .fontColor('#333333')
-            .maxLines(3)
-            .textOverflow({ overflow: TextOverflow.Ellipsis })
-          
           Row() {
-            Text(`难度: ${this.dailyQuestion.difficulty}`)
-              .fontSize(12)
-              .fontColor('#666666')
-            
+            Text(this.dailyQuestion.question)
+              .fontSize(16)
+              .fontColor('#333333')
+              .maxLines(3)
+              .fontWeight(FontWeight.Bold)
+              .textAlign(TextAlign.Start)
+              .textOverflow({ overflow: TextOverflow.Ellipsis })
+          }.width('100%')
+
+          Row() {
+            this.InfoChip(this.dailyQuestion?.difficulty || '', this.getDifficultyColor().bg, this.getDifficultyColor().text)
             Blank()
-            
-            Text(`分类: ${this.dailyQuestion.category}`)
-              .fontSize(12)
-              .fontColor('#666666')
+            this.InfoChip(this.dailyQuestion?.category || '', '#E3F2FD', '#1976D2')
           }
           .width('100%')
           .margin({ top: 12 })
@@ -597,18 +681,142 @@ export struct HomePage {
         })
       }
     }
-    .width('100%')
-    .margin({ bottom: 32 })
+    .padding(16)
+    .linearGradient({
+      angle: 180,
+      colors: [['#CCFF6B35', 0.0], ['#CCFF8A65', 1.0]]
+    })
+    .borderRadius(12)
+    .shadow({ radius: 8, color: '#1A000000', offsetX: 0, offsetY: 2 })
+    .margin({ left: 16, right: 16, bottom: 32 })
+    .onClick(() => {
+      router.pushUrl({
+        url: 'pages/DailyQuestionPage',
+        params: { question: this.dailyQuestion }
+      })
+    })
+  }
+
+  @Builder InfoChip(value: string, bgColor: string, textColor: string) {
+    Text(`${value}`)
+      .fontSize(12)
+      .fontColor(textColor)
+      .backgroundColor(bgColor)
+      .padding({ left: 8, right: 8, top: 4, bottom: 4 })
+      .borderRadius(8)
+      .margin({ right: 8 })
+  }
+
+  @Builder WrongQuestionCard() {
+    Column() {
+      Row() {
+        Text('错题复习')
+          .fontSize(18)
+          .fontWeight(FontWeight.Bold)
+          .fontColor('#FFFFFF')
+        
+        Blank()
+        
+        Text(this.wrongQuestion ? '去复习' : '')
+          .fontSize(14)
+          .fontColor('#FFFFFF')
+      }
+      .width('100%')
+      .margin({ bottom: 16 })
+
+      if (this.wrongQuestion) {
+        // 有错题时显示题目内容
+        Column() {
+          Row() {
+            Text(this.wrongQuestion.question)
+              .fontSize(16)
+              .fontColor('#333333')
+              .maxLines(3)
+              .fontWeight(FontWeight.Bold)
+              .textAlign(TextAlign.Start)
+              .textOverflow({ overflow: TextOverflow.Ellipsis })
+          }.width('100%')
+
+          Row() {
+            this.InfoChip(this.wrongQuestion.difficulty, this.getWrongQuestionDifficultyColor().bg, this.getWrongQuestionDifficultyColor().text)
+            Blank()
+            this.InfoChip(this.wrongQuestion.category, '#FFE0E0', '#D32F2F')
+            this.InfoChip(`错误${this.wrongQuestion.wrongCount}次`, '#FFF3E0', '#F57C00')
+          }
+          .width('100%')
+          .margin({ top: 12 })
+        }
+        .width('100%')
+        .padding(16)
+        .backgroundColor('#FFFFFF')
+        .borderRadius(12)
+        .shadow({ radius: 8, color: '#1A000000', offsetX: 0, offsetY: 2 })
+        .onClick(() => {
+          router.pushUrl({
+            url: 'pages/WrongQuestionsPage',
+            params: { wrongQuestion: this.wrongQuestion }
+          })
+        })
+      } else {
+        // 无错题时显示空态
+        Column() {
+          Image($r('app.media.icon_empty'))
+            .width(58)
+            .height(42)
+            .margin({ bottom: 16 })
+          
+          Text('暂无错题')
+            .fontSize(16)
+            .fontColor('#666666')
+            .fontWeight(FontWeight.Medium)
+            .margin({ bottom: 8 })
+          
+          Text('继续努力，保持正确率！')
+            .fontSize(14)
+            .fontColor('#999999')
+        }
+        .width('100%')
+        .padding(32)
+        .backgroundColor('#FFFFFF')
+        .borderRadius(12)
+        .shadow({ radius: 8, color: '#1A000000', offsetX: 0, offsetY: 2 })
+        .alignItems(HorizontalAlign.Center)
+      }
+    }
+    .padding(16)
+    .linearGradient({
+      angle: 180,
+      colors: [['#CC0DA1AE', 0.0], ['#CC54918C', 1.0]]
+    })
+    .borderRadius(12)
+    .shadow({ radius: 8, color: '#1A000000', offsetX: 0, offsetY: 2 })
+    .margin({ left: 16, right: 16, bottom: 32 })
+    .onClick(() => {
+      if (this.wrongQuestion) {
+        router.pushUrl({
+          url: 'pages/WrongQuestionsPage',
+          params: { wrongQuestion: this.wrongQuestion }
+        })
+      } else {
+        // 无错题时点击跳转到题库页面
+        router.pushUrl({ url: 'pages/QuestionBankPage' })
+      }
+    })
   }
 
   @Builder StatsSection() {
     Column() {
       Row() {
-        Text('我的数据')
+        Text('数据概览')
           .fontSize(18)
           .fontWeight(FontWeight.Bold)
-          .fontColor('#333333')
+          .fontColor('#FFFFFF')
           .layoutWeight(1)
+        Blank()
+
+        Text('查看详情')
+          .fontSize(14)
+          .fontColor('#FFFFFF')
 
       }
       .width('100%')
@@ -630,6 +838,17 @@ export struct HomePage {
       // 难度统计
       this.DifficultyStatsSection()
     }
+    .padding(16)
+    .linearGradient({
+      angle: 180,
+      colors: [['#CC4D86DB', 0.0], ['#CC246AD2', 1.0]]
+    })
+    .borderRadius(12)
+    .shadow({ radius: 8, color: '#1A000000', offsetX: 0, offsetY: 2 })
+    .margin({ left: 16, right: 16, bottom: 32 })
+    .onClick(() => {
+      router.pushUrl({ url: 'pages/StatisticsPage' })
+    })
   }
 
   @Builder StatCardTotalQuestion(title: string, color: string) {
@@ -797,7 +1016,7 @@ export struct HomePage {
 
   @Builder DifficultyStatsSection() {
     Column() {
-      Text('难度统计')
+      Text('难度正确率统计')
         .fontSize(16)
         .fontWeight(FontWeight.Bold)
         .fontColor('#333333')
@@ -881,5 +1100,39 @@ export struct HomePage {
         .fontColor('#999999')
     }
     .alignItems(HorizontalAlign.Center)
+  }
+
+  getDifficultyColor(): DifficultyColorStyle {
+    switch (this.dailyQuestion?.difficulty) {
+      case '简单':
+        const easyStyle: DifficultyColorStyle = { bg: '#E8F5E8', text: '#4CAF50' }
+        return easyStyle
+      case '中等':
+        const mediumStyle: DifficultyColorStyle = { bg: '#FFF3E0', text: '#FF9800' }
+        return mediumStyle
+      case '困难':
+        const hardStyle: DifficultyColorStyle = { bg: '#FFEBEE', text: '#F44336' }
+        return hardStyle
+      default:
+        const defaultStyle: DifficultyColorStyle = { bg: '#F5F5F5', text: '#666666' }
+        return defaultStyle
+    }
+  }
+
+  getWrongQuestionDifficultyColor(): DifficultyColorStyle {
+    switch (this.wrongQuestion?.difficulty) {
+      case '简单':
+        const easyStyle: DifficultyColorStyle = { bg: '#E8F5E8', text: '#4CAF50' }
+        return easyStyle
+      case '中等':
+        const mediumStyle: DifficultyColorStyle = { bg: '#FFF3E0', text: '#FF9800' }
+        return mediumStyle
+      case '困难':
+        const hardStyle: DifficultyColorStyle = { bg: '#FFEBEE', text: '#F44336' }
+        return hardStyle
+      default:
+        const defaultStyle: DifficultyColorStyle = { bg: '#F5F5F5', text: '#666666' }
+        return defaultStyle
+    }
   }
 }

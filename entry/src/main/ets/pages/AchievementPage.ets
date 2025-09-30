@@ -209,77 +209,87 @@ struct AchievementPage {
           }
         }, (achievement: AchievementModel) => achievement.id.toString())
       }
-      .columnsTemplate('1fr 1fr')
-      .rowsGap(12)
-      .columnsGap(12)
+      .columnsTemplate('1fr')
+      .rowsGap(16)
       .padding(16)
     }
     .layoutWeight(1)
   }
 
   @Builder AchievementCard(achievement: AchievementModel) {
-    Column() {
-      // 成就图标
+    Row() {
+      // 左侧成就图标
       Stack() {
-        Circle({ width: 50, height: 50 })
+        Circle({ width: 60, height: 60 })
           .fill(achievement.isUnlocked ? achievement.getRarityColor() : '#E0E0E0')
         
         Text(achievement.icon)
-          .fontSize(20)
+          .fontSize(24)
           .opacity(achievement.isUnlocked ? 1 : 0.5)
         
         // 已完成成就添加勾选标记
         if (achievement.isUnlocked) {
           Stack() {
-            Circle({ width: 16, height: 16 })
+            Circle({ width: 18, height: 18 })
               .fill('#4CAF50')
             
             Text('✓')
-              .fontSize(10)
+              .fontSize(12)
               .fontColor('#FFFFFF')
               .fontWeight(FontWeight.Bold)
           }
-          .position({ x: 34, y: 34 })
+          .position({ x: 42, y: 42 })
         }
       }
-      .margin({ bottom: 12 })
+      .margin({ right: 16 })
 
-      // 成就信息
+      // 右侧成就信息
       Column() {
-        Text(achievement.title)
-          .fontSize(14)
-          .fontWeight(FontWeight.Medium)
-          .fontColor(achievement.isUnlocked ? '#333333' : '#999999')
-          .maxLines(1)
-          .textOverflow({ overflow: TextOverflow.Ellipsis })
-          .width('100%')
-          .textAlign(TextAlign.Center)
-          .margin({ bottom: 4 })
+        Row() {
+          Text(achievement.title)
+            .fontSize(18)
+            .fontWeight(FontWeight.Bold)
+            .fontColor(achievement.isUnlocked ? '#333333' : '#999999')
+            .maxLines(1)
+            .textOverflow({ overflow: TextOverflow.Ellipsis })
+            .layoutWeight(1)
 
-        Text(achievement.getRarityName())
-          .fontSize(10)
-          .fontColor('#FFFFFF')
-          .padding({ left: 6, right: 6, top: 2, bottom: 2 })
-          .backgroundColor(achievement.getRarityColor())
-          .borderRadius(6)
-          .margin({ bottom: 8 })
+          Text(achievement.getRarityName())
+            .fontSize(12)
+            .fontColor('#FFFFFF')
+            .padding({ left: 8, right: 8, top: 4, bottom: 4 })
+            .backgroundColor(achievement.getRarityColor())
+            .borderRadius(8)
+        }
+        .width('100%')
+        .alignItems(VerticalAlign.Center)
+        .margin({ bottom: 8 })
 
         Text(achievement.description)
-          .fontSize(12)
+          .fontSize(14)
           .fontColor('#666666')
           .maxLines(2)
           .textOverflow({ overflow: TextOverflow.Ellipsis })
           .width('100%')
-          .textAlign(TextAlign.Center)
-          .margin({ bottom: 8 })
+          .textAlign(TextAlign.Start)
+          .margin({ bottom: 12 })
 
         if (achievement.shouldShowProgress()) {
           // 进度条
           Column() {
-            Text(achievement.getProgressText())
-              .fontSize(10)
-              .fontColor('#666666')
-              .margin({ bottom: 4 })
+            Row() {
+              Text(achievement.getProgressText())
+                .fontSize(12)
+                .fontColor('#666666')
+                .layoutWeight(1)
+              
+              Text(`${Math.round((achievement.progress / achievement.maxProgress) * 100)}%`)
+                .fontSize(12)
+                .fontColor('#666666')
+                .fontWeight(FontWeight.Medium)
+            }
+            .width('100%')
+            .margin({ bottom: 6 })
 
             Progress({
               value: achievement.progress,
@@ -287,29 +297,38 @@ struct AchievementPage {
               type: ProgressType.Linear
             })
             .width('100%')
-            .height(3)
+            .height(4)
             .color(achievement.getRarityColor())
           }
         } else if (achievement.isUnlocked && achievement.unlockedDate) {
-          Text(`已解锁`)
-            .fontSize(10)
-            .fontColor('#4CAF50')
-            .fontWeight(FontWeight.Medium)
+          Row() {
+            Text('✓')
+              .fontSize(14)
+              .fontColor('#4CAF50')
+              .fontWeight(FontWeight.Bold)
+              .margin({ right: 6 })
+            
+            Text('已解锁')
+              .fontSize(12)
+              .fontColor('#4CAF50')
+              .fontWeight(FontWeight.Medium)
+          }
         }
       }
-      .alignItems(HorizontalAlign.Center)
+      .layoutWeight(1)
+      .alignItems(HorizontalAlign.Start)
     }
     .width('100%')
-    .height(160)
-    .padding(12)
+    .height(120)
+    .padding(20)
     .backgroundColor('#FFFFFF')
-    .borderRadius(12)
+    .borderRadius(16)
     .opacity(achievement.isUnlocked ? 1 : 0.7)
     .shadow({ 
-      radius: achievement.isUnlocked ? 8 : 4, 
+      radius: achievement.isUnlocked ? 12 : 6, 
       color: achievement.isUnlocked ? '#1A4CAF50' : '#1A000000', 
       offsetX: 0, 
-      offsetY: 2 
+      offsetY: 3 
     })
     .border({
       width: achievement.isUnlocked ? 2 : 0,

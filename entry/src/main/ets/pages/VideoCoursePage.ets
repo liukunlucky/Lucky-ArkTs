@@ -25,15 +25,15 @@ struct VideoCoursePage {
   @State tutorials: TutorialItem[] = [
     {
       id: 1,
-      title: '仓颉编程语言入门教程',
-      description: '主讲人：仓颉编程语言布道师 - 刘俊杰',
+      title: 'ArkTS编程语言入门教程',
+      description: 'ArkTs UI框架',
       videoSrc: 'video/video1.mp4',
       thumbnail: 'video/video1.png'
     },
     {
       id: 2,
-      title: '仓颉程序设计01课',
-      description: '描述：仓颉程序设计语言快速入门',
+      title: 'ArkTS程序设计01课',
+      description: '描述：ArkTS程序设计语言快速入门',
       videoSrc: 'video/video2.mp4',
       thumbnail: 'video/video2.png'
     }

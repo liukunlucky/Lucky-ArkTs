@@ -2,6 +2,8 @@ import router from '@ohos.router'
 import { promptAction } from '@kit.ArkUI'
 import bundleManager from '@ohos.bundle.bundleManager'
 import { BusinessError } from '@kit.BasicServicesKit'
+import { DatabaseManager } from '../common/DatabaseManager'
+import { StudyTimeManager } from '../common/StudyTimeManager'
 
 interface UserStats {
   totalQuestions: number
@@ -50,14 +52,34 @@ export struct ProfilePage {
   initUserInfo() {
     // 生成随机4位数字
     const randomNum = Math.floor(Math.random() * 9000) + 1000
-    this.userName = `仓颉编程学习者`
+    this.userName = `ArkTS编程学习者`
     this.userAvatar = 'ic_default_avatar'
   }
 
   async loadUserStats() {
     try {
       // 从数据库加载用户统计数据
-      // 暂时使用模拟数据
+      const databaseManager = DatabaseManager.getInstance()
+      const stats = await databaseManager.getUserStats()
+      
+      // 计算正确率
+      const accuracy = stats.totalQuestions > 0 ? 
+        Math.round((stats.correctAnswers / stats.totalQuestions) * 100) : 0
+      
+      this.userStats = {
+        totalQuestions: stats.totalQuestions,
+        correctAnswers: stats.correctAnswers,
+        accuracy: accuracy,
+        streakDays: stats.streakDays,
+        totalStudyTime: stats.totalStudyTime,
+        level: stats.level,
+        experience: stats.experience
+      }
+      
+      console.info('ProfilePage - 加载用户统计数据成功:', JSON.stringify(this.userStats))
+    } catch (error) {
+      console.error('加载用户统计失败:', error)
+      // 如果加载失败，使用默认值
       this.userStats = {
         totalQuestions: 0,
         correctAnswers: 0,
@@ -67,8 +89,6 @@ export struct ProfilePage {
         level: 1,
         experience: 0
       }
-    } catch (error) {
-      console.error('加载用户统计失败:', error)
     }
   }
 
@@ -173,9 +193,59 @@ export struct ProfilePage {
 
       // 第一行统计
       Row() {
-        this.StatItem('答题总数', this.userStats.totalQuestions.toString(), '#4CAF50')
-        this.StatItem('正确答案', this.userStats.correctAnswers.toString(), '#2196F3')
-        this.StatItem('正确率', `${this.userStats.accuracy}%`, '#FF9800')
+        // 答题总数
+        Column() {
+          Text(this.userStats.totalQuestions.toString())
+            .fontSize(20)
+            .fontWeight(FontWeight.Bold)
+            .fontColor('#4CAF50')
+          
+          Text('答题总数')
+            .fontSize(12)
+            .fontColor('#666666')
+            .margin({ top: 4 })
+        }
+        .width('30%')
+        .height(60)
+        .justifyContent(FlexAlign.Center)
+        .backgroundColor('#F8F9FA')
+        .borderRadius(12)
+
+        // 正确答案
+        Column() {
+          Text(this.userStats.correctAnswers.toString())
+            .fontSize(20)
+            .fontWeight(FontWeight.Bold)
+            .fontColor('#2196F3')
+          
+          Text('正确答案')
+            .fontSize(12)
+            .fontColor('#666666')
+            .margin({ top: 4 })
+        }
+        .width('30%')
+        .height(60)
+        .justifyContent(FlexAlign.Center)
+        .backgroundColor('#F8F9FA')
+        .borderRadius(12)
+
+        // 正确率
+        Column() {
+          Text(`${this.userStats.accuracy}%`)
+            .fontSize(20)
+            .fontWeight(FontWeight.Bold)
+            .fontColor('#FF9800')
+          
+          Text('正确率')
+            .fontSize(12)
+            .fontColor('#666666')
+            .margin({ top: 4 })
+        }
+        .width('30%')
+        .height(60)
+        .justifyContent(FlexAlign.Center)
+        .backgroundColor('#F8F9FA')
+        .borderRadius(12)
       }
       .width('100%')
       .justifyContent(FlexAlign.SpaceBetween)
@@ -183,9 +253,59 @@ export struct ProfilePage {
 
       // 第二行统计
       Row() {
-        this.StatItem('连续天数', `${this.userStats.streakDays}天`, '#9C27B0')
-        this.StatItem('学习时长', `${this.userStats.totalStudyTime}分钟`, '#607D8B')
-        this.StatItem('当前等级', `${this.userStats.level}级`, '#795548')
+        // 连续天数
+        Column() {
+          Text(`${this.userStats.streakDays}天`)
+            .fontSize(20)
+            .fontWeight(FontWeight.Bold)
+            .fontColor('#9C27B0')
+          
+          Text('连续天数')
+            .fontSize(12)
+            .fontColor('#666666')
+            .margin({ top: 4 })
+        }
+        .width('30%')
+        .height(60)
+        .justifyContent(FlexAlign.Center)
+        .backgroundColor('#F8F9FA')
+        .borderRadius(12)
+
+        // 学习时长
+        Column() {
+          Text(StudyTimeManager.formatStudyTime(this.userStats.totalStudyTime))
+            .fontSize(20)
+            .fontWeight(FontWeight.Bold)
+            .fontColor('#607D8B')
+          
+          Text('学习时长')
+            .fontSize(12)
+            .fontColor('#666666')
+            .margin({ top: 4 })
+        }
+        .width('30%')
+        .height(60)
+        .justifyContent(FlexAlign.Center)
+        .backgroundColor('#F8F9FA')
+        .borderRadius(12)
+
+        // 当前等级
+        Column() {
+          Text(`${this.userStats.level}级`)
+            .fontSize(20)
+            .fontWeight(FontWeight.Bold)
+            .fontColor('#795548')
+          
+          Text('当前等级')
+            .fontSize(12)
+            .fontColor('#666666')
+            .margin({ top: 4 })
+        }
+        .width('30%')
+        .height(60)
+        .justifyContent(FlexAlign.Center)
+        .backgroundColor('#F8F9FA')
+        .borderRadius(12)
       }
       .width('100%')
       .justifyContent(FlexAlign.SpaceBetween)
@@ -198,24 +318,7 @@ export struct ProfilePage {
     .shadow({ radius: 8, color: '#1A000000', offsetX: 0, offsetY: 2 })
   }
 
-  @Builder StatItem(title: string, value: string, color: string) {
-    Column() {
-      Text(value)
-        .fontSize(20)
-        .fontWeight(FontWeight.Bold)
-        .fontColor(color)
-      
-      Text(title)
-        .fontSize(12)
-        .fontColor('#666666')
-        .margin({ top: 4 })
-    }
-    .width('30%')
-    .height(60)
-    .justifyContent(FlexAlign.Center)
-    .backgroundColor('#F8F9FA')
-    .borderRadius(12)
-  }
+
 
   @Builder MenuSection() {
     Column() {
@@ -389,7 +492,7 @@ export struct ProfilePage {
 
       // 应用信息
       Column() {
-        Text('仓颉学习宝典')
+        Text('ArkTs学习手册')
           .fontSize(18)
           .fontWeight(FontWeight.Bold)
           .fontColor($r('app.color.primary_text_color'))
@@ -400,7 +503,7 @@ export struct ProfilePage {
           .fontColor($r('app.color.secondary_text_color'))
           .margin({ bottom: 8 })
 
-        Text('仓颉编程从入门到精通')
+        Text('ArkTS编程从入门到精通')
           .fontSize(14)
           .fontColor($r('app.color.primary_text_color'))
           .textAlign(TextAlign.Center)
@@ -413,7 +516,7 @@ export struct ProfilePage {
       Blank()
 
       // 版权信息
-      Text('© 2025 仓颉学习宝典团队')
+      Text('© 2025 ArkTs学习手册团队')
         .fontSize(12)
         .fontColor($r('app.color.tertiary_text_color'))
         .margin({ bottom: 20 })

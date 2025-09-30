@@ -58,8 +58,8 @@ struct DiaryPage {
     const sampleEntries: SampleDiaryData[] = [
       {
         date: '2024-01-15',
-        title: '开始学习仓颉语言',
-        content: '今天开始学习仓颉语言，感觉语法和其他语言有些相似，但也有独特的地方。完成了基础语法的学习，答对了8道题目。',
+        title: '开始学习ArkTS语言',
+        content: '今天开始学习ArkTS语言，感觉语法和其他语言有些相似，但也有独特的地方。完成了基础语法的学习，答对了8道题目。',
         mood: '🎉',
         studyTime: 2.5,
         questionsAnswered: 8
@@ -102,8 +102,8 @@ struct DiaryPage {
     const entry1 = new DiaryEntryModel()
     entry1.id = -1 // 使用负数ID标识mock数据
     entry1.date = '2024-01-15'
-    entry1.title = '开始学习仓颉语言'
-    entry1.content = '今天开始学习仓颉语言，感觉语法和其他语言有些相似，但也有独特的地方。完成了基础语法的学习，答对了8道题目。学习过程中遇到了一些挑战，但通过查阅资料和练习逐步克服了。'
+    entry1.title = '开始学习ArkTS语言'
+    entry1.content = '今天开始学习ArkTS语言，感觉语法和其他语言有些相似，但也有独特的地方。完成了基础语法的学习，答对了8道题目。学习过程中遇到了一些挑战，但通过查阅资料和练习逐步克服了。'
     entry1.mood = '🎉'
     entry1.studyTime = 2.5
     entry1.questionsAnswered = 8

@@ -1,7 +1,6 @@
 {
   "src": [
     "pages/Index",
-    "pages/HomePage",
     "pages/QuestionBankPage",
     "pages/ExamPage",
     "pages/ExamQuestionPage",

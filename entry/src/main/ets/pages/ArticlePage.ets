@@ -35,867 +35,2889 @@ struct ArticlePage {
   }
 
   loadArticles() {
-    // Mock 仓颉技术文章数据
     this.articles = [
       {
         id: 1,
-        title: '仓颉语言入门指南：从零开始学习华为自研编程语言',
-        summary: '本文将带你从零开始学习仓颉语言，了解其基本语法、特性和开发环境搭建。',
-        content: `# 仓颉语言入门指南
+        title: 'ArkTS语言入门指南：华为鸿蒙应用开发必备技能',
+        summary: '本文将带你从零开始学习ArkTS语言，了解其基本语法、特性和鸿蒙应用开发环境搭建。',
+        content: `# ArkTS语言入门指南
 
-仓颉语言是华为公司自主研发的新一代编程语言，旨在为开发者提供高效、安全、易用的编程体验。作为一门现代化的编程语言，仓颉在设计理念上充分吸收了当前主流编程语言的优秀特性，同时结合了华为在软件开发领域的深厚积累。
+ArkTS是华为为鸿蒙生态系统开发的应用开发语言，基于TypeScript扩展而来，专门为构建高性能、跨平台的鸿蒙应用而设计。作为鸿蒙应用开发的主要编程语言，ArkTS结合了TypeScript的类型安全特性和鸿蒙系统的原生能力。
 
 ## 语言特性与优势
 
-仓颉语言的设计哲学体现在多个方面。首先是**类型安全**，通过静态类型系统在编译时就能发现潜在的类型错误，大大减少了运行时错误的可能性。这种设计让开发者能够更早地发现问题，提高代码质量。
+ArkTS语言的设计哲学体现在多个方面。首先是**类型安全**，继承了TypeScript的静态类型系统，在编译时就能发现潜在的类型错误，大大减少了运行时错误的可能性。这种设计让开发者能够更早地发现问题，提高代码质量。
 
-在**内存安全**方面，仓颉采用了自动内存管理机制，开发者无需手动管理内存的分配和释放，有效避免了内存泄漏、野指针等常见问题。这种设计既保证了程序的稳定性，又降低了开发难度。
+在**组件化开发**方面，ArkTS提供了声明式UI开发范式，通过@Component装饰器和状态管理机制，让界面开发变得更加直观和高效。开发者可以专注于描述UI的状态和行为，而不需要关心底层的渲染细节。
 
-**高性能**是仓颉语言的另一大特色。作为编译型语言，仓颉代码会被编译成高效的机器码，运行效率接近C/C++等传统编译型语言。同时，编译器还会进行各种优化，进一步提升程序性能。
+**高性能**是ArkTS的另一大特色。作为编译型语言，ArkTS代码会被编译成高效的字节码，在ArkTS运行时中执行，性能表现优异。同时，编译器还会进行各种优化，进一步提升应用性能。
 
-在语法设计上，仓颉追求**现代化和简洁性**。语法结构清晰明了，既保持了足够的表达能力，又避免了过度复杂的语法糖，让代码更易读、易写、易维护。
+在语法设计上，ArkTS追求**现代化和简洁性**。基于TypeScript的语法基础，添加了鸿蒙特有的装饰器和API，既保持了Web开发者的熟悉感，又提供了原生应用开发的强大能力。
 
 ## 基础语法概览
 
-仓颉的变量声明非常直观，使用 \`let\` 关键字声明变量，\`static let\` 声明常量。类型注解采用冒号语法，与许多现代语言保持一致：
+ArkTS的变量声明遵循TypeScript规范，支持let、const关键字，类型注解采用冒号语法：
 
-\`\`\`cangjie
-let name: String = "仓颉"
-static let PI: Float = 3.14159
+\`\`\`typescript
+let name: string = "ArkTS"
+const PI: number = 3.14159
 \`\`\`
 
-函数定义同样简洁明了，使用 \`func\` 关键字，支持参数类型注解和返回值类型声明：
+组件定义是ArkTS的核心特性，使用@Component装饰器和struct关键字：
 
-\`\`\`cangjie
-func greet(name: String): String {
-    return "Hello, \${name}!"
+\`\`\`typescript
+@Component
+struct HelloWorld {
+  @State message: string = 'Hello ArkTS'
+  
+  build() {
+    Column() {
+      Text(this.message)
+        .fontSize(20)
+        .fontWeight(FontWeight.Bold)
+    }
+  }
 }
 \`\`\`
 
 ## 开发环境与生态
 
-要开始仓颉编程之旅，首先需要搭建开发环境。华为提供了完整的开发工具链，包括编译器、调试器、包管理工具等。开发环境的搭建过程相对简单，只需下载官方提供的开发工具包，配置相应的环境变量即可。
+要开始ArkTS编程之旅，首先需要搭建鸿蒙开发环境。华为提供了DevEco Studio IDE，这是一个专为鸿蒙应用开发设计的集成开发环境，包含了代码编辑、调试、模拟器、性能分析等完整的开发工具链。
 
-仓颉语言的生态系统正在快速发展中，官方和社区都在积极贡献各种库和工具。无论是系统编程、应用开发还是数据处理，都能找到相应的解决方案。
+ArkTS的生态系统正在快速发展中，华为官方提供了丰富的API和组件库，涵盖了UI组件、系统服务、设备能力等各个方面。无论是移动应用、智能穿戴设备应用还是智能家居控制应用，都能找到相应的解决方案。
 
-总的来说，仓颉语言代表了华为在编程语言领域的创新尝试，它不仅继承了现有语言的优秀特性，还在安全性、性能和易用性方面有所突破，值得开发者深入学习和实践。`,
+总的来说，ArkTS语言代表了华为在移动应用开发领域的创新尝试，它不仅继承了现代Web技术的优秀特性，还在跨平台能力、性能和开发效率方面有所突破，是鸿蒙应用开发者必须掌握的核心技能。`,
         author: '华为技术专家',
         publishDate: '2024-01-15',
         readCount: 1250,
         likeCount: 89,
         category: '基础语法',
         tags: ['入门', '语法', '环境搭建'],
-        coverImage: 'https://example.com/cangjie-intro.jpg',
+        coverImage: 'https://example.com/arkts-intro.jpg',
         hasCode: true,
         difficulty: 'beginner',
         estimatedReadTime: 8
       },
       {
         id: 2,
-        title: '深入理解仓颉语言的类型系统',
-        summary: '探索仓颉语言强大的类型系统，包括泛型、约束和类型推导等高级特性。',
-        content: `# 深入理解仓颉语言的类型系统
+        title: '深入理解ArkTS的类型系统与装饰器',
+        summary: '探索ArkTS强大的类型系统，包括TypeScript类型特性、装饰器系统和状态管理类型安全等高级特性。',
+        content: `# 深入理解ArkTS的类型系统与装饰器
 
-类型系统是编程语言的核心组成部分，它决定了语言的表达能力、安全性和性能特征。仓颉语言设计了一套强大而灵活的类型系统，既保证了类型安全，又提供了足够的表达能力来处理复杂的编程场景。
+类型系统是编程语言的核心组成部分，它决定了语言的表达能力、安全性和性能特征。ArkTS基于TypeScript构建，在继承其强大类型系统的基础上，针对鸿蒙应用开发进行了专门的优化和扩展，特别是在装饰器和状态管理方面。
 
 ## 类型系统的设计理念
 
-仓颉的类型系统采用静态类型检查，这意味着所有的类型错误都会在编译时被发现，而不是等到程序运行时才暴露。这种设计大大提高了程序的可靠性，让开发者能够更有信心地编写和维护代码。
+ArkTS的类型系统采用静态类型检查，这意味着所有的类型错误都会在编译时被发现，而不是等到程序运行时才暴露。这种设计大大提高了程序的可靠性，让开发者能够更有信心地编写和维护代码。
 
-与传统的静态类型语言相比，仓颉在保持类型安全的同时，还提供了类型推导功能。编译器能够根据上下文自动推断变量的类型，减少了冗余的类型注解，让代码更加简洁。
+与传统的静态类型语言相比，ArkTS在保持类型安全的同时，还提供了TypeScript的类型推导功能。编译器能够根据上下文自动推断变量的类型，减少了冗余的类型注解，让代码更加简洁。
 
 ## 基本类型体系
 
-仓颉提供了丰富的基本类型来满足不同的编程需求。整数类型 \`Int\` 用于处理整数运算，浮点类型 \`Float\` 处理小数计算，布尔类型 \`Bool\` 表示逻辑值，字符串类型 \`String\` 处理文本数据。
+ArkTS继承了TypeScript的基本类型体系，提供了丰富的基本类型来满足不同的编程需求。数字类型 \`number\` 用于处理数值运算，字符串类型 \`string\` 处理文本数据，布尔类型 \`boolean\` 表示逻辑值。
 
-\`\`\`cangjie
-let intValue: Int = 42
-let floatValue: Float = 3.14
-let stringValue: String = "Hello"
+\`\`\`typescript
+let count: number = 42
+let message: string = "Hello ArkTS"
+let isVisible: boolean = true
 \`\`\`
 
 这些基本类型不仅提供了基础的数据表示能力，还配备了丰富的操作方法，能够满足大部分编程场景的需求。
 
-## 泛型编程的威力
+## 装饰器类型系统
 
-泛型是现代编程语言的重要特性，它允许编写可重用的代码组件。仓颉的泛型系统设计得既强大又易用，支持泛型函数、泛型类和泛型约束。
+装饰器是ArkTS的核心特性，为组件开发提供了强大的类型支持。每个装饰器都有明确的类型约束，确保状态管理的类型安全：
 
-通过泛型，我们可以编写一次代码，然后在多种类型上复用。比如一个交换函数，可以同时处理整数、字符串或任何其他类型的数据：
+\`\`\`typescript
+@Component
+struct TypeSafeComponent {
+  @State count: number = 0
+  @Prop title: string = ''
+  @Link isExpanded: boolean
+  @Provide dataSource: string[] = []
+  
+  build() {
+    Column() {
+      Text(\`\${this.title}: \${this.count}\`)
+        .fontSize(16)
+        .onClick(() => {
+          this.count++
+        })
+    }
+  }
+}
+\`\`\`
 
-\`\`\`cangjie
-func swap<T>(a: T, b: T): (T, T) {
-    return (b, a)
+装饰器类型系统确保了状态变量的类型一致性和使用规范，编译器会检查状态变量的类型匹配和数据流向。
+
+## 泛型在组件开发中的应用
+
+ArkTS充分利用了TypeScript的泛型特性，在组件开发中实现高度的代码复用。泛型组件可以处理多种数据类型，提高代码的复用性：
+
+\`\`\`typescript
+interface ListItem {
+  id: string
+  title: string
+}
+
+@Component
+struct GenericList<T extends ListItem> {
+  @Prop items: T[]
+  @Prop itemBuilder: (item: T, index: number) => void
+  
+  build() {
+    List() {
+      ForEach(this.items, (item: T, index: number) => {
+        ListItem() {
+          this.itemBuilder(item, index)
+        }
+      })
+    }
+  }
 }
 \`\`\`
 
 泛型约束进一步增强了类型系统的表达能力，允许我们对泛型参数施加特定的限制，确保类型具有某些特定的能力或属性。
 
-## Option类型与空值安全
+## 可选类型与空值安全
 
-空指针异常是许多编程语言中的常见问题，仓颉通过 Option 类型优雅地解决了这个问题。Option 类型明确表示一个值可能存在也可能不存在，强制开发者在编译时就考虑空值的情况。
+TypeScript的可选类型和联合类型在ArkTS中得到了很好的应用，帮助开发者处理可能为空的值。通过可选属性和联合类型，我们可以明确表示一个值可能存在也可能不存在：
 
-这种设计不仅消除了空指针异常的可能性，还让代码的意图更加明确。当函数返回 Option 类型时，调用者必须显式处理值不存在的情况，这大大提高了程序的健壮性。
+\`\`\`typescript
+interface UserInfo {
+  id: string
+  name: string
+  avatar?: string  // 可选属性
+  email: string | undefined  // 联合类型
+}
 
-\`\`\`cangjie
-match findUser(123) {
-    case Some(user) => println("找到用户: \${user.name}")
-    case None => println("用户不存在")
+@Component
+struct UserCard {
+  @Prop user: UserInfo
+  
+  build() {
+    Row() {
+      if (this.user.avatar) {
+        Image(this.user.avatar)
+          .width(50)
+          .height(50)
+      }
+      
+      Text(this.user.name)
+        .fontSize(16)
+    }
+  }
 }
 \`\`\`
 
-通过模式匹配，我们可以优雅地处理 Option 类型的不同情况，代码既安全又清晰。
+这种设计不仅提高了代码的安全性，还让代码的意图更加明确。
 
 ## 类型推导与开发体验
 
-仓颉的类型推导系统能够在保持类型安全的前提下，显著减少样板代码。编译器会根据赋值、函数调用、返回值等上下文信息，自动推断出变量和表达式的类型。
+ArkTS的类型推导系统能够在保持类型安全的前提下，显著减少样板代码。DevEco Studio会根据赋值、函数调用、返回值等上下文信息，自动推断出变量和表达式的类型。
 
-这种设计让开发者能够专注于业务逻辑的实现，而不是被繁琐的类型声明所困扰。同时，IDE 和编辑器也能够提供更好的代码补全和错误提示，进一步提升开发效率。
+这种设计让开发者能够专注于业务逻辑的实现，而不是被繁琐的类型声明所困扰。同时，IDE还能够提供更好的代码补全和错误提示，进一步提升开发效率。
 
-总的来说，仓颉的类型系统在安全性、表达能力和易用性之间找到了很好的平衡点，为开发者提供了强大而友好的编程体验。`,
-        author: '仓颉核心开发者',
+总的来说，ArkTS的类型系统在继承TypeScript强大特性的基础上，针对鸿蒙应用开发场景进行了优化，为开发者提供了类型安全、高效开发的编程体验。`,
+        author: 'ArkTS核心开发者',
         publishDate: '2024-01-20',
         readCount: 890,
         likeCount: 67,
         category: '基础语法',
-        tags: ['类型系统', '泛型', 'Option'],
+        tags: ['类型系统', '泛型', '装饰器'],
         hasCode: true,
         difficulty: 'intermediate',
         estimatedReadTime: 12
       },
       {
         id: 3,
-        title: '仓颉语言面向对象编程实践',
-        summary: '学习如何在仓颉语言中使用类、接口和继承来构建面向对象的程序。',
-        content: `# 仓颉语言面向对象编程实践
+        title: 'ArkTS组件化编程实践：构建可复用的鸿蒙UI组件',
+        summary: '学习如何在ArkTS中使用组件化思想，通过@Component装饰器和状态管理来构建可复用的鸿蒙应用界面。',
+        content: `# ArkTS组件化编程实践：构建可复用的鸿蒙UI组件
 
-面向对象编程（OOP）是现代软件开发的重要编程范式，它通过封装、继承和多态等机制，帮助开发者构建更加模块化、可维护的软件系统。仓颉语言在设计时充分考虑了面向对象编程的需求，提供了完整而现代的面向对象特性。
+组件化编程是现代前端开发的重要编程范式，它通过封装、复用和组合等机制，帮助开发者构建更加模块化、可维护的用户界面系统。ArkTS在设计时充分考虑了组件化开发的需求，提供了完整而现代的组件化特性。
 
-## 面向对象设计理念
+## 组件化设计理念
 
-仓颉的面向对象设计遵循了现代编程语言的最佳实践。它强调**封装性**，通过访问控制修饰符来保护对象的内部状态；支持**继承机制**，允许子类复用和扩展父类的功能；实现了**多态性**，让同一接口可以有不同的实现。
+ArkTS的组件化设计遵循了现代UI框架的最佳实践。它强调**封装性**，通过@Component装饰器来定义独立的UI组件；支持**状态管理**，通过各种状态装饰器来管理组件的数据流；实现了**组合性**，让复杂的界面可以由简单的组件组合而成。
 
-与传统的面向对象语言相比，仓颉在保持核心概念不变的同时，简化了语法结构，减少了样板代码，让面向对象编程变得更加直观和高效。
+与传统的UI开发方式相比，ArkTS在保持核心概念不变的同时，提供了声明式的语法结构，减少了样板代码，让组件化开发变得更加直观和高效。
 
-## 类的设计与实现
+## 组件的设计与实现
 
-在仓颉中，类是对象的蓝图，定义了对象的属性和行为。类的设计需要考虑数据的封装和方法的组织。一个设计良好的类应该具有清晰的职责边界，提供简洁的接口，隐藏实现细节。
+在ArkTS中，组件是UI的基本构建单元，定义了界面的结构和行为。组件的设计需要考虑数据的封装和UI的组织。一个设计良好的组件应该具有清晰的职责边界，提供简洁的接口，隐藏实现细节。
 
-以 Person 类为例，我们可以看到仓颉如何优雅地实现封装：
+以 UserCard 组件为例，我们可以看到ArkTS如何优雅地实现组件封装：
 
-\`\`\`cangjie
-class Person {
-    private var name: String
-    private var age: Int
-    
-    public init(name: String, age: Int) {
-        this.name = name
-        this.age = age
+\`\`\`typescript
+interface UserInfo {
+  id: string
+  name: string
+  avatar?: string
+  email?: string
+}
+
+@Component
+struct UserCard {
+  @Prop user: UserInfo
+  @Prop onTap?: () => void
+  @State isExpanded: boolean = false
+  
+  build() {
+    Column() {
+      Row() {
+        Image(this.user.avatar || $r('app.media.default_avatar'))
+          .width(50)
+          .height(50)
+          .borderRadius(25)
+        
+        Column() {
+          Text(this.user.name)
+            .fontSize(16)
+            .fontWeight(FontWeight.Bold)
+          
+          if (this.user.email && this.isExpanded) {
+            Text(this.user.email)
+              .fontSize(14)
+              .fontColor(Color.Gray)
+          }
+        }
+        .alignItems(HorizontalAlign.Start)
+        .margin({ left: 12 })
+        
+        Spacer()
+        
+        Button(this.isExpanded ? '收起' : '展开')
+          .fontSize(12)
+          .onClick(() => {
+            this.isExpanded = !this.isExpanded
+          })
+      }
+      .width('100%')
+      .padding(12)
     }
-    
-    public func introduce(): String {
-        return "我是\${this.name}，今年\${this.age}岁"
-    }
+    .backgroundColor(Color.White)
+    .borderRadius(8)
+    .onClick(this.onTap)
+  }
 }
 \`\`\`
 
-这个例子展示了仓颉类定义的基本结构：私有属性保护内部状态，公共构造函数提供对象创建接口，公共方法暴露对象的行为。
+这个例子展示了ArkTS组件定义的基本结构：@Prop接收外部数据，@State管理内部状态，build()方法定义UI结构。
 
-## 继承与代码复用
+## 状态管理与数据流
 
-继承是面向对象编程中实现代码复用的重要机制。通过继承，子类可以获得父类的所有非私有成员，并可以添加新的功能或重写现有的方法。
+状态管理是组件化开发中的核心概念。ArkTS提供了多种状态装饰器来处理不同场景的数据流：
 
-仓颉的继承机制设计得既强大又安全。子类不仅可以继承父类的属性和方法，还可以通过方法重写来定制特定的行为。这种设计让代码复用变得自然而安全。
+\`\`\`typescript
+@Component
+struct TodoList {
+  @State todos: TodoItem[] = []
+  @Provide selectedCount: number = 0
+  
+  addTodo = (text: string) => {
+    this.todos.push({
+      id: Date.now().toString(),
+      text: text,
+      completed: false
+    })
+  }
+  
+  toggleTodo = (id: string) => {
+    const index = this.todos.findIndex(todo => todo.id === id)
+    if (index !== -1) {
+      this.todos[index].completed = !this.todos[index].completed
+      this.updateSelectedCount()
+    }
+  }
+  
+  updateSelectedCount = () => {
+    this.selectedCount = this.todos.filter(todo => todo.completed).length
+  }
+  
+  build() {
+    Column() {
+      TodoInput({ onAdd: this.addTodo })
+      
+      List() {
+        ForEach(this.todos, (todo: TodoItem) => {
+          ListItem() {
+            TodoItemComponent({
+              todo: todo,
+              onToggle: this.toggleTodo
+            })
+          }
+        })
+      }
+      
+      TodoSummary()
+    }
+  }
+}
+\`\`\`
 
-继承关系的建立需要仔细考虑，它应该反映真实世界中的"是一个"关系。比如 Student 是一个 Person，Employee 也是一个 Person，这样的继承关系是合理和自然的。
+ArkTS的状态管理机制确保了数据变化时UI的自动更新，开发者只需要关注数据的变化，UI的重新渲染由框架自动处理。
 
-## 接口与抽象
+## 组件组合与复用
 
-接口定义了一组方法的契约，实现接口的类必须提供这些方法的具体实现。这种设计让我们可以定义抽象的行为规范，而不关心具体的实现细节。
+组件化的核心优势在于复用性。通过合理的组件设计，我们可以创建可在多个场景中使用的通用组件：
 
-仓颉的接口机制支持多重实现，一个类可以实现多个接口，这提供了比单继承更大的灵活性。通过接口，我们可以实现真正的多态性，让不同的类以统一的方式被使用。
+\`\`\`typescript
+@Component
+struct GenericButton {
+  @Prop text: string
+  @Prop type: 'primary' | 'secondary' | 'danger' = 'primary'
+  @Prop disabled: boolean = false
+  @Prop onTap?: () => void
+  
+  private getButtonStyle() {
+    switch (this.type) {
+      case 'primary':
+        return { backgroundColor: '#007DFF', fontColor: Color.White }
+      case 'secondary':
+        return { backgroundColor: '#F1F3F5', fontColor: '#182431' }
+      case 'danger':
+        return { backgroundColor: '#FA2A2D', fontColor: Color.White }
+      default:
+        return { backgroundColor: '#007DFF', fontColor: Color.White }
+    }
+  }
+  
+  build() {
+    Button(this.text)
+      .backgroundColor(this.getButtonStyle().backgroundColor)
+      .fontColor(this.getButtonStyle().fontColor)
+      .enabled(!this.disabled)
+      .opacity(this.disabled ? 0.5 : 1)
+      .onClick(this.onTap)
+  }
+}
 
-## 多态性的应用
+// 使用通用按钮组件
+@Component
+struct ActionPanel {
+  build() {
+    Row() {
+      GenericButton({
+        text: '确认',
+        type: 'primary',
+        onTap: () => console.log('确认')
+      })
+      
+      GenericButton({
+        text: '取消',
+        type: 'secondary',
+        onTap: () => console.log('取消')
+      })
+      
+      GenericButton({
+        text: '删除',
+        type: 'danger',
+        onTap: () => console.log('删除')
+      })
+    }
+    .justifyContent(FlexAlign.SpaceEvenly)
+  }
+}
+\`\`\`
 
-多态性是面向对象编程的核心特性之一，它允许同一个接口有不同的实现。在仓颉中，多态性通过继承和接口实现来支持，让程序能够在运行时根据对象的实际类型来调用相应的方法。
+## 组件通信模式
 
-这种设计让代码更加灵活和可扩展。当需要添加新的类型时，只要它们实现了相同的接口或继承自相同的基类，就可以无缝地集成到现有的代码中，而不需要修改使用这些对象的代码。
+在复杂的应用中，组件之间需要进行数据通信。ArkTS提供了多种通信模式：
+
+\`\`\`typescript
+// 父子组件通信
+@Component
+struct ParentComponent {
+  @State parentData: string = 'Hello'
+  
+  handleChildEvent = (data: string) => {
+    this.parentData = data
+  }
+  
+  build() {
+    Column() {
+      Text(\`父组件数据: \${this.parentData}\`)
+      
+      ChildComponent({
+        propData: this.parentData,
+        onEvent: this.handleChildEvent
+      })
+    }
+  }
+}
+
+@Component
+struct ChildComponent {
+  @Prop propData: string
+  @Prop onEvent?: (data: string) => void
+  @State childData: string = ''
+  
+  build() {
+    Column() {
+      Text(\`接收到的数据: \${this.propData}\`)
+      
+      TextInput({ text: this.childData })
+        .onChange((value) => {
+          this.childData = value
+        })
+      
+      Button('发送给父组件')
+        .onClick(() => {
+          this.onEvent?.(this.childData)
+        })
+    }
+  }
+}
+\`\`\`
 
 ## 最佳实践与设计模式
 
-在使用仓颉进行面向对象编程时，遵循一些最佳实践可以让代码更加健壮和可维护。比如优先使用组合而不是继承，保持类的单一职责，使用接口来定义抽象等。
+在使用ArkTS进行组件化开发时，遵循一些最佳实践可以让代码更加健壮和可维护：
 
-仓颉的语法设计也鼓励这些最佳实践的应用。清晰的访问控制、简洁的继承语法、强大的接口机制，都让开发者能够更容易地编写高质量的面向对象代码。
+1. **单一职责原则**：每个组件应该只负责一个特定的功能
+2. **接口设计**：通过明确的@Prop接口定义组件的输入
+3. **状态提升**：将共享状态提升到最近的公共父组件
+4. **组件拆分**：将复杂组件拆分为更小的、可复用的子组件
 
-通过合理运用仓颉的面向对象特性，开发者可以构建出结构清晰、易于维护和扩展的软件系统，充分发挥面向对象编程的优势。`,
+ArkTS的语法设计也鼓励这些最佳实践的应用。清晰的装饰器系统、声明式的UI语法、强大的状态管理机制，都让开发者能够更容易地编写高质量的组件化代码。
+
+通过合理运用ArkTS的组件化特性，开发者可以构建出结构清晰、易于维护和扩展的鸿蒙应用界面，充分发挥组件化开发的优势。`,
         author: '面向对象专家',
         publishDate: '2024-01-25',
         readCount: 756,
         likeCount: 54,
         category: '面向对象',
         tags: ['类', '继承', '接口'],
-        coverImage: 'https://example.com/oop-cangjie.jpg',
+        coverImage: 'https://example.com/oop-arkts.jpg',
         hasCode: true,
         difficulty: 'intermediate',
         estimatedReadTime: 15
       },
       {
         id: 4,
-        title: '函数式编程在仓颉语言中的应用',
-        summary: '探索仓颉语言的函数式编程特性，包括高阶函数、闭包和函数组合。',
-        content: `# 函数式编程在仓颉语言中的应用
+        title: 'ArkTS状态管理与响应式编程：构建高效的鸿蒙应用',
+        summary: '深入探索ArkTS的状态管理机制，包括@State、@Prop、@Link等装饰器的使用和响应式编程模式。',
+        content: `# ArkTS状态管理与响应式编程：构建高效的鸿蒙应用
 
-函数式编程是一种重要的编程范式，它将计算视为数学函数的求值，强调函数的纯粹性和不可变性。仓颉语言在设计时融入了丰富的函数式编程特性，为开发者提供了强大的函数式编程工具和概念。
+状态管理是现代前端开发的核心概念，它决定了应用的数据流向和UI更新机制。ArkTS作为鸿蒙应用开发的主要语言，提供了一套完整的响应式状态管理系统，通过装饰器模式让开发者能够轻松构建高效、可维护的应用程序。
 
-## 函数式编程的核心理念
+## 响应式编程的核心理念
 
-函数式编程的核心在于将函数视为一等公民，这意味着函数可以像其他数据类型一样被传递、存储和操作。这种设计理念带来了许多优势：代码更加简洁、逻辑更加清晰、更容易进行并行处理，同时也减少了副作用带来的问题。
+响应式编程是一种以数据流和变化传播为核心的编程范式。在ArkTS中，当状态发生变化时，所有依赖该状态的UI组件会自动更新，这种自动化的更新机制大大简化了开发复杂度，让开发者能够专注于业务逻辑而不是手动管理UI更新。
 
-仓颉语言对函数式编程的支持体现在多个方面。它支持高阶函数，允许函数接受其他函数作为参数或返回函数作为结果；提供了丰富的Lambda表达式语法，让匿名函数的定义变得简洁优雅；还支持函数组合，让复杂的数据处理流程可以通过简单函数的组合来实现。
+ArkTS的响应式系统基于装饰器模式，通过@State、@Prop、@Link等装饰器来标识不同类型的状态变量。这种设计不仅让状态管理变得直观，还提供了编译时的类型检查，确保状态使用的正确性。
 
-## 高阶函数的威力
+## @State：组件内部状态管理
 
-高阶函数是函数式编程的基石，它们接受函数作为参数或返回函数作为结果。这种设计让代码具有了更高的抽象层次和复用性。通过高阶函数，我们可以将通用的算法逻辑与具体的业务逻辑分离，创建出更加灵活和可重用的代码组件。
+@State装饰器用于管理组件内部的状态，当被@State装饰的变量发生变化时，组件会自动重新渲染。这是最基础也是最常用的状态管理方式：
 
-以数组处理为例，map、filter、reduce等高阶函数提供了强大的数据变换能力。它们不仅让代码更加简洁，还让数据处理的意图更加明确：
+\`\`\`typescript
+@Entry
+@Component
+struct CounterExample {
+  @State count: number = 0;
+  @State message: string = 'Hello ArkTS';
 
-\`\`\`cangjie
-let numbers = [1, 2, 3, 4, 5]
-let doubled = map(numbers, { x => x * 2 })
+  build() {
+    Column() {
+      Text(\`计数: \${this.count}\`)
+        .fontSize(24)
+        .margin(10)
+      
+      Text(this.message)
+        .fontSize(18)
+        .margin(10)
+      
+      Button('增加')
+        .onClick(() => {
+          this.count++;
+          this.message = \`当前计数: \${this.count}\`;
+        })
+    }
+    .padding(20)
+  }
+}
 \`\`\`
 
-这种声明式的编程风格让我们专注于"做什么"而不是"怎么做"，大大提高了代码的可读性和维护性。
+这种声明式的状态管理让UI与数据保持同步变得非常简单，开发者只需要关注状态的变化，UI会自动响应这些变化。
 
-## Lambda表达式与简洁性
+## @Prop与@Link：父子组件通信
 
-Lambda表达式（也称为匿名函数）是函数式编程中的重要工具，它允许我们在需要的地方直接定义简短的函数，而无需为每个小功能都创建命名函数。
+在组件化开发中，父子组件之间的数据传递是常见需求。ArkTS提供了@Prop和@Link装饰器来处理这种场景：
 
-仓颉的Lambda语法设计得既简洁又表达力强。简单的Lambda可以用于基本的数学运算，复杂的Lambda可以实现完整的数据处理流水线。这种灵活性让开发者能够根据具体场景选择最合适的表达方式。
+\`\`\`typescript
+@Component
+struct ChildComponent {
+  @Prop title: string;
+  @Link count: number;
 
-## 函数组合与模块化
+  build() {
+    Column() {
+      Text(this.title)
+        .fontSize(20)
+        .margin(10)
+      
+      Text(\`子组件计数: \${this.count}\`)
+        .fontSize(16)
+        .margin(10)
+      
+      Button('子组件增加')
+        .onClick(() => {
+          this.count++;
+        })
+    }
+    .padding(10)
+    .border({ width: 1, color: Color.Gray })
+  }
+}
 
-函数组合是函数式编程中的另一个重要概念，它允许我们将简单的函数组合成更复杂的函数。这种方式不仅提高了代码的模块化程度，还让复杂的逻辑变得更加清晰和可测试。
+@Entry
+@Component
+struct ParentComponent {
+  @State parentCount: number = 0;
 
-通过函数组合，我们可以构建出强大的数据处理管道。每个函数都专注于一个特定的转换操作，然后通过组合来实现复杂的业务逻辑。这种设计方式让代码更容易理解、测试和维护。
+  build() {
+    Column() {
+      Text('父组件')
+        .fontSize(24)
+        .margin(10)
+      
+      ChildComponent({
+        title: '这是子组件',
+        count: $parentCount
+      })
+      
+      Text(\`父组件计数: \${this.parentCount}\`)
+        .fontSize(16)
+        .margin(10)
+    }
+    .padding(20)
+  }
+}
+\`\`\`
 
-## 不可变性与纯函数
+@Prop用于单向数据传递，@Link用于双向数据绑定，这种设计让组件间的数据流向变得清晰可控。
 
-函数式编程强调不可变性和纯函数的概念。不可变性意味着数据一旦创建就不能被修改，而纯函数则是指没有副作用且对于相同输入总是产生相同输出的函数。
+## @Observed与@ObjectLink：对象状态管理
 
-这些概念在并发编程中特别有价值，因为不可变数据天然是线程安全的，而纯函数的行为是可预测的。仓颉语言通过类型系统和语言特性来支持这些概念，帮助开发者编写更加安全和可靠的代码。
+对于复杂的对象状态，ArkTS提供了@Observed和@ObjectLink装饰器来实现深度响应式：
 
-## 实际应用与最佳实践
+\`\`\`typescript
+@Observed
+class UserInfo {
+  name: string = '';
+  age: number = 0;
+  email: string = '';
+}
 
-在实际开发中，函数式编程特别适合数据处理、算法实现和业务逻辑的抽象。通过合理运用函数式编程的概念，我们可以创建出更加优雅和高效的解决方案。
+@Component
+struct UserProfile {
+  @ObjectLink user: UserInfo;
 
-仓颉语言的函数式特性为开发者提供了强大的工具集，无论是简单的数据变换还是复杂的业务逻辑，都可以通过函数式的方式来实现，让代码更加清晰、简洁和可维护。`,
-        author: '函数式编程爱好者',
+  build() {
+    Column() {
+      Text(\`姓名: \${this.user.name}\`)
+        .margin(5)
+      Text(\`年龄: \${this.user.age}\`)
+        .margin(5)
+      Text(\`邮箱: \${this.user.email}\`)
+        .margin(5)
+      
+      Button('更新用户信息')
+        .onClick(() => {
+          this.user.name = '张三';
+          this.user.age = 25;
+          this.user.email = 'zhangsan@example.com';
+        })
+    }
+    .padding(10)
+  }
+}
+\`\`\`
+
+这种模式特别适合管理复杂的业务对象，确保对象属性的变化能够正确触发UI更新。
+
+## @Provide与@Consume：跨层级状态共享
+
+在复杂的组件树中，有时需要跨多个层级共享状态。@Provide和@Consume装饰器提供了这种能力：
+
+\`\`\`typescript
+@Entry
+@Component
+struct AppRoot {
+  @Provide theme: string = 'light';
+
+  build() {
+    Column() {
+      Button(\`切换主题 (当前: \${this.theme})\`)
+        .onClick(() => {
+          this.theme = this.theme === 'light' ? 'dark' : 'light';
+        })
+      
+      MiddleComponent()
+    }
+    .padding(20)
+  }
+}
+
+@Component
+struct MiddleComponent {
+  build() {
+    Column() {
+      Text('中间组件')
+        .margin(10)
+      
+      DeepComponent()
+    }
+    .padding(10)
+  }
+}
+
+@Component
+struct DeepComponent {
+  @Consume theme: string;
+
+  build() {
+    Column() {
+      Text(\`深层组件 - 主题: \${this.theme}\`)
+        .fontColor(this.theme === 'light' ? Color.Black : Color.White)
+        .backgroundColor(this.theme === 'light' ? Color.White : Color.Black)
+    }
+    .padding(10)
+  }
+}
+\`\`\`
+
+这种模式避免了props drilling问题，让状态共享变得更加优雅。
+
+## 状态管理最佳实践
+
+在实际开发中，合理的状态管理策略对应用性能和可维护性至关重要。建议遵循以下原则：
+
+1. 状态就近原则：将状态定义在最接近使用它的组件中
+2. 单一数据源：避免重复的状态定义
+3. 不可变更新：通过创建新对象而不是修改现有对象来更新状态
+4. 合理使用装饰器：根据具体场景选择合适的状态装饰器
+
+ArkTS的状态管理系统为开发者提供了强大而灵活的工具，通过合理运用这些特性，可以构建出高性能、易维护的鸿蒙应用程序。`,
+        author: 'ArkTS开发专家',
         publishDate: '2024-02-01',
         readCount: 623,
         likeCount: 45,
-        category: '函数编程',
-        tags: ['高阶函数', 'Lambda', '函数组合'],
+        category: '状态管理',
+        tags: ['@State', '@Prop', '@Link', '响应式编程'],
         hasCode: true,
         difficulty: 'advanced',
         estimatedReadTime: 10
       },
       {
         id: 5,
-        title: '仓颉语言并发编程指南',
-        summary: '学习仓颉语言的并发编程模型，包括协程、Channel和并发安全。',
-        content: `# 仓颉语言并发编程指南
+        title: 'ArkTS异步编程与网络请求：构建响应式鸿蒙应用',
+        summary: '深入学习ArkTS的异步编程模型，包括Promise、async/await和网络请求处理。',
+        content: `# ArkTS异步编程与网络请求：构建响应式鸿蒙应用
 
-并发编程是现代软件开发中的重要主题，它让程序能够同时处理多个任务，充分利用多核处理器的计算能力。仓颉语言提供了现代化的并发编程模型，包括协程、Channel通信和并发安全机制，为开发者构建高性能并发应用提供了强大的工具。
+异步编程是现代移动应用开发的核心技术，它让应用能够在不阻塞用户界面的情况下处理耗时操作，如网络请求、文件读写和数据库操作。ArkTS提供了完整的异步编程支持，包括Promise、async/await语法和丰富的网络API，为开发者构建高性能的鸿蒙应用提供了强大的工具。
 
-## 并发编程的重要性
+## 异步编程的重要性
 
-在当今的软件开发环境中，用户对应用程序的响应速度和处理能力有着越来越高的要求。传统的单线程程序往往无法满足这些需求，而并发编程则能够让程序同时处理多个任务，显著提升用户体验和系统吞吐量。
+在移动应用开发中，用户体验是至关重要的。任何阻塞主线程的操作都会导致界面卡顿，严重影响用户体验。异步编程让我们能够在后台执行耗时操作，同时保持界面的流畅响应。
 
-仓颉语言的并发模型设计充分考虑了现代应用的需求，它不仅提供了高效的并发执行机制，还通过类型系统和语言特性来保证并发程序的安全性和正确性。
+ArkTS的异步编程模型基于JavaScript的Promise和async/await，这种设计让有前端开发经验的开发者能够快速上手，同时也提供了类型安全的保障。
 
-## 协程：轻量级的并发单元
+## Promise：异步操作的基础
 
-协程是仓颉并发编程的核心概念，它们比传统线程更加轻量级，创建和切换的开销更小。协程让异步编程变得像同步编程一样直观，开发者可以用顺序的思维来编写异步代码。
+Promise是ArkTS异步编程的基础，它代表一个异步操作的最终完成或失败。Promise有三种状态：pending（进行中）、fulfilled（已成功）和rejected（已失败）：
 
-通过async/await语法，仓颉让异步操作的编写变得非常自然。开发者不需要处理复杂的回调函数或Promise链，就能编写出清晰易懂的异步代码：
+\`\`\`typescript
+// 创建一个简单的Promise
+function fetchUserData(userId: string): Promise<UserInfo> {
+  return new Promise((resolve, reject) => {
+    // 模拟异步操作
+    setTimeout(() => {
+      if (userId) {
+        resolve({
+          id: userId,
+          name: '张三',
+          email: 'zhangsan@example.com'
+        });
+      } else {
+        reject(new Error('用户ID不能为空'));
+      }
+    }, 1000);
+  });
+}
 
-\`\`\`cangjie
-async func fetchData(url: String): String {
-    await sleep(1000)  // 模拟网络请求
-    return "数据来自: \${url}"
+// 使用Promise
+fetchUserData('123')
+  .then(user => {
+    console.log('用户信息:', user);
+  })
+  .catch(error => {
+    console.error('获取用户信息失败:', error);
+  });
+\`\`\`
+
+Promise链式调用让异步操作的组合变得更加清晰和可控。
+
+## async/await：更优雅的异步语法
+
+async/await是基于Promise的语法糖，它让异步代码看起来像同步代码，大大提高了代码的可读性：
+
+\`\`\`typescript
+@Entry
+@Component
+struct AsyncExample {
+  @State userInfo: UserInfo | null = null;
+  @State loading: boolean = false;
+  @State error: string = '';
+
+  async loadUserData(userId: string) {
+    this.loading = true;
+    this.error = '';
+    
+    try {
+      const user = await fetchUserData(userId);
+      this.userInfo = user;
+    } catch (err) {
+      this.error = err.message;
+    } finally {
+      this.loading = false;
+    }
+  }
+
+  build() {
+    Column() {
+      if (this.loading) {
+        Text('加载中...')
+          .fontSize(16)
+          .margin(10)
+      } else if (this.error) {
+        Text(\`错误: \${this.error}\`)
+          .fontColor(Color.Red)
+          .margin(10)
+      } else if (this.userInfo) {
+        Column() {
+          Text(\`姓名: \${this.userInfo.name}\`)
+            .margin(5)
+          Text(\`邮箱: \${this.userInfo.email}\`)
+            .margin(5)
+        }
+        .padding(10)
+      }
+      
+      Button('加载用户数据')
+        .onClick(() => {
+          this.loadUserData('123');
+        })
+        .margin(10)
+    }
+    .padding(20)
+  }
 }
 \`\`\`
 
-这种设计让并发编程的学习曲线变得更加平缓，同时也减少了并发编程中常见的错误。
+这种写法让错误处理和状态管理变得更加直观。
 
-## Channel：安全的通信机制
+## 网络请求：连接外部世界
 
-Channel是仓颉提供的另一个重要并发原语，它为不同的协程之间提供了安全的通信机制。通过Channel，协程可以安全地传递数据，而不需要担心数据竞争或同步问题。
+网络请求是移动应用的重要功能，ArkTS提供了http模块来处理各种网络操作：
 
-Channel的设计遵循了"不要通过共享内存来通信，而要通过通信来共享内存"的原则。这种设计让并发程序更加安全和可预测，减少了传统并发编程中常见的死锁和竞态条件问题。
+\`\`\`typescript
+import http from '@ohos.net.http';
 
-## 并发安全与数据保护
+class ApiService {
+  private baseUrl = 'https://api.example.com';
 
-在并发环境中，数据安全是一个关键问题。仓颉提供了多种机制来保护共享数据，包括互斥锁、原子操作等。这些机制让开发者能够在需要共享状态的场景中保证数据的一致性和完整性。
+  async get<T>(endpoint: string): Promise<T> {
+    const httpRequest = http.createHttp();
+    
+    try {
+      const response = await httpRequest.request(\`\${this.baseUrl}\${endpoint}\`, {
+        method: http.RequestMethod.GET,
+        header: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        }
+      });
 
-仓颉的类型系统也为并发安全提供了额外的保障。通过编译时检查，许多并发相关的错误可以在开发阶段就被发现和修复，而不是等到运行时才暴露。
+      if (response.responseCode === 200) {
+        return JSON.parse(response.result as string);
+      } else {
+        throw new Error(\`请求失败: \${response.responseCode}\`);
+      }
+    } finally {
+      httpRequest.destroy();
+    }
+  }
 
-## 性能优化与最佳实践
+  async post<T>(endpoint: string, data: any): Promise<T> {
+    const httpRequest = http.createHttp();
+    
+    try {
+      const response = await httpRequest.request(\`\${this.baseUrl}\${endpoint}\`, {
+        method: http.RequestMethod.POST,
+        header: {
+          'Content-Type': 'application/json'
+        },
+        extraData: JSON.stringify(data)
+      });
 
-仓颉的并发模型不仅注重安全性，也非常关注性能。协程的轻量级特性让程序可以创建大量的并发任务而不会消耗过多的系统资源。同时，智能的调度器能够高效地管理这些协程的执行。
+      if (response.responseCode === 200 || response.responseCode === 201) {
+        return JSON.parse(response.result as string);
+      } else {
+        throw new Error(\`请求失败: \${response.responseCode}\`);
+      }
+    } finally {
+      httpRequest.destroy();
+    }
+  }
+}
+\`\`\`
 
-在实际开发中，合理设计并发架构是获得最佳性能的关键。这包括选择合适的并发模式、避免不必要的同步操作、合理使用Channel进行通信等。
+这个ApiService类封装了常用的HTTP操作，提供了类型安全的接口。
 
-## 实际应用场景
+## 并发请求处理
 
-仓颉的并发特性在许多实际场景中都能发挥重要作用，比如Web服务器的请求处理、数据处理管道、实时系统等。通过合理运用这些并发特性，开发者可以构建出既高效又可靠的并发应用程序。
+在实际应用中，经常需要同时发起多个请求。Promise.all和Promise.allSettled提供了并发处理的能力：
 
-总的来说，仓颉语言的并发编程模型为开发者提供了强大而安全的工具，让并发编程变得更加简单和可靠。`,
-        author: '并发编程专家',
+\`\`\`typescript
+@Component
+struct ConcurrentRequestExample {
+  @State data: any = null;
+  @State loading: boolean = false;
+
+  async loadAllData() {
+    this.loading = true;
+    const apiService = new ApiService();
+
+    try {
+      // 并发执行多个请求
+      const [users, posts, comments] = await Promise.all([
+        apiService.get('/users'),
+        apiService.get('/posts'),
+        apiService.get('/comments')
+      ]);
+
+      this.data = { users, posts, comments };
+    } catch (error) {
+      console.error('加载数据失败:', error);
+    } finally {
+      this.loading = false;
+    }
+  }
+
+  build() {
+    Column() {
+      Button('加载所有数据')
+        .onClick(() => {
+          this.loadAllData();
+        })
+        .margin(10)
+
+      if (this.loading) {
+        Text('加载中...')
+          .margin(10)
+      } else if (this.data) {
+        Text(\`用户数: \${this.data.users.length}\`)
+          .margin(5)
+        Text(\`文章数: \${this.data.posts.length}\`)
+          .margin(5)
+        Text(\`评论数: \${this.data.comments.length}\`)
+          .margin(5)
+      }
+    }
+    .padding(20)
+  }
+}
+\`\`\`
+
+## 错误处理与重试机制
+
+健壮的异步代码需要完善的错误处理和重试机制：
+
+\`\`\`typescript
+class RobustApiService extends ApiService {
+  async requestWithRetry<T>(
+    endpoint: string, 
+    options: any, 
+    maxRetries: number = 3
+  ): Promise<T> {
+    let lastError: Error;
+
+    for (let i = 0; i <= maxRetries; i++) {
+      try {
+        return await this.get<T>(endpoint);
+      } catch (error) {
+        lastError = error;
+        
+        if (i < maxRetries) {
+          // 指数退避策略
+          const delay = Math.pow(2, i) * 1000;
+          await new Promise(resolve => setTimeout(resolve, delay));
+        }
+      }
+    }
+
+    throw lastError;
+  }
+}
+\`\`\`
+
+## 最佳实践与性能优化
+
+在ArkTS异步编程中，遵循以下最佳实践能够提高应用性能和用户体验：
+
+1. **合理使用loading状态**：为用户提供明确的加载反馈
+2. **实现错误边界**：优雅地处理网络错误和异常情况
+3. **请求去重**：避免重复的网络请求
+4. **缓存策略**：合理缓存数据减少不必要的网络请求
+5. **超时处理**：设置合理的请求超时时间
+
+ArkTS的异步编程模型为开发者提供了强大而灵活的工具，通过合理运用这些特性，可以构建出响应迅速、用户体验优秀的鸿蒙应用程序。`,
+        author: 'ArkTS异步编程专家',
         publishDate: '2024-02-05',
         readCount: 892,
         likeCount: 78,
-        category: '并发编程',
-        tags: ['协程', 'Channel', '并发安全'],
-        coverImage: 'https://example.com/concurrent-cangjie.jpg',
+        category: '异步编程',
+        tags: ['Promise', 'async/await', '网络请求'],
+        coverImage: 'https://example.com/arkts-async.jpg',
         hasCode: true,
         difficulty: 'advanced',
         estimatedReadTime: 18
       },
       {
         id: 6,
-        title: '仓颉语言性能优化技巧',
-        summary: '掌握仓颉语言的性能优化技巧，让你的程序运行得更快更高效。',
-        content: `# 仓颉语言性能优化技巧
+        title: 'ArkTS性能优化与鸿蒙应用调优实战',
+        summary: '掌握ArkTS和鸿蒙应用的性能优化技巧，让你的应用运行得更快更流畅。',
+        content: `# ArkTS性能优化与鸿蒙应用调优实战
 
-## 内存优化
+## 组件渲染优化
 
-### 避免不必要的对象创建
+### 避免不必要的重新渲染
 
-\`\`\`cangjie
-// 不好的做法
-func processStrings(strings: Array<String>): String {
-    var result = ""
-    for (str in strings) {
-        result = result + str + " " // 每次都创建新字符串
+\`\`\`typescript
+@Component
+struct OptimizedList {
+  @State items: Array<ItemData> = [];
+
+  // 使用LazyForEach进行列表优化
+  build() {
+    List() {
+      LazyForEach(this.dataSource, (item: ItemData, index: number) => {
+        ListItem() {
+          // 使用@Reusable装饰器复用组件
+          OptimizedListItem({ data: item })
+        }
+        .reuseId(item.type) // 设置复用ID
+      }, (item: ItemData) => item.id.toString())
     }
-    return result
+    .cachedCount(5) // 设置缓存数量
+    .onScrollIndex((start, end) => {
+      // 按需加载数据
+      this.loadDataIfNeeded(start, end);
+    })
+  }
 }
 
-// 好的做法
-func processStrings(strings: Array<String>): String {
-    let builder = StringBuilder()
-    for (str in strings) {
-        builder.append(str).append(" ")
+@Reusable
+@Component
+struct OptimizedListItem {
+  @Prop data: ItemData;
+
+  aboutToReuse(params: Record<string, Object>) {
+    // 组件复用时的回调
+    this.data = params.data as ItemData;
+  }
+
+  build() {
+    Row() {
+      Text(this.data.title)
+        .fontSize(16)
+        .maxLines(1)
+        .textOverflow({ overflow: TextOverflow.Ellipsis })
     }
-    return builder.toString()
+    .padding(10)
+  }
 }
 \`\`\`
 
-## 算法优化
+## 状态管理优化
 
-### 使用合适的数据结构
+### 合理使用状态装饰器
 
-\`\`\`cangjie
-// 频繁查找时使用Map而不是Array
-let userMap = Map<String, User>()
-for (user in users) {
-    userMap.put(user.getId(), user)
+\`\`\`typescript
+// 避免过度使用@State，优先使用@Prop和@Link
+@Component
+struct PerformantComponent {
+  @Prop title: string; // 单向传递，性能更好
+  @Link @Watch('onCountChange') count: number; // 双向绑定，按需使用
+  @State private localState: boolean = false; // 仅组件内部状态使用@State
+
+  onCountChange() {
+    // 只在count变化时执行，避免不必要的计算
+    console.log('Count changed:', this.count);
+  }
+
+  build() {
+    Column() {
+      Text(this.title)
+        .fontSize(18)
+      
+      // 使用条件渲染减少DOM节点
+      if (this.count > 0) {
+        Text(\`计数: \${this.count}\`)
+          .fontSize(14)
+      }
+      
+      Button('切换状态')
+        .onClick(() => {
+          this.localState = !this.localState;
+        })
+    }
+  }
 }
-
-// O(1)查找而不是O(n)
-let user = userMap.get(userId)
 \`\`\`
 
-## 编译器优化
+## 内存管理优化
 
-### 内联函数
+### 及时释放资源
 
-\`\`\`cangjie
-inline func square(x: Int): Int {
-    return x * x
-}
+\`\`\`typescript
+@Component
+struct ResourceManagement {
+  private timer: number = -1;
+  private subscription: any = null;
 
-// 编译器会将函数调用替换为实际代码
-let result = square(5) // 编译后变成: let result = 5 * 5
-\`\`\`
-
-### 延迟初始化
-
-\`\`\`cangjie
-class ExpensiveResource {
-    private lazy var data: Array<String> = {
-        // 只有在第一次访问时才会执行
-        return loadExpensiveData()
-    }()
+  aboutToAppear() {
+    // 组件出现时初始化资源
+    this.timer = setInterval(() => {
+      this.updateData();
+    }, 1000);
     
-    public func getData(): Array<String> {
-        return this.data
+    this.subscription = this.subscribeToData();
+  }
+
+  aboutToDisappear() {
+    // 组件销毁时清理资源
+    if (this.timer !== -1) {
+      clearInterval(this.timer);
+      this.timer = -1;
     }
+    
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+      this.subscription = null;
+    }
+  }
+
+  updateData() {
+    // 更新数据逻辑
+  }
+
+  subscribeToData() {
+    // 订阅数据逻辑
+    return {
+      unsubscribe: () => {
+        // 取消订阅逻辑
+      }
+    };
+  }
+
+  build() {
+    Column() {
+      Text('资源管理示例')
+    }
+  }
 }
-\`\`\``,
-        author: '性能优化专家',
+\`\`\`
+
+## 图片和媒体优化
+
+### 图片懒加载和缓存
+
+\`\`\`typescript
+@Component
+struct OptimizedImage {
+  @Prop imageUrl: string;
+  @State isLoaded: boolean = false;
+
+  build() {
+    Stack() {
+      if (this.isLoaded) {
+        Image(this.imageUrl)
+          .width('100%')
+          .height(200)
+          .objectFit(ImageFit.Cover)
+          .onComplete(() => {
+            this.isLoaded = true;
+          })
+          .onError(() => {
+            console.error('图片加载失败:', this.imageUrl);
+          })
+      } else {
+        // 占位符
+        Column() {
+          Text('加载中...')
+            .fontSize(14)
+            .fontColor(Color.Gray)
+        }
+        .width('100%')
+        .height(200)
+        .backgroundColor('#F5F5F5')
+        .justifyContent(FlexAlign.Center)
+      }
+    }
+  }
+}
+\`\`\`
+
+## 网络请求优化
+
+### 请求缓存和防抖
+
+\`\`\`typescript
+class OptimizedApiService {
+  private cache = new Map<string, any>();
+  private pendingRequests = new Map<string, Promise<any>>();
+
+  async getData(url: string, useCache: boolean = true): Promise<any> {
+    // 缓存检查
+    if (useCache && this.cache.has(url)) {
+      return this.cache.get(url);
+    }
+
+    // 防止重复请求
+    if (this.pendingRequests.has(url)) {
+      return this.pendingRequests.get(url);
+    }
+
+    const request = this.fetchData(url);
+    this.pendingRequests.set(url, request);
+
+    try {
+      const data = await request;
+      if (useCache) {
+        this.cache.set(url, data);
+      }
+      return data;
+    } finally {
+      this.pendingRequests.delete(url);
+    }
+  }
+
+  private async fetchData(url: string): Promise<any> {
+    // 实际的网络请求逻辑
+    const response = await fetch(url);
+    return response.json();
+  }
+
+  // 防抖搜索
+  debounceSearch(query: string, delay: number = 300): Promise<any> {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(this.getData(\`/search?q=\${query}\`));
+      }, delay);
+    });
+  }
+}
+\`\`\`
+
+## 布局性能优化
+
+### 使用高效的布局组件
+
+\`\`\`typescript
+@Component
+struct EfficientLayout {
+  @State items: Array<string> = [];
+
+  build() {
+    // 使用Flex而不是嵌套的Row/Column
+    Flex({
+      direction: FlexDirection.Row,
+      wrap: FlexWrap.Wrap,
+      justifyContent: FlexAlign.SpaceBetween
+    }) {
+      ForEach(this.items, (item: string, index: number) => {
+        Text(item)
+          .width('48%') // 使用百分比而不是固定像素
+          .height(50)
+          .textAlign(TextAlign.Center)
+          .backgroundColor(Color.Blue)
+          .margin({ bottom: 10 })
+      }, (item: string, index: number) => \`\${index}-\${item}\`)
+    }
+    .padding(10)
+  }
+}
+\`\`\`
+
+## 性能监控与调试
+
+### 使用性能分析工具
+
+\`\`\`typescript
+@Component
+struct PerformanceMonitor {
+  @State renderTime: number = 0;
+
+  aboutToAppear() {
+    const startTime = performance.now();
+    
+    // 模拟组件初始化
+    this.initializeComponent().then(() => {
+      this.renderTime = performance.now() - startTime;
+      console.log(\`组件渲染时间: \${this.renderTime}ms\`);
+    });
+  }
+
+  async initializeComponent() {
+    // 组件初始化逻辑
+    await new Promise(resolve => setTimeout(resolve, 100));
+  }
+
+  build() {
+    Column() {
+      Text(\`渲染时间: \${this.renderTime.toFixed(2)}ms\`)
+        .fontSize(16)
+        .margin(10)
+    }
+  }
+}
+\`\`\`
+
+## 最佳实践总结
+
+在ArkTS和鸿蒙应用开发中，性能优化需要关注以下几个方面：
+
+1. **组件优化**：合理使用LazyForEach、@Reusable装饰器
+2. **状态管理**：避免过度使用@State，优先使用@Prop和@Link
+3. **内存管理**：及时清理定时器、订阅等资源
+4. **网络优化**：实现请求缓存、防抖和去重
+5. **布局优化**：使用高效的布局组件，避免过度嵌套
+6. **图片优化**：实现懒加载和适当的缓存策略
+
+通过这些优化技巧，可以显著提升鸿蒙应用的性能和用户体验。`,
+        author: 'ArkTS性能优化专家',
         publishDate: '2024-02-10',
         readCount: 1045,
         likeCount: 92,
         category: '性能优化',
-        tags: ['内存优化', '算法优化', '编译器优化'],
+        tags: ['组件优化', '状态管理', '内存管理', '网络优化'],
         hasCode: true,
         difficulty: 'advanced',
         estimatedReadTime: 14
       },
       {
         id: 7,
-        title: '用仓颉语言构建Web API服务',
-        summary: '从零开始使用仓颉语言构建一个完整的Web API服务，包括路由、中间件和数据库操作。',
-        content: `# 用仓颉语言构建Web API服务
+        title: 'ArkTS鸿蒙应用开发实战：构建完整的用户管理应用',
+        summary: '从零开始使用ArkTS构建一个完整的鸿蒙用户管理应用，包括页面导航、数据管理和网络请求。',
+        content: `# ArkTS鸿蒙应用开发实战：构建完整的用户管理应用
 
 ## 项目结构
 
 \`\`\`
-web-api/
-├── src/
-│   ├── main.cj
-│   ├── routes/
-│   │   ├── user.cj
-│   │   └── auth.cj
+user-management-app/
+├── entry/src/main/ets/
+│   ├── entryability/
+│   │   └── EntryAbility.ets
+│   ├── pages/
+│   │   ├── Index.ets
+│   │   ├── UserListPage.ets
+│   │   ├── UserDetailPage.ets
+│   │   └── AddUserPage.ets
 │   ├── models/
-│   │   └── user.cj
-│   └── middleware/
-│       └── auth.cj
-└── package.cj
+│   │   └── User.ets
+│   ├── services/
+│   │   └── UserService.ets
+│   └── common/
+│       ├── constants/
+│       └── utils/
+└── entry/src/main/resources/
 \`\`\`
 
-## 基础服务器
+## 用户数据模型
 
-\`\`\`cangjie
-import http.Server
-import json.Json
+\`\`\`typescript
+// models/User.ets
+export class User {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  avatar: string;
+  createdAt: Date;
 
-func main() {
-    let server = Server()
-    
-    server.get("/", { req, res =>
-        res.json(Json.object([
-            ("message", Json.string("欢迎使用仓颉API"))
-        ]))
-    })
-    
-    server.listen(8080)
-    println("服务器运行在 http://localhost:8080")
+  constructor(id: string, name: string, email: string, phone: string = '', avatar: string = '') {
+    this.id = id;
+    this.name = name;
+    this.email = email;
+    this.phone = phone;
+    this.avatar = avatar;
+    this.createdAt = new Date();
+  }
+
+  static fromJson(json: any): User {
+    return new User(
+      json.id,
+      json.name,
+      json.email,
+      json.phone || '',
+      json.avatar || ''
+    );
+  }
+
+  toJson(): Record<string, any> {
+    return {
+      id: this.id,
+      name: this.name,
+      email: this.email,
+      phone: this.phone,
+      avatar: this.avatar,
+      createdAt: this.createdAt.toISOString()
+    };
+  }
 }
 \`\`\`
 
-## 用户模型
+## 用户服务类
 
-\`\`\`cangjie
-class User {
-    public let id: String
-    public let name: String
-    public let email: String
-    public let createdAt: DateTime
-    
-    public init(id: String, name: String, email: String) {
-        this.id = id
-        this.name = name
-        this.email = email
-        this.createdAt = DateTime.now()
+\`\`\`typescript
+// services/UserService.ets
+import { User } from '../models/User';
+import http from '@ohos.net.http';
+
+export class UserService {
+  private static instance: UserService;
+  private baseUrl: string = 'https://api.example.com';
+
+  static getInstance(): UserService {
+    if (!UserService.instance) {
+      UserService.instance = new UserService();
     }
-    
-    public func toJson(): Json {
-        return Json.object([
-            ("id", Json.string(this.id)),
-            ("name", Json.string(this.name)),
-            ("email", Json.string(this.email)),
-            ("createdAt", Json.string(this.createdAt.toString()))
-        ])
-    }
-}
-\`\`\`
+    return UserService.instance;
+  }
 
-## 路由处理
-
-\`\`\`cangjie
-func setupUserRoutes(server: Server) {
-    // 获取所有用户
-    server.get("/users", { req, res =>
-        let users = UserService.getAllUsers()
-        let jsonUsers = users.map({ user => user.toJson() })
-        res.json(Json.array(jsonUsers))
-    })
-    
-    // 创建用户
-    server.post("/users", { req, res =>
-        let body = req.getJsonBody()
-        let name = body.getString("name")
-        let email = body.getString("email")
-        
-        let user = UserService.createUser(name, email)
-        res.status(201).json(user.toJson())
-    })
-    
-    // 获取单个用户
-    server.get("/users/:id", { req, res =>
-        let userId = req.getParam("id")
-        match UserService.getUserById(userId) {
-            case Some(user) => res.json(user.toJson())
-            case None => res.status(404).json(Json.object([
-                ("error", Json.string("用户不存在"))
-            ]))
+  async getAllUsers(): Promise<User[]> {
+    try {
+      const httpRequest = http.createHttp();
+      const response = await httpRequest.request(\`\${this.baseUrl}/users\`, {
+        method: http.RequestMethod.GET,
+        header: {
+          'Content-Type': 'application/json'
         }
-    })
+      });
+
+      if (response.responseCode === 200) {
+        const data = JSON.parse(response.result as string);
+        return data.map((item: any) => User.fromJson(item));
+      }
+      throw new Error('获取用户列表失败');
+    } catch (error) {
+      console.error('获取用户列表错误:', error);
+      // 返回模拟数据
+      return this.getMockUsers();
+    }
+  }
+
+  async createUser(user: User): Promise<User> {
+    try {
+      const httpRequest = http.createHttp();
+      const response = await httpRequest.request(\`\${this.baseUrl}/users\`, {
+        method: http.RequestMethod.POST,
+        header: {
+          'Content-Type': 'application/json'
+        },
+        extraData: JSON.stringify(user.toJson())
+      });
+
+      if (response.responseCode === 201) {
+        const data = JSON.parse(response.result as string);
+        return User.fromJson(data);
+      }
+      throw new Error('创建用户失败');
+    } catch (error) {
+      console.error('创建用户错误:', error);
+      // 返回模拟创建的用户
+      return user;
+    }
+  }
+
+  async getUserById(id: string): Promise<User | null> {
+    try {
+      const httpRequest = http.createHttp();
+      const response = await httpRequest.request(\`\${this.baseUrl}/users/\${id}\`, {
+        method: http.RequestMethod.GET,
+        header: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (response.responseCode === 200) {
+        const data = JSON.parse(response.result as string);
+        return User.fromJson(data);
+      }
+      return null;
+    } catch (error) {
+      console.error('获取用户详情错误:', error);
+      return null;
+    }
+  }
+
+  private getMockUsers(): User[] {
+    return [
+      new User('1', '张三', 'zhangsan@example.com', '13800138001'),
+      new User('2', '李四', 'lisi@example.com', '13800138002'),
+      new User('3', '王五', 'wangwu@example.com', '13800138003')
+    ];
+  }
 }
-\`\`\``,
-        author: 'Web开发工程师',
+\`\`\`
+
+## 用户列表页面
+
+\`\`\`typescript
+// pages/UserListPage.ets
+import { User } from '../models/User';
+import { UserService } from '../services/UserService';
+import router from '@ohos.router';
+
+@Entry
+@Component
+struct UserListPage {
+  @State users: User[] = [];
+  @State isLoading: boolean = false;
+  private userService: UserService = UserService.getInstance();
+
+  aboutToAppear() {
+    this.loadUsers();
+  }
+
+  async loadUsers() {
+    this.isLoading = true;
+    try {
+      this.users = await this.userService.getAllUsers();
+    } catch (error) {
+      console.error('加载用户列表失败:', error);
+    } finally {
+      this.isLoading = false;
+    }
+  }
+
+  navigateToAddUser() {
+    router.pushUrl({
+      url: 'pages/AddUserPage'
+    });
+  }
+
+  navigateToUserDetail(user: User) {
+    router.pushUrl({
+      url: 'pages/UserDetailPage',
+      params: { user: user }
+    });
+  }
+
+  build() {
+    Column() {
+      // 标题栏
+      Row() {
+        Text('用户管理')
+          .fontSize(20)
+          .fontWeight(FontWeight.Bold)
+          .layoutWeight(1)
+
+        Button('添加用户')
+          .fontSize(14)
+          .backgroundColor('#007DFF')
+          .onClick(() => {
+            this.navigateToAddUser();
+          })
+      }
+      .width('100%')
+      .padding(16)
+      .justifyContent(FlexAlign.SpaceBetween)
+
+      if (this.isLoading) {
+        // 加载状态
+        Column() {
+          LoadingProgress()
+            .width(50)
+            .height(50)
+          Text('加载中...')
+            .fontSize(14)
+            .fontColor('#999999')
+            .margin({ top: 10 })
+        }
+        .width('100%')
+        .height('100%')
+        .justifyContent(FlexAlign.Center)
+      } else {
+        // 用户列表
+        List({ space: 10 }) {
+          ForEach(this.users, (user: User) => {
+            ListItem() {
+              UserListItem({ 
+                user: user,
+                onItemClick: () => {
+                  this.navigateToUserDetail(user);
+                }
+              })
+            }
+          }, (user: User) => user.id)
+        }
+        .width('100%')
+        .layoutWeight(1)
+        .padding({ left: 16, right: 16, bottom: 16 })
+      }
+    }
+    .width('100%')
+    .height('100%')
+    .backgroundColor('#F5F5F5')
+  }
+}
+
+@Component
+struct UserListItem {
+  @Prop user: User;
+  onItemClick: () => void = () => {};
+
+  build() {
+    Row() {
+      // 头像
+      Image(this.user.avatar || $r('app.media.default_avatar'))
+        .width(50)
+        .height(50)
+        .borderRadius(25)
+        .margin({ right: 12 })
+
+      // 用户信息
+      Column() {
+        Text(this.user.name)
+          .fontSize(16)
+          .fontWeight(FontWeight.Medium)
+          .margin({ bottom: 4 })
+
+        Text(this.user.email)
+          .fontSize(14)
+          .fontColor('#666666')
+      }
+      .alignItems(HorizontalAlign.Start)
+      .layoutWeight(1)
+
+      // 箭头图标
+      Image($r('sys.media.ohos_ic_public_arrow_right'))
+        .width(20)
+        .height(20)
+        .fillColor('#CCCCCC')
+    }
+    .width('100%')
+    .padding(16)
+    .backgroundColor(Color.White)
+    .borderRadius(8)
+    .onClick(() => {
+      this.onItemClick();
+    })
+  }
+}
+\`\`\`
+
+## 添加用户页面
+
+\`\`\`typescript
+// pages/AddUserPage.ets
+import { User } from '../models/User';
+import { UserService } from '../services/UserService';
+import router from '@ohos.router';
+
+@Entry
+@Component
+struct AddUserPage {
+  @State name: string = '';
+  @State email: string = '';
+  @State phone: string = '';
+  @State isSubmitting: boolean = false;
+  private userService: UserService = UserService.getInstance();
+
+  async submitUser() {
+    if (!this.validateForm()) {
+      return;
+    }
+
+    this.isSubmitting = true;
+    try {
+      const newUser = new User(
+        Date.now().toString(),
+        this.name,
+        this.email,
+        this.phone
+      );
+
+      await this.userService.createUser(newUser);
+      
+      // 返回上一页
+      router.back();
+    } catch (error) {
+      console.error('创建用户失败:', error);
+    } finally {
+      this.isSubmitting = false;
+    }
+  }
+
+  validateForm(): boolean {
+    if (!this.name.trim()) {
+      console.log('请输入用户名');
+      return false;
+    }
+    if (!this.email.trim()) {
+      console.log('请输入邮箱');
+      return false;
+    }
+    return true;
+  }
+
+  build() {
+    Column() {
+      // 标题栏
+      Row() {
+        Button('取消')
+          .fontSize(16)
+          .backgroundColor(Color.Transparent)
+          .fontColor('#007DFF')
+          .onClick(() => {
+            router.back();
+          })
+
+        Text('添加用户')
+          .fontSize(18)
+          .fontWeight(FontWeight.Bold)
+          .layoutWeight(1)
+          .textAlign(TextAlign.Center)
+
+        Button('保存')
+          .fontSize(16)
+          .backgroundColor(Color.Transparent)
+          .fontColor(this.isSubmitting ? '#CCCCCC' : '#007DFF')
+          .enabled(!this.isSubmitting)
+          .onClick(() => {
+            this.submitUser();
+          })
+      }
+      .width('100%')
+      .padding(16)
+      .justifyContent(FlexAlign.SpaceBetween)
+
+      // 表单内容
+      Column({ space: 20 }) {
+        // 用户名输入
+        Column() {
+          Text('用户名 *')
+            .fontSize(16)
+            .fontWeight(FontWeight.Medium)
+            .alignSelf(ItemAlign.Start)
+            .margin({ bottom: 8 })
+
+          TextInput({ placeholder: '请输入用户名' })
+            .width('100%')
+            .height(48)
+            .backgroundColor(Color.White)
+            .borderRadius(8)
+            .onChange((value: string) => {
+              this.name = value;
+            })
+        }
+
+        // 邮箱输入
+        Column() {
+          Text('邮箱 *')
+            .fontSize(16)
+            .fontWeight(FontWeight.Medium)
+            .alignSelf(ItemAlign.Start)
+            .margin({ bottom: 8 })
+
+          TextInput({ placeholder: '请输入邮箱地址' })
+            .width('100%')
+            .height(48)
+            .backgroundColor(Color.White)
+            .borderRadius(8)
+            .type(InputType.Email)
+            .onChange((value: string) => {
+              this.email = value;
+            })
+        }
+
+        // 手机号输入
+        Column() {
+          Text('手机号')
+            .fontSize(16)
+            .fontWeight(FontWeight.Medium)
+            .alignSelf(ItemAlign.Start)
+            .margin({ bottom: 8 })
+
+          TextInput({ placeholder: '请输入手机号' })
+            .width('100%')
+            .height(48)
+            .backgroundColor(Color.White)
+            .borderRadius(8)
+            .type(InputType.PhoneNumber)
+            .onChange((value: string) => {
+              this.phone = value;
+            })
+        }
+      }
+      .width('100%')
+      .padding(16)
+      .alignItems(HorizontalAlign.Start)
+    }
+    .width('100%')
+    .height('100%')
+    .backgroundColor('#F5F5F5')
+  }
+}
+\`\`\`
+
+## 项目特点
+
+这个用户管理应用展示了ArkTS鸿蒙开发的核心特性：
+
+1. **组件化架构**：使用@Component装饰器创建可复用组件
+2. **状态管理**：通过@State、@Prop等装饰器管理组件状态
+3. **页面导航**：使用router进行页面间跳转和参数传递
+4. **网络请求**：集成HTTP模块进行数据交互
+5. **响应式布局**：使用Flex布局适配不同屏幕尺寸
+6. **生命周期管理**：合理使用aboutToAppear等生命周期方法
+
+通过这个实战项目，你可以掌握ArkTS鸿蒙应用开发的完整流程和最佳实践。`,
+        author: '鸿蒙应用开发专家',
         publishDate: '2024-02-15',
         readCount: 1340,
         likeCount: 156,
         category: '实战项目',
-        tags: ['Web API', 'HTTP服务器', 'RESTful'],
-        coverImage: 'https://example.com/web-api-cangjie.jpg',
+        tags: ['鸿蒙应用', '用户管理', '网络请求', '页面导航'],
+        coverImage: 'https://example.com/harmonyos-app.jpg',
         hasCode: true,
         difficulty: 'intermediate',
         estimatedReadTime: 25
       },
       {
         id: 8,
-        title: '仓颉语言最佳实践与代码规范',
-        summary: '总结仓颉语言开发中的最佳实践和代码规范，帮助你写出更优雅的代码。',
-        content: `# 仓颉语言最佳实践与代码规范
+        title: 'ArkTS最佳实践与鸿蒙开发规范指南',
+        summary: '总结ArkTS和鸿蒙应用开发中的最佳实践和代码规范，帮助你写出更优雅、更高效的代码。',
+        content: `# ArkTS最佳实践与鸿蒙开发规范指南
 
 ## 命名规范
 
+### 组件和类命名
+
+\`\`\`typescript
+// 组件名使用大驼峰命名法
+@Component
+struct UserListComponent {
+  build() {
+    // 组件实现
+  }
+}
+
+// 类名使用大驼峰命名法
+export class UserManager {
+  private users: User[] = [];
+  
+  addUser(user: User): void {
+    this.users.push(user);
+  }
+}
+
+// 接口名使用大驼峰命名法
+export interface Serializable {
+  serialize(): string;
+}
+\`\`\`
+
 ### 变量和函数命名
 
-\`\`\`cangjie
-// 使用驼峰命名法
-let userName: String = "张三"
-let maxRetryCount: Int = 3
+\`\`\`typescript
+// 变量使用小驼峰命名法
+@State userName: string = '张三';
+@State maxRetryCount: number = 3;
+@Prop isVisible: boolean = false;
 
-func calculateTotalPrice(items: Array<Item>): Float {
-    // 函数实现
+// 函数使用小驼峰命名法
+calculateTotalPrice(items: Item[]): number {
+  return items.reduce((total, item) => total + item.price, 0);
 }
+
+// 常量使用大写字母和下划线
+const MAX_RETRY_COUNT: number = 3;
+const API_BASE_URL: string = 'https://api.example.com';
 \`\`\`
 
-### 类和接口命名
+## 组件设计最佳实践
 
-\`\`\`cangjie
-// 类名使用大驼峰
-class UserManager {
-    // 类实现
+### 组件职责单一
+
+\`\`\`typescript
+// 好的做法：职责单一的组件
+@Component
+struct UserAvatar {
+  @Prop avatarUrl: string;
+  @Prop size: number = 50;
+
+  build() {
+    Image(this.avatarUrl || $r('app.media.default_avatar'))
+      .width(this.size)
+      .height(this.size)
+      .borderRadius(this.size / 2)
+      .objectFit(ImageFit.Cover)
+  }
 }
 
-// 接口名使用大驼峰
-interface Serializable {
-    func serialize(): String
-}
-\`\`\`
+// 好的做法：可复用的列表项组件
+@Component
+struct UserListItem {
+  @Prop user: User;
+  @Prop onItemClick: (user: User) => void = () => {};
 
-## 错误处理
+  build() {
+    Row() {
+      UserAvatar({ avatarUrl: this.user.avatar, size: 50 })
+        .margin({ right: 12 })
 
-### 使用Result类型
-
-\`\`\`cangjie
-func parseNumber(str: String): Result<Int, ParseError> {
-    try {
-        let number = Int.parse(str)
-        return Ok(number)
-    } catch (e: ParseError) {
-        return Err(e)
-    }
-}
-
-// 使用
-match parseNumber("123") {
-    case Ok(number) => println("解析成功: \${number}")
-    case Err(error) => println("解析失败: \${error.message}")
-}
-\`\`\`
-
-## 代码组织
-
-### 模块化设计
-
-\`\`\`cangjie
-// user/model.cj
-package user.model
-
-public class User {
-    // 用户模型
-}
-
-// user/service.cj
-package user.service
-
-import user.model.User
-
-public class UserService {
-    public static func createUser(name: String): User {
-        return User(name)
-    }
-}
-\`\`\`
-
-## 性能考虑
-
-### 合理使用缓存
-
-\`\`\`cangjie
-class DataCache<K, V> {
-    private let cache: Map<K, V> = Map()
-    private let maxSize: Int
-    
-    public init(maxSize: Int) {
-        this.maxSize = maxSize
-    }
-    
-    public func get(key: K, loader: () -> V): V {
-        if (let cached = this.cache.get(key)) {
-            return cached
-        }
+      Column() {
+        Text(this.user.name)
+          .fontSize(16)
+          .fontWeight(FontWeight.Medium)
         
-        let value = loader()
-        if (this.cache.size() >= this.maxSize) {
-            this.evictOldest()
-        }
-        this.cache.put(key, value)
-        return value
+        Text(this.user.email)
+          .fontSize(14)
+          .fontColor('#666666')
+      }
+      .alignItems(HorizontalAlign.Start)
+      .layoutWeight(1)
     }
+    .width('100%')
+    .padding(16)
+    .onClick(() => {
+      this.onItemClick(this.user);
+    })
+  }
 }
-\`\`\``,
-        author: '代码规范专家',
+\`\`\`
+
+### 状态管理最佳实践
+
+\`\`\`typescript
+// 合理使用状态装饰器
+@Component
+struct OptimizedComponent {
+  // 仅在组件内部使用的状态用@State
+  @State private isLoading: boolean = false;
+  @State private errorMessage: string = '';
+
+  // 从父组件传递的数据用@Prop
+  @Prop title: string;
+  @Prop data: any[];
+
+  // 需要双向绑定的数据用@Link
+  @Link selectedItem: any;
+
+  // 监听状态变化
+  @Watch('onDataChange') @Prop watchedData: any[];
+
+  onDataChange() {
+    // 数据变化时的处理逻辑
+    console.log('数据已更新');
+  }
+
+  build() {
+    Column() {
+      if (this.isLoading) {
+        LoadingProgress()
+          .width(50)
+          .height(50)
+      } else if (this.errorMessage) {
+        Text(this.errorMessage)
+          .fontColor(Color.Red)
+      } else {
+        // 正常内容
+        Text(this.title)
+          .fontSize(18)
+      }
+    }
+  }
+}
+\`\`\`
+
+## 错误处理规范
+
+### 统一错误处理
+
+\`\`\`typescript
+// 定义错误类型
+export enum ErrorType {
+  NETWORK_ERROR = 'NETWORK_ERROR',
+  VALIDATION_ERROR = 'VALIDATION_ERROR',
+  UNKNOWN_ERROR = 'UNKNOWN_ERROR'
+}
+
+export class AppError extends Error {
+  type: ErrorType;
+  code?: string;
+
+  constructor(message: string, type: ErrorType, code?: string) {
+    super(message);
+    this.type = type;
+    this.code = code;
+    this.name = 'AppError';
+  }
+}
+
+// 统一的错误处理函数
+export function handleError(error: Error): void {
+  if (error instanceof AppError) {
+    switch (error.type) {
+      case ErrorType.NETWORK_ERROR:
+        console.error('网络错误:', error.message);
+        break;
+      case ErrorType.VALIDATION_ERROR:
+        console.error('验证错误:', error.message);
+        break;
+      default:
+        console.error('未知错误:', error.message);
+    }
+  } else {
+    console.error('系统错误:', error.message);
+  }
+}
+
+// 在组件中使用
+@Component
+struct ErrorHandlingExample {
+  @State errorMessage: string = '';
+
+  async loadData() {
+    try {
+      const data = await this.fetchData();
+      // 处理数据
+    } catch (error) {
+      handleError(error as Error);
+      this.errorMessage = '数据加载失败，请重试';
+    }
+  }
+
+  private async fetchData(): Promise<any> {
+    // 网络请求逻辑
+    throw new AppError('网络连接失败', ErrorType.NETWORK_ERROR, 'NET_001');
+  }
+
+  build() {
+    Column() {
+      if (this.errorMessage) {
+        Text(this.errorMessage)
+          .fontColor(Color.Red)
+          .margin(10)
+      }
+      
+      Button('加载数据')
+        .onClick(() => {
+          this.loadData();
+        })
+    }
+  }
+}
+\`\`\`
+
+## 代码组织规范
+
+### 文件结构规范
+
+\`\`\`typescript
+// models/User.ets - 数据模型
+export class User {
+  id: string;
+  name: string;
+  email: string;
+
+  constructor(id: string, name: string, email: string) {
+    this.id = id;
+    this.name = name;
+    this.email = email;
+  }
+
+  validate(): boolean {
+    return this.name.length > 0 && this.email.includes('@');
+  }
+}
+
+// services/UserService.ets - 业务逻辑
+import { User } from '../models/User';
+
+export class UserService {
+  private static instance: UserService;
+
+  static getInstance(): UserService {
+    if (!UserService.instance) {
+      UserService.instance = new UserService();
+    }
+    return UserService.instance;
+  }
+
+  async getUsers(): Promise<User[]> {
+    // 业务逻辑实现
+    return [];
+  }
+}
+
+// utils/ValidationUtils.ets - 工具函数
+export class ValidationUtils {
+  static isValidEmail(email: string): boolean {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  }
+
+  static isValidPhone(phone: string): boolean {
+    const phoneRegex = /^1[3-9]\d{9}$/;
+    return phoneRegex.test(phone);
+  }
+}
+\`\`\`
+
+## 性能优化规范
+
+### 组件复用和缓存
+
+\`\`\`typescript
+// 使用@Reusable装饰器优化列表性能
+@Reusable
+@Component
+struct ReusableListItem {
+  @Prop data: any;
+
+  aboutToReuse(params: Record<string, Object>) {
+    this.data = params.data;
+  }
+
+  build() {
+    Row() {
+      Text(this.data.title)
+        .fontSize(16)
+    }
+    .padding(10)
+  }
+}
+
+// 缓存管理类
+export class CacheManager {
+  private static cache = new Map<string, any>();
+  private static readonly MAX_CACHE_SIZE = 100;
+
+  static set(key: string, value: any): void {
+    if (this.cache.size >= this.MAX_CACHE_SIZE) {
+      const firstKey = this.cache.keys().next().value;
+      this.cache.delete(firstKey);
+    }
+    this.cache.set(key, value);
+  }
+
+  static get(key: string): any {
+    return this.cache.get(key);
+  }
+
+  static has(key: string): boolean {
+    return this.cache.has(key);
+  }
+
+  static clear(): void {
+    this.cache.clear();
+  }
+}
+\`\`\`
+
+## 代码质量保证
+
+### TypeScript类型安全
+
+\`\`\`typescript
+// 定义严格的类型
+interface ApiResponse<T> {
+  code: number;
+  message: string;
+  data: T;
+}
+
+interface UserListResponse {
+  users: User[];
+  total: number;
+  page: number;
+}
+
+// 使用泛型提高代码复用性
+class ApiClient {
+  async request<T>(url: string, options?: RequestInit): Promise<ApiResponse<T>> {
+    try {
+      const response = await fetch(url, options);
+      const data = await response.json();
+      return data as ApiResponse<T>;
+    } catch (error) {
+      throw new AppError('网络请求失败', ErrorType.NETWORK_ERROR);
+    }
+  }
+}
+
+// 在组件中使用类型安全的API
+@Component
+struct TypeSafeComponent {
+  @State users: User[] = [];
+  private apiClient = new ApiClient();
+
+  async loadUsers() {
+    try {
+      const response = await this.apiClient.request<UserListResponse>('/api/users');
+      if (response.code === 200) {
+        this.users = response.data.users;
+      }
+    } catch (error) {
+      handleError(error as Error);
+    }
+  }
+
+  build() {
+    List() {
+      ForEach(this.users, (user: User) => {
+        ListItem() {
+          UserListItem({ user: user })
+        }
+      }, (user: User) => user.id)
+    }
+  }
+}
+\`\`\`
+
+## 最佳实践总结
+
+在ArkTS和鸿蒙应用开发中，遵循以下最佳实践：
+
+1. **命名规范**：使用清晰、一致的命名约定
+2. **组件设计**：保持组件职责单一，提高可复用性
+3. **状态管理**：合理使用状态装饰器，避免不必要的重渲染
+4. **错误处理**：建立统一的错误处理机制
+5. **代码组织**：按功能模块组织代码，保持清晰的文件结构
+6. **性能优化**：使用组件复用、缓存等技术提升性能
+7. **类型安全**：充分利用TypeScript的类型系统
+
+通过遵循这些规范和最佳实践，可以开发出高质量、可维护的鸿蒙应用。`,
+        author: 'ArkTS代码规范专家',
         publishDate: '2024-02-20',
         readCount: 987,
         likeCount: 123,
         category: '最佳实践',
-        tags: ['代码规范', '最佳实践', '错误处理'],
+        tags: ['代码规范', '最佳实践', '错误处理', '性能优化'],
         hasCode: true,
         difficulty: 'intermediate',
         estimatedReadTime: 16
       },
       {
         id: 9,
-        title: '仓颉语言数据结构与算法实现',
-        summary: '使用仓颉语言实现常见的数据结构和算法，提升编程能力。',
-        content: `# 仓颉语言数据结构与算法实现
+        title: 'ArkTS数据结构与算法实现：鸿蒙应用开发进阶',
+        summary: '使用ArkTS实现常见的数据结构和算法，提升鸿蒙应用开发中的编程能力和性能优化技巧。',
+        content: `# ArkTS数据结构与算法实现：鸿蒙应用开发进阶
 
-## 链表实现
+## 链表实现与应用
 
-\`\`\`cangjie
-class ListNode<T> {
-    public var data: T
-    public var next: Option<ListNode<T>>
-    
-    public init(data: T) {
-        this.data = data
-        this.next = None
-    }
+### 基础链表结构
+
+\`\`\`typescript
+// 链表节点类
+export class ListNode<T> {
+  data: T;
+  next: ListNode<T> | null = null;
+  
+  constructor(data: T) {
+    this.data = data;
+  }
 }
 
-class LinkedList<T> {
-    private var head: Option<ListNode<T>> = None
-    private var size: Int = 0
+// 单向链表实现
+export class LinkedList<T> {
+  private head: ListNode<T> | null = null;
+  private size: number = 0;
+  
+  // 添加元素到链表末尾
+  append(data: T): void {
+    const newNode = new ListNode(data);
     
-    public func append(data: T) {
-        let newNode = ListNode(data)
-        match this.head {
-            case None => this.head = Some(newNode)
-            case Some(headNode) => {
-                var current = headNode
-                while (let nextNode = current.next) {
-                    current = nextNode
-                }
-                current.next = Some(newNode)
-            }
-        }
-        this.size += 1
+    if (!this.head) {
+      this.head = newNode;
+    } else {
+      let current = this.head;
+      while (current.next) {
+        current = current.next;
+      }
+      current.next = newNode;
+    }
+    this.size++;
+  }
+  
+  // 在指定位置插入元素
+  insert(index: number, data: T): boolean {
+    if (index < 0 || index > this.size) {
+      return false;
     }
     
-    public func get(index: Int): Option<T> {
-        if (index < 0 || index >= this.size) {
-            return None
-        }
-        
-        var current = this.head
-        for (i in 0..<index) {
-            match current {
-                case Some(node) => current = node.next
-                case None => return None
-            }
-        }
-        
-        match current {
-            case Some(node) => return Some(node.data)
-            case None => return None
-        }
+    if (index === 0) {
+      const newNode = new ListNode(data);
+      newNode.next = this.head;
+      this.head = newNode;
+    } else {
+      const newNode = new ListNode(data);
+      let current = this.head;
+      for (let i = 0; i < index - 1; i++) {
+        current = current!.next;
+      }
+      newNode.next = current!.next;
+      current!.next = newNode;
     }
+    this.size++;
+    return true;
+  }
+  
+  // 获取指定位置的元素
+  get(index: number): T | null {
+    if (index < 0 || index >= this.size) {
+      return null;
+    }
+    
+    let current = this.head;
+    for (let i = 0; i < index; i++) {
+      current = current!.next;
+    }
+    return current!.data;
+  }
+  
+  // 删除指定位置的元素
+  remove(index: number): T | null {
+    if (index < 0 || index >= this.size) {
+      return null;
+    }
+    
+    if (index === 0) {
+      const removedData = this.head!.data;
+      this.head = this.head!.next;
+      this.size--;
+      return removedData;
+    }
+    
+    let current = this.head;
+    for (let i = 0; i < index - 1; i++) {
+      current = current!.next;
+    }
+    
+    const removedData = current!.next!.data;
+    current!.next = current!.next!.next;
+    this.size--;
+    return removedData;
+  }
+  
+  // 转换为数组
+  toArray(): T[] {
+    const result: T[] = [];
+    let current = this.head;
+    while (current) {
+      result.push(current.data);
+      current = current.next;
+    }
+    return result;
+  }
+  
+  getSize(): number {
+    return this.size;
+  }
 }
 \`\`\`
 
-## 二叉搜索树
+### 在鸿蒙应用中的应用示例
 
-\`\`\`cangjie
-class TreeNode<T where T: Comparable> {
-    public var data: T
-    public var left: Option<TreeNode<T>>
-    public var right: Option<TreeNode<T>>
-    
-    public init(data: T) {
-        this.data = data
-        this.left = None
-        this.right = None
+\`\`\`typescript
+// 消息队列管理器
+export class MessageQueue {
+  private messages: LinkedList<Message> = new LinkedList();
+  
+  addMessage(message: Message): void {
+    this.messages.append(message);
+  }
+  
+  getNextMessage(): Message | null {
+    if (this.messages.getSize() > 0) {
+      return this.messages.remove(0);
     }
+    return null;
+  }
+  
+  getAllMessages(): Message[] {
+    return this.messages.toArray();
+  }
 }
 
-class BinarySearchTree<T where T: Comparable> {
-    private var root: Option<TreeNode<T>> = None
-    
-    public func insert(data: T) {
-        this.root = this.insertNode(this.root, data)
+// 在组件中使用
+@Component
+struct MessageListComponent {
+  @State messageQueue: MessageQueue = new MessageQueue();
+  @State displayMessages: Message[] = [];
+
+  aboutToAppear() {
+    // 模拟添加消息
+    this.messageQueue.addMessage({ id: '1', content: '欢迎使用鸿蒙应用', timestamp: Date.now() });
+    this.messageQueue.addMessage({ id: '2', content: '您有新的通知', timestamp: Date.now() });
+    this.updateDisplayMessages();
+  }
+
+  updateDisplayMessages() {
+    this.displayMessages = this.messageQueue.getAllMessages();
+  }
+
+  build() {
+    Column() {
+      List() {
+        ForEach(this.displayMessages, (message: Message) => {
+          ListItem() {
+            Text(message.content)
+              .fontSize(16)
+              .padding(10)
+          }
+        }, (message: Message) => message.id)
+      }
+      .layoutWeight(1)
+
+      Button('处理下一条消息')
+        .onClick(() => {
+          const nextMessage = this.messageQueue.getNextMessage();
+          if (nextMessage) {
+            console.log('处理消息:', nextMessage.content);
+            this.updateDisplayMessages();
+          }
+        })
     }
-    
-    private func insertNode(node: Option<TreeNode<T>>, data: T): TreeNode<T> {
-        match node {
-            case None => return TreeNode(data)
-            case Some(currentNode) => {
-                if (data < currentNode.data) {
-                    currentNode.left = Some(this.insertNode(currentNode.left, data))
-                } else if (data > currentNode.data) {
-                    currentNode.right = Some(this.insertNode(currentNode.right, data))
-                }
-                return currentNode
-            }
-        }
-    }
-    
-    public func search(data: T): Bool {
-        return this.searchNode(this.root, data)
-    }
-    
-    private func searchNode(node: Option<TreeNode<T>>, data: T): Bool {
-        match node {
-            case None => return false
-            case Some(currentNode) => {
-                if (data == currentNode.data) {
-                    return true
-                } else if (data < currentNode.data) {
-                    return this.searchNode(currentNode.left, data)
-                } else {
-                    return this.searchNode(currentNode.right, data)
-                }
-            }
-        }
-    }
+  }
 }
-\`\`\``,
-        author: '算法工程师',
+
+interface Message {
+  id: string;
+  content: string;
+  timestamp: number;
+}
+\`\`\`
+
+## 二叉搜索树实现
+
+### 基础二叉搜索树
+
+\`\`\`typescript
+// 二叉树节点
+export class TreeNode<T> {
+  data: T;
+  left: TreeNode<T> | null = null;
+  right: TreeNode<T> | null = null;
+  
+  constructor(data: T) {
+    this.data = data;
+  }
+}
+
+// 二叉搜索树实现
+export class BinarySearchTree<T> {
+  private root: TreeNode<T> | null = null;
+  private compareFunction: (a: T, b: T) => number;
+  
+  constructor(compareFunction: (a: T, b: T) => number) {
+    this.compareFunction = compareFunction;
+  }
+  
+  // 插入节点
+  insert(data: T): void {
+    this.root = this.insertNode(this.root, data);
+  }
+  
+  private insertNode(node: TreeNode<T> | null, data: T): TreeNode<T> {
+    if (!node) {
+      return new TreeNode(data);
+    }
+    
+    const comparison = this.compareFunction(data, node.data);
+    if (comparison < 0) {
+      node.left = this.insertNode(node.left, data);
+    } else if (comparison > 0) {
+      node.right = this.insertNode(node.right, data);
+    }
+    
+    return node;
+  }
+  
+  // 搜索节点
+  search(data: T): boolean {
+    return this.searchNode(this.root, data);
+  }
+  
+  private searchNode(node: TreeNode<T> | null, data: T): boolean {
+    if (!node) {
+      return false;
+    }
+    
+    const comparison = this.compareFunction(data, node.data);
+    if (comparison === 0) {
+      return true;
+    } else if (comparison < 0) {
+      return this.searchNode(node.left, data);
+    } else {
+      return this.searchNode(node.right, data);
+    }
+  }
+  
+  // 中序遍历
+  inorderTraversal(): T[] {
+    const result: T[] = [];
+    this.inorderTraversalHelper(this.root, result);
+    return result;
+  }
+  
+  private inorderTraversalHelper(node: TreeNode<T> | null, result: T[]): void {
+    if (node) {
+      this.inorderTraversalHelper(node.left, result);
+      result.push(node.data);
+      this.inorderTraversalHelper(node.right, result);
+    }
+  }
+  
+  // 查找最小值
+  findMin(): T | null {
+    if (!this.root) {
+      return null;
+    }
+    
+    let current = this.root;
+    while (current.left) {
+      current = current.left;
+    }
+    return current.data;
+  }
+  
+  // 查找最大值
+  findMax(): T | null {
+    if (!this.root) {
+      return null;
+    }
+    
+    let current = this.root;
+    while (current.right) {
+      current = current.right;
+    }
+    return current.data;
+  }
+}
+\`\`\`
+
+### 在鸿蒙应用中的应用示例
+
+\`\`\`typescript
+// 用户搜索管理器
+interface User {
+  id: string;
+  name: string;
+  score: number;
+}
+
+export class UserSearchManager {
+  private userTree: BinarySearchTree<User>;
+  
+  constructor() {
+    // 按分数排序的比较函数
+    this.userTree = new BinarySearchTree<User>((a, b) => a.score - b.score);
+  }
+  
+  addUser(user: User): void {
+    this.userTree.insert(user);
+  }
+  
+  findUser(targetScore: number): boolean {
+    const dummyUser: User = { id: '', name: '', score: targetScore };
+    return this.userTree.search(dummyUser);
+  }
+  
+  getAllUsersSorted(): User[] {
+    return this.userTree.inorderTraversal();
+  }
+  
+  getTopUser(): User | null {
+    return this.userTree.findMax();
+  }
+  
+  getLowestUser(): User | null {
+    return this.userTree.findMin();
+  }
+}
+
+// 在组件中使用
+@Component
+struct UserRankingComponent {
+  @State userManager: UserSearchManager = new UserSearchManager();
+  @State sortedUsers: User[] = [];
+  @State topUser: User | null = null;
+  @State searchScore: number = 0;
+  @State searchResult: string = '';
+
+  aboutToAppear() {
+    // 添加示例用户
+    this.userManager.addUser({ id: '1', name: '张三', score: 85 });
+    this.userManager.addUser({ id: '2', name: '李四', score: 92 });
+    this.userManager.addUser({ id: '3', name: '王五', score: 78 });
+    this.userManager.addUser({ id: '4', name: '赵六', score: 96 });
+    
+    this.updateUserList();
+  }
+
+  updateUserList() {
+    this.sortedUsers = this.userManager.getAllUsersSorted();
+    this.topUser = this.userManager.getTopUser();
+  }
+
+  build() {
+    Column() {
+      Text('用户排行榜')
+        .fontSize(20)
+        .fontWeight(FontWeight.Bold)
+        .margin(10)
+
+      if (this.topUser) {
+        Text(\`最高分用户: \${this.topUser.name} - \${this.topUser.score}分\`)
+          .fontSize(16)
+          .fontColor(Color.Red)
+          .margin(10)
+      }
+
+      List() {
+        ForEach(this.sortedUsers, (user: User, index: number) => {
+          ListItem() {
+            Row() {
+              Text(\`\${index + 1}.\`)
+                .width(30)
+              Text(user.name)
+                .layoutWeight(1)
+              Text(\`\${user.score}分\`)
+                .fontColor(Color.Blue)
+            }
+            .width('100%')
+            .padding(10)
+          }
+        }, (user: User) => user.id)
+      }
+      .layoutWeight(1)
+
+      Row() {
+        TextInput({ placeholder: '输入分数搜索' })
+          .layoutWeight(1)
+          .onChange((value: string) => {
+            this.searchScore = parseInt(value) || 0;
+          })
+
+        Button('搜索')
+          .onClick(() => {
+            const found = this.userManager.findUser(this.searchScore);
+            this.searchResult = found ? '找到匹配分数的用户' : '未找到匹配分数的用户';
+          })
+      }
+      .margin(10)
+
+      if (this.searchResult) {
+        Text(this.searchResult)
+          .fontSize(14)
+          .fontColor(this.searchResult.includes('找到') ? Color.Green : Color.Red)
+          .margin(10)
+      }
+    }
+  }
+}
+\`\`\`
+
+## 栈和队列实现
+
+### 栈实现
+
+\`\`\`typescript
+export class Stack<T> {
+  private items: T[] = [];
+  
+  push(item: T): void {
+    this.items.push(item);
+  }
+  
+  pop(): T | undefined {
+    return this.items.pop();
+  }
+  
+  peek(): T | undefined {
+    return this.items[this.items.length - 1];
+  }
+  
+  isEmpty(): boolean {
+    return this.items.length === 0;
+  }
+  
+  size(): number {
+    return this.items.length;
+  }
+  
+  clear(): void {
+    this.items = [];
+  }
+}
+
+// 应用示例：页面导航历史管理
+export class NavigationHistory {
+  private history: Stack<string> = new Stack();
+  
+  pushPage(pageName: string): void {
+    this.history.push(pageName);
+  }
+  
+  goBack(): string | undefined {
+    return this.history.pop();
+  }
+  
+  getCurrentPage(): string | undefined {
+    return this.history.peek();
+  }
+  
+  canGoBack(): boolean {
+    return !this.history.isEmpty();
+  }
+}
+\`\`\`
+
+### 队列实现
+
+\`\`\`typescript
+export class Queue<T> {
+  private items: T[] = [];
+  
+  enqueue(item: T): void {
+    this.items.push(item);
+  }
+  
+  dequeue(): T | undefined {
+    return this.items.shift();
+  }
+  
+  front(): T | undefined {
+    return this.items[0];
+  }
+  
+  isEmpty(): boolean {
+    return this.items.length === 0;
+  }
+  
+  size(): number {
+    return this.items.length;
+  }
+}
+
+// 应用示例：任务队列管理
+export class TaskQueue {
+  private tasks: Queue<Task> = new Queue();
+  
+  addTask(task: Task): void {
+    this.tasks.enqueue(task);
+  }
+  
+  processNextTask(): Task | undefined {
+    return this.tasks.dequeue();
+  }
+  
+  getNextTask(): Task | undefined {
+    return this.tasks.front();
+  }
+  
+  hasTask(): boolean {
+    return !this.tasks.isEmpty();
+  }
+}
+
+interface Task {
+  id: string;
+  name: string;
+  priority: number;
+}
+\`\`\`
+
+## 算法应用实例
+
+### 排序算法
+
+\`\`\`typescript
+export class SortingAlgorithms {
+  // 快速排序
+  static quickSort<T>(arr: T[], compareFunction: (a: T, b: T) => number): T[] {
+    if (arr.length <= 1) {
+      return arr;
+    }
+    
+    const pivot = arr[Math.floor(arr.length / 2)];
+    const left = arr.filter(item => compareFunction(item, pivot) < 0);
+    const middle = arr.filter(item => compareFunction(item, pivot) === 0);
+    const right = arr.filter(item => compareFunction(item, pivot) > 0);
+    
+    return [
+      ...this.quickSort(left, compareFunction),
+      ...middle,
+      ...this.quickSort(right, compareFunction)
+    ];
+  }
+  
+  // 归并排序
+  static mergeSort<T>(arr: T[], compareFunction: (a: T, b: T) => number): T[] {
+    if (arr.length <= 1) {
+      return arr;
+    }
+    
+    const middle = Math.floor(arr.length / 2);
+    const left = arr.slice(0, middle);
+    const right = arr.slice(middle);
+    
+    return this.merge(
+      this.mergeSort(left, compareFunction),
+      this.mergeSort(right, compareFunction),
+      compareFunction
+    );
+  }
+  
+  private static merge<T>(left: T[], right: T[], compareFunction: (a: T, b: T) => number): T[] {
+    const result: T[] = [];
+    let leftIndex = 0;
+    let rightIndex = 0;
+    
+    while (leftIndex < left.length && rightIndex < right.length) {
+      if (compareFunction(left[leftIndex], right[rightIndex]) <= 0) {
+        result.push(left[leftIndex]);
+        leftIndex++;
+      } else {
+        result.push(right[rightIndex]);
+        rightIndex++;
+      }
+    }
+    
+    return result.concat(left.slice(leftIndex)).concat(right.slice(rightIndex));
+  }
+}
+\`\`\`
+
+通过这些数据结构和算法的实现，可以在鸿蒙应用开发中提升性能，优化用户体验，并解决复杂的业务逻辑问题。`,
+        author: 'ArkTS算法工程师',
         publishDate: '2024-02-25',
         readCount: 734,
         likeCount: 67,
-        category: '基础语法',
-        tags: ['数据结构', '算法', '链表', '二叉树'],
+        category: '进阶开发',
+        tags: ['数据结构', '算法', '性能优化', '鸿蒙开发'],
         hasCode: true,
         difficulty: 'intermediate',
         estimatedReadTime: 20
       },
       {
         id: 11,
-        title: '仓颉语言测试驱动开发实践',
-        summary: '学习如何在仓颉语言项目中实践测试驱动开发，编写高质量的测试代码。',
-        content: `# 仓颉语言测试驱动开发实践
+        title: 'ArkTS测试驱动开发实践',
+        summary: '学习如何在ArkTS项目中实践测试驱动开发，编写高质量的测试代码。',
+        content: `# ArkTS测试驱动开发实践
 
 ## 单元测试基础
 
-\`\`\`cangjie
-import test.Assert
+\`\`\`typescript
+import { describe, it, expect } from '@ohos/hypium'
 
 class Calculator {
-    public static func add(a: Int, b: Int): Int {
-        return a + b
+  static add(a: number, b: number): number {
+    return a + b
+  }
+  
+  static divide(a: number, b: number): number | Error {
+    if (b === 0) {
+      return new Error("除数不能为零")
     }
-    
-    public static func divide(a: Int, b: Int): Result<Int, String> {
-        if (b == 0) {
-            return Err("除数不能为零")
-        }
-        return Ok(a / b)
-    }
+    return a / b
+  }
 }
 
 // 测试用例
-@Test
-func testAdd() {
-    let result = Calculator.add(2, 3)
-    Assert.assertEquals(5, result)
-}
+describe('Calculator', () => {
+  it('should add two numbers correctly', () => {
+    const result = Calculator.add(2, 3)
+    expect(result).assertEqual(5)
+  })
 
-@Test
-func testDivide() {
-    match Calculator.divide(10, 2) {
-        case Ok(result) => Assert.assertEquals(5, result)
-        case Err(_) => Assert.fail("不应该出现错误")
-    }
-}
+  it('should divide two numbers correctly', () => {
+    const result = Calculator.divide(10, 2)
+    expect(result).assertEqual(5)
+  })
 
-@Test
-func testDivideByZero() {
-    match Calculator.divide(10, 0) {
-        case Ok(_) => Assert.fail("应该返回错误")
-        case Err(message) => Assert.assertEquals("除数不能为零", message)
-    }
-}
+  it('should handle division by zero', () => {
+    const result = Calculator.divide(10, 0)
+    expect(result instanceof Error).assertTrue()
+    expect((result as Error).message).assertEqual("除数不能为零")
+  })
+})
 \`\`\`
 
 ## Mock和Stub
 
-\`\`\`cangjie
+\`\`\`typescript
 interface UserRepository {
-    func findById(id: String): Option<User>
-    func save(user: User): Bool
+  findById(id: string): User | null
+  save(user: User): boolean
 }
 
-class MockUserRepository <: UserRepository {
-    private var users: Map<String, User> = Map()
-    
-    public func findById(id: String): Option<User> {
-        return this.users.get(id)
-    }
-    
-    public func save(user: User): Bool {
-        this.users.put(user.id, user)
-        return true
-    }
-    
-    public func addUser(user: User) {
-        this.users.put(user.id, user)
-    }
+interface User {
+  id: string
+  name: string
+  email: string
+}
+
+class MockUserRepository implements UserRepository {
+  private users: Map<string, User> = new Map()
+  
+  findById(id: string): User | null {
+    return this.users.get(id) || null
+  }
+  
+  save(user: User): boolean {
+    this.users.set(user.id, user)
+    return true
+  }
+  
+  addUser(user: User): void {
+    this.users.set(user.id, user)
+  }
 }
 
 class UserService {
-    private let repository: UserRepository
-    
-    public init(repository: UserRepository) {
-        this.repository = repository
-    }
-    
-    public func getUserName(id: String): Option<String> {
-        match this.repository.findById(id) {
-            case Some(user) => return Some(user.name)
-            case None => return None
-        }
-    }
+  private repository: UserRepository
+  
+  constructor(repository: UserRepository) {
+    this.repository = repository
+  }
+  
+  getUserName(id: string): string | null {
+    const user = this.repository.findById(id)
+    return user ? user.name : null
+  }
 }
 
-@Test
-func testGetUserName() {
-    let mockRepo = MockUserRepository()
-    let user = User("123", "张三", "zhang@example.com")
+describe('UserService', () => {
+  it('should get user name correctly', () => {
+    const mockRepo = new MockUserRepository()
+    const user: User = { id: "123", name: "张三", email: "zhang@example.com" }
     mockRepo.addUser(user)
     
-    let service = UserService(mockRepo)
-    let name = service.getUserName("123")
+    const service = new UserService(mockRepo)
+    const name = service.getUserName("123")
     
-    Assert.assertEquals(Some("张三"), name)
-}
+    expect(name).assertEqual("张三")
+  })
+})
 \`\`\``,
         author: '测试工程师',
         publishDate: '2024-03-01',
@@ -909,97 +2931,107 @@ func testGetUserName() {
       },
       {
         id: 12,
-        title: '仓颉语言微服务架构设计',
-        summary: '探索如何使用仓颉语言构建可扩展的微服务架构，包括服务发现、负载均衡和容错处理。',
-        content: `# 仓颉语言微服务架构设计
+        title: 'ArkTS微服务架构设计',
+        summary: '探索如何使用ArkTS构建可扩展的微服务架构，包括服务发现、负载均衡和容错处理。',
+        content: `# ArkTS微服务架构设计
 
 ## 服务注册与发现
 
-\`\`\`cangjie
+\`\`\`typescript
 interface ServiceRegistry {
-    func register(service: ServiceInfo): Bool
-    func discover(serviceName: String): Array<ServiceInfo>
-    func unregister(serviceId: String): Bool
+  register(service: ServiceInfo): Promise<boolean>
+  discover(serviceName: string): Promise<ServiceInfo[]>
+  unregister(serviceId: string): Promise<boolean>
 }
 
-class ServiceInfo {
-    public let id: String
-    public let name: String
-    public let host: String
-    public let port: Int
-    public let healthCheckUrl: String
-    
-    public init(id: String, name: String, host: String, port: Int) {
-        this.id = id
-        this.name = name
-        this.host = host
-        this.port = port
-        this.healthCheckUrl = "http://\${host}:\${port}/health"
-    }
+interface ServiceInfo {
+  id: string
+  name: string
+  host: string
+  port: number
+  healthCheckUrl: string
+  weight?: number
 }
 
-class EtcdServiceRegistry <: ServiceRegistry {
-    private let etcdClient: EtcdClient
-    
-    public init(etcdEndpoints: Array<String>) {
-        this.etcdClient = EtcdClient(etcdEndpoints)
-    }
-    
-    public func register(service: ServiceInfo): Bool {
-        let key = "/services/\${service.name}/\${service.id}"
-        let value = Json.stringify(service.toJson())
-        return this.etcdClient.put(key, value)
-    }
-    
-    public func discover(serviceName: String): Array<ServiceInfo> {
-        let prefix = "/services/\${serviceName}/"
-        let kvPairs = this.etcdClient.getByPrefix(prefix)
-        return kvPairs.map({ kv => ServiceInfo.fromJson(Json.parse(kv.value)) })
-    }
+class ServiceInfoImpl implements ServiceInfo {
+  id: string
+  name: string
+  host: string
+  port: number
+  healthCheckUrl: string
+  weight: number = 1
+  
+  constructor(id: string, name: string, host: string, port: number) {
+    this.id = id
+    this.name = name
+    this.host = host
+    this.port = port
+    this.healthCheckUrl = \`http://\${host}:\${port}/health\`
+  }
+}
+
+class EtcdServiceRegistry implements ServiceRegistry {
+  private etcdClient: EtcdClient
+  
+  constructor(etcdEndpoints: string[]) {
+    this.etcdClient = new EtcdClient(etcdEndpoints)
+  }
+  
+  async register(service: ServiceInfo): Promise<boolean> {
+    const key = \`/services/\${service.name}/\${service.id}\`
+    const value = JSON.stringify(service)
+    return await this.etcdClient.put(key, value)
+  }
+  
+  async discover(serviceName: string): Promise<ServiceInfo[]> {
+    const prefix = \`/services/\${serviceName}/\`
+    const kvPairs = await this.etcdClient.getByPrefix(prefix)
+    return kvPairs.map(kv => JSON.parse(kv.value) as ServiceInfo)
+  }
 }
 \`\`\`
 
 ## 负载均衡
 
-\`\`\`cangjie
+\`\`\`typescript
 interface LoadBalancer {
-    func selectService(services: Array<ServiceInfo>): Option<ServiceInfo>
+  selectService(services: ServiceInfo[]): ServiceInfo | null
 }
 
-class RoundRobinLoadBalancer <: LoadBalancer {
-    private var currentIndex: Int = 0
+class RoundRobinLoadBalancer implements LoadBalancer {
+  private currentIndex: number = 0
+  
+  selectService(services: ServiceInfo[]): ServiceInfo | null {
+    if (services.length === 0) {
+      return null
+    }
     
-    public func selectService(services: Array<ServiceInfo>): Option<ServiceInfo> {
-        if (services.isEmpty()) {
-            return None
-        }
-        
-        let service = services[this.currentIndex % services.size()]
-        this.currentIndex += 1
-        return Some(service)
-    }
+    const service = services[this.currentIndex % services.length]
+    this.currentIndex++
+    return service
+  }
 }
 
-class WeightedLoadBalancer <: LoadBalancer {
-    public func selectService(services: Array<ServiceInfo>): Option<ServiceInfo> {
-        if (services.isEmpty()) {
-            return None
-        }
-        
-        // 基于权重的选择算法
-        let totalWeight = services.map({ s => s.weight }).sum()
-        let random = Random.nextInt(totalWeight)
-        
-        var currentWeight = 0
-        for (service in services) {
-            currentWeight += service.weight
-            if (random < currentWeight) {
-                return Some(service)
-            }
-        }
-        
-        return services.last()
+class WeightedLoadBalancer implements LoadBalancer {
+  selectService(services: ServiceInfo[]): ServiceInfo | null {
+    if (services.length === 0) {
+      return null
     }
+    
+    // 基于权重的选择算法
+    const totalWeight = services.reduce((sum, s) => sum + (s.weight || 1), 0)
+    const random = Math.floor(Math.random() * totalWeight)
+    
+    let currentWeight = 0
+    for (const service of services) {
+      currentWeight += service.weight || 1
+      if (random < currentWeight) {
+        return service
+      }
+    }
+    
+    return services[services.length - 1]
+  }
 }
 \`\`\``,
         author: '微服务架构师',
@@ -1015,13 +3047,13 @@ class WeightedLoadBalancer <: LoadBalancer {
       },
       {
         id: 13,
-        title: '仓颉语言数据库操作与ORM设计',
-        summary: '学习如何在仓颉语言中进行数据库操作，设计简洁高效的ORM框架。',
-        content: `# 仓颉语言数据库操作与ORM设计
+        title: 'ArkTS数据库操作与ORM设计',
+        summary: '学习如何在ArkTS中进行数据库操作，设计简洁高效的ORM框架。',
+        content: `# ArkTS数据库操作与ORM设计
 
 ## 数据库连接
 
-\`\`\`cangjie
+\`\`\`typescript
 class DatabaseConfig {
     public let host: String
     public let port: Int

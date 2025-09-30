@@ -1,5 +1,7 @@
 import router from '@ohos.router'
 import { DatabaseManager } from '../common/DatabaseManager'
+import { StudyTimeManager } from '../common/StudyTimeManager'
+import util from '@ohos.util'
 
 interface AnswerRecord {
   questionId: number
@@ -91,6 +93,10 @@ interface MonthlyStat {
   accuracy: number
 }
 
+interface Question {
+  category: string
+}
+
 @Entry
 @Component
 struct StatisticsPage {
@@ -113,9 +119,41 @@ struct StatisticsPage {
   @State selectedTimeRange: string = '7天'
   @State timeRangeOptions: string[] = ['7天', '30天', '90天', '全部']
   @State isLoading: boolean = true
+  @State allCategories: string[] = []
 
-  aboutToAppear() {
+  async aboutToAppear() {
+    await this.loadAllCategories()
     this.loadStatistics()
+  }
+
+  async loadAllCategories() {
+    try {
+      const context = getContext(this)
+      const fileData = await context.resourceManager.getRawFileContent('arkts.json')
+      const decoder = new util.TextDecoder('utf-8')
+      const jsonStr = decoder.decodeWithStream(new Uint8Array(fileData.buffer))
+      const questions: Question[] = JSON.parse(jsonStr)
+      
+      // 提取所有分类
+      const categorySet = new Set<string>()
+      questions.forEach((q: Question) => categorySet.add(q.category))
+      this.allCategories = Array.from(categorySet)
+      
+      console.info(`[StatisticsPage] 动态加载了 ${this.allCategories.length} 个分类: ${JSON.stringify(this.allCategories)}`)
+    } catch (error) {
+      console.error('[StatisticsPage] 加载分类失败:', error)
+      // 如果加载失败，使用默认分类
+      this.allCategories = [
+        '基础知识',
+        '语法基础', 
+        '函数编程',
+        '面向对象',
+        '数据结构',
+        '高级特性',
+        '并发编程',
+        '性能优化'
+      ]
+    }
   }
 
   async loadStatistics() {
@@ -144,7 +182,7 @@ struct StatisticsPage {
         console.info('[StatisticsPage] 前3条答题记录:', JSON.stringify(answerRecords.slice(0, 3)))
       }
       
-      this.calculateStatistics(userStats, answerRecords)
+      await this.calculateStatistics(userStats, answerRecords)
       this.isLoading = false
     } catch (error) {
       console.error('加载统计数据失败:', error)
@@ -152,7 +190,7 @@ struct StatisticsPage {
     }
   }
 
-  calculateStatistics(userStats: UserStats, answerRecords: AnswerRecord[]) {
+  async calculateStatistics(userStats: UserStats, answerRecords: AnswerRecord[]) {
     // 计算基础统计
     this.statisticsData.totalQuestions = userStats?.totalQuestions || 0
     this.statisticsData.correctAnswers = userStats?.correctAnswers || 0
@@ -162,117 +200,153 @@ struct StatisticsPage {
     this.statisticsData.studyTime = userStats?.totalStudyTime || 0
 
     // 计算分类统计
-    this.calculateCategoryStats(answerRecords)
+    await this.calculateCategoryStats(answerRecords)
     
     // 计算难度统计
-    this.calculateDifficultyStats(answerRecords)
+    await this.calculateDifficultyStats(answerRecords)
     
     // 计算时间统计
     this.calculateTimeStats(answerRecords)
   }
 
-  calculateCategoryStats(answerRecords: AnswerRecord[]) {
-    // 定义所有可能的分类
-    const allCategories = [
-      '基础知识',
-      '语法基础', 
-      '函数编程',
-      '面向对象',
-      '数据结构',
-      '高级特性',
-      '并发编程',
-      '性能优化'
-    ]
+  async calculateCategoryStats(answerRecords: AnswerRecord[]) {
+    console.info(`[StatisticsPage] 开始计算分类统计，答题记录数量: ${answerRecords.length}`)
+    console.info(`[StatisticsPage] 动态分类数量: ${this.allCategories.length}, 分类: ${JSON.stringify(this.allCategories)}`)
     
-    const categoryMap = new Map<string, CategoryMapStat>()
-    
-    // 初始化所有分类，确保都显示
-    allCategories.forEach(category => {
-      categoryMap.set(category, { total: 0, correct: 0 })
-    })
-    
-    // 统计答题记录
-    answerRecords.forEach(record => {
-      const category = record.category || '未分类'
-      if (!categoryMap.has(category)) {
-        const newStat: CategoryMapStat = { total: 0, correct: 0 }
-        categoryMap.set(category, newStat)
-      }
-      const stat = categoryMap.get(category)!
-      stat.total++
-      if (record.isCorrect) {
-        stat.correct++
-      }
-    })
-
-    this.statisticsData.categoryStats = Array.from(categoryMap.entries()).map((entry) => {
-      const category = entry[0]
-      const stat = entry[1]
-      const categoryStat: CategoryStat = {
-        category: category,
-        total: stat.total,
-        correct: stat.correct,
-        accuracy: stat.total > 0 ? Math.round((stat.correct / stat.total) * 100) : 0
-      }
-      return categoryStat
-    }).sort((a, b) => {
-      // 先按答题数量排序，再按分类名称排序
-      if (b.total !== a.total) {
-        return b.total - a.total
-      }
-      return a.category.localeCompare(b.category)
-    })
+    try {
+      // 获取每个分类的总题目数量
+      const dbManager = DatabaseManager.getInstance()
+      const categoryQuestionCounts: Map<string, number> = await dbManager.getCategoryQuestionCounts()
+      console.info(`[StatisticsPage] 获取到分类题目数量:`, categoryQuestionCounts)
+      
+      // 统计每个分类已回答的题目数量
+      const answeredCountMap = new Map<string, number>()
+      
+      // 初始化所有分类的已回答数量为0
+      this.allCategories.forEach(category => {
+        answeredCountMap.set(category, 0)
+      })
+      
+      // 统计已回答的题目数量（使用Set去重，避免重复计算同一题目）
+      const answeredQuestionIds = new Set<number>()
+      answerRecords.forEach((record, index) => {
+        const category = record.category || '未分类'
+        const questionId = record.questionId
+        
+        if (index < 5) { // 只打印前5条记录的详细信息
+          console.info(`[StatisticsPage] 记录${index}: category=${category}, questionId=${questionId}`)
+        }
+        
+        // 使用questionId去重，确保同一题目只计算一次
+        if (!answeredQuestionIds.has(questionId)) {
+          answeredQuestionIds.add(questionId)
+          const currentCount = answeredCountMap.get(category) || 0
+          answeredCountMap.set(category, currentCount + 1)
+        }
+      })
+      
+      // 生成最终的分类统计数据
+      this.statisticsData.categoryStats = this.allCategories.map(category => {
+        const answeredCount = answeredCountMap.get(category) || 0
+        const totalCount = categoryQuestionCounts.get(category) || 0
+        
+        const categoryStat: CategoryStat = {
+          category: category,
+          total: totalCount, // 这里的total表示该分类的总题目数量
+          correct: answeredCount, // 这里的correct表示已回答的题目数量
+          accuracy: totalCount > 0 ? Math.round((answeredCount / totalCount) * 100) : 0
+        }
+        
+        console.info(`[StatisticsPage] ${category}: ${answeredCount}/${totalCount} (${categoryStat.accuracy}%)`)
+        return categoryStat
+      }).filter(stat => stat.total > 0) // 只显示有题目的分类
+        .sort((a, b) => {
+          // 先按总题目数量排序，再按分类名称排序
+          if (b.total !== a.total) {
+            return b.total - a.total
+          }
+          return a.category.localeCompare(b.category)
+        })
+        
+    } catch (error) {
+      console.error('[StatisticsPage] 计算分类统计失败:', error)
+      this.statisticsData.categoryStats = []
+    }
   }
 
-  calculateDifficultyStats(answerRecords: AnswerRecord[]) {
-    let easyStats: DifficultyMapStat = { total: 0, correct: 0 }
-    let mediumStats: DifficultyMapStat = { total: 0, correct: 0 }
-    let hardStats: DifficultyMapStat = { total: 0, correct: 0 }
+  async calculateDifficultyStats(answerRecords: AnswerRecord[]) {
+    console.info(`[StatisticsPage] 开始处理难度统计，答题记录数量: ${answerRecords.length}`)
+    
+    try {
+      // 获取每个难度的总题目数量
+      const dbManager = DatabaseManager.getInstance()
+      const difficultyQuestionCounts: Map<string, number> = await dbManager.getDifficultyQuestionCounts()
+      console.info(`[StatisticsPage] 获取到难度题目数量:`, difficultyQuestionCounts)
+      
+      // 统计每个难度正确回答的题目数量（使用Set去重，避免重复计算同一题目）
+      const correctAnswerCounts = new Map<string, number>()
+      correctAnswerCounts.set('简单', 0)
+      correctAnswerCounts.set('中等', 0)
+      correctAnswerCounts.set('困难', 0)
+      
+      const answeredQuestionIds = new Set<number>()
+      answerRecords.forEach((record, index) => {
+        const difficulty = record.difficulty || '中等'
+        const questionId = record.questionId
+        
+        if (index < 5) { // 只打印前5条记录的详细信息
+          console.info(`[StatisticsPage] 记录${index}: 难度=${difficulty}, questionId=${questionId}, 正确=${record.isCorrect}`)
+        }
+        
+        // 只统计正确回答的题目，并使用questionId去重
+        if (record.isCorrect && !answeredQuestionIds.has(questionId)) {
+          answeredQuestionIds.add(questionId)
+          const currentCount = correctAnswerCounts.get(difficulty) || 0
+          correctAnswerCounts.set(difficulty, currentCount + 1)
+        }
+      })
+      
+      // 获取各难度的总题目数量和正确回答数量
+      const easyTotal = difficultyQuestionCounts.get('简单') || 0
+      const mediumTotal = difficultyQuestionCounts.get('中等') || 0
+      const hardTotal = difficultyQuestionCounts.get('困难') || 0
+      
+      const easyCorrect = correctAnswerCounts.get('简单') || 0
+      const mediumCorrect = correctAnswerCounts.get('中等') || 0
+      const hardCorrect = correctAnswerCounts.get('困难') || 0
+      
+      console.info(`[StatisticsPage] 最终统计 - 简单: ${easyCorrect}/${easyTotal}, 中等: ${mediumCorrect}/${mediumTotal}, 困难: ${hardCorrect}/${hardTotal}`)
 
-    answerRecords.forEach(record => {
-      const difficulty = record.difficulty || '中等'
-      if (difficulty === '简单') {
-        easyStats.total++
-        if (record.isCorrect) {
-          easyStats.correct++
-        }
-      } else if (difficulty === '中等') {
-        mediumStats.total++
-        if (record.isCorrect) {
-          mediumStats.correct++
-        }
-      } else if (difficulty === '困难') {
-        hardStats.total++
-        if (record.isCorrect) {
-          hardStats.correct++
-        }
+      const easyItem: DifficultyStatItem = {
+        total: easyTotal, // 这里的total表示该难度的总题目数量
+        correct: easyCorrect, // 这里的correct表示正确回答的题目数量
+        accuracy: easyTotal > 0 ? Math.round((easyCorrect / easyTotal) * 100) : 0
       }
-    })
-
-    const easyItem: DifficultyStatItem = {
-      total: easyStats.total,
-      correct: easyStats.correct,
-      accuracy: easyStats.total > 0 ? 
-        Math.round((easyStats.correct / easyStats.total) * 100) : 0
+      
+      const mediumItem: DifficultyStatItem = {
+        total: mediumTotal, // 这里的total表示该难度的总题目数量
+        correct: mediumCorrect, // 这里的correct表示正确回答的题目数量
+        accuracy: mediumTotal > 0 ? Math.round((mediumCorrect / mediumTotal) * 100) : 0
+      }
+      
+      const hardItem: DifficultyStatItem = {
+        total: hardTotal, // 这里的total表示该难度的总题目数量
+        correct: hardCorrect, // 这里的correct表示正确回答的题目数量
+        accuracy: hardTotal > 0 ? Math.round((hardCorrect / hardTotal) * 100) : 0
+      }
+      
+      this.statisticsData.difficultyStats.easy = easyItem
+      this.statisticsData.difficultyStats.medium = mediumItem
+      this.statisticsData.difficultyStats.hard = hardItem
+      
+    } catch (error) {
+      console.error('[StatisticsPage] 计算难度统计失败:', error)
+      this.statisticsData.difficultyStats = {
+        easy: { total: 0, correct: 0, accuracy: 0 },
+        medium: { total: 0, correct: 0, accuracy: 0 },
+        hard: { total: 0, correct: 0, accuracy: 0 }
+      }
     }
-    
-    const mediumItem: DifficultyStatItem = {
-      total: mediumStats.total,
-      correct: mediumStats.correct,
-      accuracy: mediumStats.total > 0 ? 
-        Math.round((mediumStats.correct / mediumStats.total) * 100) : 0
-    }
-    
-    const hardItem: DifficultyStatItem = {
-      total: hardStats.total,
-      correct: hardStats.correct,
-      accuracy: hardStats.total > 0 ? 
-        Math.round((hardStats.correct / hardStats.total) * 100) : 0
-    }
-    
-    this.statisticsData.difficultyStats.easy = easyItem
-    this.statisticsData.difficultyStats.medium = mediumItem
-    this.statisticsData.difficultyStats.hard = hardItem
   }
 
   calculateTimeStats(answerRecords: AnswerRecord[]) {
@@ -658,7 +732,7 @@ struct StatisticsPage {
 
   @Builder DifficultyStats() {
     Column() {
-      Text('难度统计')
+      Text('难度正确率统计')
         .fontSize(18)
         .fontWeight(FontWeight.Bold)
         .fontColor('#333333')
@@ -716,7 +790,7 @@ struct StatisticsPage {
             .height(32)
             .fillColor('#FF9800')
           
-          Text(`${this.statisticsData.studyTime}分钟`)
+          Text(StudyTimeManager.formatStudyTime(this.statisticsData.studyTime))
             .fontSize(16)
             .fontWeight(FontWeight.Bold)
             .fontColor('#333333')

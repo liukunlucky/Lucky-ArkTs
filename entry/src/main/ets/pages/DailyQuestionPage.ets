@@ -20,7 +20,7 @@ interface Question {
   explanation: string
 }
 
-interface DifficultyColorStyle {
+export interface DifficultyColorStyle {
   bg: string
   text: string
 }
@@ -97,7 +97,7 @@ struct DailyQuestionPage {
           router.back()
         })
       
-      Text('每日一题')
+      Text('每日随机一题')
         .fontSize(18)
         .fontWeight(FontWeight.Medium)
         .fontColor('#333333')
@@ -388,7 +388,7 @@ struct DailyQuestionPage {
   }
 
   @Builder InfoChip(label: string, value: string, bgColor: string, textColor: string) {
-    Text(`${label}: ${value}`)
+    Text(`${value}`)
       .fontSize(12)
       .fontColor(textColor)
       .backgroundColor(bgColor)

@@ -39,6 +39,7 @@ export struct QuestionBankPage {
   @State selectedCategory: string = '全部'
   @State categories: string[] = ['全部']
   @State isLoading: boolean = true
+  @State isExpanded: boolean = false; // 控制题目类型展开状态
 
   aboutToAppear() {
     // 处理路由参数
@@ -52,7 +53,7 @@ export struct QuestionBankPage {
   async loadQuestions() {
     try {
       const context = getContext(this)
-      const fileData = await context.resourceManager.getRawFileContent('cangjie.json')
+      const fileData = await context.resourceManager.getRawFileContent('arkts.json')
       const decoder = new util.TextDecoder('utf-8')
       const jsonStr = decoder.decodeWithStream(new Uint8Array(fileData.buffer))
       this.questions = JSON.parse(jsonStr)
@@ -103,14 +104,30 @@ export struct QuestionBankPage {
     console.info(`题库页面 - 最终过滤后题目数量: ${this.filteredQuestions.length}`)
   }
 
+  /**
+   * 获取常用分类（前6个）
+   */
+  private getPopularCategories(): string[] {
+    // 返回前6个常用分类
+    return this.categories.slice(0, 8);
+  }
+
+
+  private isInPopularCategories(category: string): boolean {
+    const popularCategories = this.getPopularCategories();
+    return popularCategories.some(config => config === category);
+  }
+
   build() {
     Column() {
       // 搜索栏
       this.SearchSection()
-      
+
+      // 题目类型标签栏
+      this.buildCategoryTabs()
       // 分类筛选
-      this.CategoryFilterSection()
-      
+      // this.CategoryFilterSection()
+
       // 题目总数提示
       this.QuestionCountSection()
       
@@ -144,6 +161,121 @@ export struct QuestionBankPage {
     }
     .width('100%')
     .padding({ left: 16, right: 16, top: 16, bottom: 16 })
+  }
+
+  @Builder
+  buildCategoryTabs() {
+    Column({ space: 4 }) {
+      // 标题和展开/收叠按钮
+      Row({ space: 8 }) {
+        Text('题目类型')
+          .fontSize(14)
+          .fontWeight(FontWeight.Medium)
+          .fontColor('#333333')
+
+        Blank().height(8)
+
+        // 展开/收叠按钮
+        Row({ space: 4 }) {
+          Text(this.isExpanded ? '收起' : '展开')
+            .fontSize(12)
+            .fontColor('#666666')
+
+          Text(this.isExpanded ? '▲' : '▼')
+            .fontSize(10)
+            .fontColor('#666666')
+            .animation({
+              duration: 300,
+              curve: Curve.EaseInOut
+            })
+        }
+        .onClick(() => {
+          animateTo({
+            duration: 300,
+            curve: Curve.EaseInOut
+          }, () => {
+            this.isExpanded = !this.isExpanded;
+          })
+        })
+      }
+      .width('100%')
+      .alignItems(VerticalAlign.Center)
+
+      // 标签区域
+      Column() {
+        if (this.isExpanded) {
+          // 展开状态：显示所有标签
+          this.buildAllCategoryTags()
+        } else {
+          // 收起状态：显示常用标签和当前选中的标签
+          this.buildCompactCategoryTags()
+        }
+      }
+      .width('100%')
+      .clip(true)
+      .animation({
+        duration: 300,
+        curve: Curve.EaseInOut
+      })
+    }
+    .width('100%')
+    .padding({left: 16, right: 16})
+    .margin({ bottom: 4 })
+  }
+
+  @Builder
+  buildAllCategoryTags() {
+    Flex({
+      direction: FlexDirection.Row,
+      wrap: FlexWrap.Wrap,
+      justifyContent: FlexAlign.Start,
+      alignItems: ItemAlign.Start
+    }) {
+      // 全部分类标签
+      ForEach(this.categories, (config: string) => {
+        this.buildCategoryButton(config)
+      }, (config: string) => config.toString())
+    }
+    .width('100%')
+  }
+
+  @Builder
+  buildCompactCategoryTags() {
+    Flex({
+      direction: FlexDirection.Row,
+      wrap: FlexWrap.Wrap,
+      justifyContent: FlexAlign.Start,
+      alignItems: ItemAlign.Start
+    }) {
+      // 常用分类（前6个）
+      ForEach(this.getPopularCategories(), (config: string) => {
+        this.buildCategoryButton(config)
+      }, (config: string) => config)
+
+      // 如果当前选中的分类不在常用列表中，单独显示
+      if (this.selectedCategory && !this.isInPopularCategories(this.selectedCategory)) {
+        this.buildCategoryButton(this.selectedCategory)
+      }
+    }
+    .width('100%')
+  }
+
+  @Builder
+  buildCategoryButton(category: string) {
+    Button(category)
+      .type(ButtonType.Normal)
+      .backgroundColor(this.selectedCategory === category ? '#F34F40' : '#F2F2F7')
+      .fontColor(this.selectedCategory === category ? '#FFFFFF' : '#3C3C43')
+      .fontSize(12)
+      .fontWeight(this.selectedCategory === category ? FontWeight.Medium : FontWeight.Normal)
+      .borderRadius(10)
+      .padding({ left: 10, right: 10, top: 4, bottom: 4 })
+      .margin({ right: 4, bottom: 4 })
+      .height(28)
+      .onClick(() => {
+        this.selectedCategory = category;
+        this.loadQuestions();
+      })
   }
 
   @Builder CategoryFilterSection() {

@@ -118,4 +118,22 @@ export class StudyTimeManager {
       console.info('[StudyTimeManager] 恢复学习时长统计')
     }
   }
+
+  // 格式化学习时长显示
+  static formatStudyTime(minutes: number): string {
+    if (minutes >= 1000 * 60 * 24) { // 超过1000小时（转换为天）
+      const days = Math.floor(minutes / (60 * 24))
+      return `${days}天`
+    } else if (minutes >= 1000) { // 超过1000分钟（转换为小时）
+      const hours = Math.floor(minutes / 60)
+      const remainingMinutes = minutes % 60
+      if (remainingMinutes === 0) {
+        return `${hours}小时`
+      } else {
+        return `${hours}小时${remainingMinutes}分钟`
+      }
+    } else {
+      return `${minutes}分钟`
+    }
+  }
 }

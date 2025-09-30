@@ -91,24 +91,24 @@ struct ExamQuestionPage {
     switch (examType) {
       case 'basic':
         filteredQuestions = convertedQuestions.filter(q => 
-          q.category === '语法基础' || q.category === '数据类型'
+          q.category === '基础概念' || q.category === '基础语法' || q.category === 'UI开发'
         )
         break
       case 'intermediate':
         filteredQuestions = convertedQuestions.filter(q => 
-          q.category === '函数' || q.category === '面向对象' || q.category === '函数编程'
+          q.category === '状态管理' || q.category === '组件开发' || q.category === '事件处理' || q.category === '布局'
         )
         break
       case 'advanced':
         filteredQuestions = convertedQuestions.filter(q => 
-          q.category === '高级特性' || q.category === '并发编程' || q.category === '内存管理'
+          q.category === '网络请求' || q.category === '数据存储' || q.category === '性能优化' || q.category === '路由导航'
         )
         break
       case 'comprehensive':
         filteredQuestions = convertedQuestions
         break
       default:
-        filteredQuestions = convertedQuestions.filter(q => q.category === '语法基础')
+        filteredQuestions = convertedQuestions.filter(q => q.category === '基础概念')
     }
     
     // 随机选择指定数量的题目

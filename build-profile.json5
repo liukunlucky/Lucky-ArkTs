@@ -5,26 +5,25 @@
         "name": "default",
         "type": "HarmonyOS",
         "material": {
-          "certpath": "/Users/monkey/.ohos/config/default_Lucky_cangjie__13K0-8aOVPHNiwjXjp54ijymN_cxqQ1JDgoSrFwkAE=.cer",
+          "certpath": "/Users/monkey/.ohos/config/default_Lucky_arkts__TXVveBhzmfckSyYTqjfy6M0dtyvkXGq6H1iMU3znis=.cer",
           "keyAlias": "debugKey",
-          "keyPassword": "0000001B40679C0CC7F38E74F0663FC005A92DA2E8A1C7F12664C0D385EC4FE76553A289CC82461DF02664",
-          "profile": "/Users/monkey/.ohos/config/default_Lucky_cangjie__13K0-8aOVPHNiwjXjp54ijymN_cxqQ1JDgoSrFwkAE=.p7b",
+          "keyPassword": "0000001BD0EC296B91FC3AF76B5DBA08E1D5C865D6279A6FC449D5BD9F8FF3F4A4C80ECF60AC2D2ACBACDA",
+          "profile": "/Users/monkey/.ohos/config/default_Lucky_arkts__TXVveBhzmfckSyYTqjfy6M0dtyvkXGq6H1iMU3znis=.p7b",
           "signAlg": "SHA256withECDSA",
-          "storeFile": "/Users/monkey/.ohos/config/default_Lucky_cangjie__13K0-8aOVPHNiwjXjp54ijymN_cxqQ1JDgoSrFwkAE=.p12",
-          "storePassword": "0000001BB16AEA1437D368B711B35E314E7D5A692A4A45A3A1177FA5D809094ADE0E1D3300101E4180C924"
+          "storeFile": "/Users/monkey/.ohos/config/default_Lucky_arkts__TXVveBhzmfckSyYTqjfy6M0dtyvkXGq6H1iMU3znis=.p12",
+          "storePassword": "0000001B893E3C2E3EEB3960B18D8B8FE3D89CE27D9057293604D9CF4CF248AE8A27261DAE8F63720F684E"
         }
       },
       {
         "name": "release",
-        "type": "HarmonyOS",
         "material": {
-          "storeFile": "/Users/monkey/Documents/Harmony/发布相关/仓颉学习宝典/release.p12",
-          "storePassword": "00000019E8965CFE3455998B78E72BCCD6E7B7F502B3DC1ECC21104FCCEA6E1EA0F46379592A91D56C",
+          "storeFile": "/Users/monkey/Documents/Harmony/发布相关/arkts/release.p12",
+          "storePassword": "00000019305C10B3F47C5F9411B9483D9E57DF9F16655239593511FAAF288066392EB92E9CBB57DA70",
           "keyAlias": "zl_reader",
-          "keyPassword": "00000019632FEF2AA94275918E1ACBFD4E25C53F089E1DA451433A69143D803F31BF323AA7082ED243",
+          "keyPassword": "00000019D4E368716D59A4D07657F4023EEEC6CCB257DAF73623DC7DF4919571E7A431D5DA450D80B6",
           "signAlg": "SHA256withECDSA",
-          "profile": "/Users/monkey/Documents/Harmony/发布相关/仓颉学习宝典/cangjie-profileRelease.p7b",
-          "certpath": "/Users/monkey/Documents/Harmony/发布相关/仓颉学习宝典/release.cer"
+          "profile": "/Users/monkey/Documents/Harmony/发布相关/arkts/ArkTs-profile-releaseRelease.p7b",
+          "certpath": "/Users/monkey/Documents/Harmony/发布相关/arkts/release.cer"
         }
       }
     ],

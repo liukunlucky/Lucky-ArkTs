@@ -134,7 +134,7 @@ struct ExamRecordDetailPage {
         questionType: '单选题',
         category: categories[Math.floor(Math.random() * categories.length)],
         difficulty: difficulties[Math.floor(Math.random() * difficulties.length)],
-        questionText: `这是第${i}道题目的内容，测试仓颉语言的相关知识点...`
+        questionText: `这是第${i}道题目的内容，测试ArkTS语言的相关知识点...`
       })
     }
     
