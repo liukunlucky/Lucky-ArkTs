@@ -14538,5 +14538,3556 @@
       "B"
     ],
     "explanation": "通过记录完整的状态变更操作序列，支持状态回滚、审计和重放功能。"
+  },
+  {
+    "id": 824,
+    "type": "single",
+    "category": "组件开发",
+    "difficulty": "中等",
+    "question": "如何创建可配置的指纹识别组件？",
+    "options": {
+      "A": "使用 @Fingerprint 装饰器",
+      "B": "使用 @BuilderParam 接收生物识别配置",
+      "C": "使用 FingerprintManager 类",
+      "D": "ArkTS不支持指纹识别"
+    },
+    "answer": [
+      "B"
+    ],
+    "explanation": "通过 @BuilderParam 接收生物识别参数和回调配置，实现可配置的指纹识别组件。"
+  },
+  {
+    "id": 825,
+    "type": "multiple",
+    "category": "布局",
+    "difficulty": "中等",
+    "question": "以下哪些是 Stack 的适应模式？",
+    "options": {
+      "A": "Fit",
+      "B": "Stretch",
+      "C": "AspectFit",
+      "D": "AspectFill"
+    },
+    "answer": [
+      "A",
+      "B"
+    ],
+    "explanation": "Stack 组件支持 Fit（适应）和 Stretch（拉伸）等适应模式。"
+  },
+  {
+    "id": 826,
+    "type": "single",
+    "category": "动画",
+    "difficulty": "困难",
+    "question": "如何创建体积雾动画？",
+    "options": {
+      "A": "使用 volumetricFog()",
+      "B": "使用深度缓冲和雾效方程",
+      "C": "使用 FogAnimation",
+      "D": "ArkTS不支持体积雾动画"
+    },
+    "answer": [
+      "B"
+    ],
+    "explanation": "通过深度缓冲计算像素距离，应用雾效方程模拟大气透视效果，创建体积雾动画。"
+  },
+  {
+    "id": 827,
+    "type": "single",
+    "category": "网络请求",
+    "difficulty": "中等",
+    "question": "如何实现请求的协议协商？",
+    "options": {
+      "A": "使用 http.negotiate() 方法",
+      "B": "通过ALPN协议协商最佳协议",
+      "C": "使用 ProtocolNegotiator 类",
+      "D": "ArkTS不支持协议协商"
+    },
+    "answer": [
+      "B"
+    ],
+    "explanation": "通过ALPN（应用层协议协商）与服务器协商使用HTTP/2、HTTP/1.1等最佳协议。"
+  },
+  {
+    "id": 828,
+    "type": "multiple",
+    "category": "数据存储",
+    "difficulty": "困难",
+    "question": "以下哪些是数据复制的拓扑结构？",
+    "options": {
+      "A": "主从复制",
+      "B": "多主复制",
+      "C": "环形复制",
+      "D": "星形复制"
+    },
+    "answer": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "explanation": "数据复制支持主从复制、多主复制、环形复制和星形复制等拓扑结构。"
+  },
+  {
+    "id": 829,
+    "type": "single",
+    "category": "路由导航",
+    "difficulty": "中等",
+    "question": "如何实现路由的访问模式分析？",
+    "options": {
+      "A": "使用 Router.analyze()",
+      "B": "分析用户的导航习惯和模式",
+      "C": "使用 @Analyze 装饰器",
+      "D": "ArkTS不支持访问模式分析"
+    },
+    "answer": [
+      "B"
+    ],
+    "explanation": "通过分析用户的导航路径和停留时间，识别使用习惯和优化导航结构。"
+  },
+  {
+    "id": 830,
+    "type": "single",
+    "category": "性能优化",
+    "difficulty": "困难",
+    "question": "如何实现组件的渲染时间切片？",
+    "options": {
+      "A": "使用 @TimeSlice 装饰器",
+      "B": "将渲染任务分解为多个时间片",
+      "C": "使用 TimeSlicer 类",
+      "D": "ArkTS不支持时间切片"
+    },
+    "answer": [
+      "B"
+    ],
+    "explanation": "通过将复杂的渲染任务分解为多个时间片，避免长时间阻塞主线程，保证UI响应性。"
+  },
+  {
+    "id": 831,
+    "type": "single",
+    "category": "基础语法",
+    "difficulty": "困难",
+    "question": "如何实现类型的递归Readonly数组？",
+    "options": {
+      "A": "使用 DeepReadonlyArray<T>",
+      "B": "使用条件类型处理数组情况",
+      "C": "使用 @DeepReadonlyArray 装饰器",
+      "D": "TypeScript不支持递归Readonly数组"
+    },
+    "answer": [
+      "B"
+    ],
+    "explanation": "通过条件类型特殊处理数组情况：type DeepReadonly<T> = T extends Array<infer U> ? ReadonlyArray<DeepReadonly<U>> : { readonly [P in keyof T]: DeepReadonly<T[P]> }"
+  },
+  {
+    "id": 832,
+    "type": "multiple",
+    "category": "UI开发",
+    "difficulty": "中等",
+    "question": "以下哪些是 TextArea 的选择功能属性？",
+    "options": {
+      "A": "copyOption",
+      "B": "cutOption",
+      "C": "pasteOption",
+      "D": "selectAll"
+    },
+    "answer": [
+      "A",
+      "B",
+      "C"
+    ],
+    "explanation": "TextArea 支持 copyOption（复制）、cutOption（剪切）、pasteOption（粘贴）等选择功能属性。"
+  },
+  {
+    "id": 833,
+    "type": "single",
+    "category": "状态管理",
+    "difficulty": "困难",
+    "question": "如何实现状态管理的向量时钟同步？",
+    "options": {
+      "A": "使用 @VectorClock 装饰器",
+      "B": "使用向量时钟解决冲突和排序",
+      "C": "使用 VectorClockSync 类",
+      "D": "ArkTS不支持向量时钟"
+    },
+    "answer": [
+      "B"
+    ],
+    "explanation": "通过向量时钟算法为每个状态变更标记逻辑时间，解决分布式环境下的冲突和排序问题。"
+  },
+  {
+    "id": 834,
+    "type": "single",
+    "category": "组件开发",
+    "difficulty": "中等",
+    "question": "如何创建可配置的AR组件？",
+    "options": {
+      "A": "使用 @AR 装饰器",
+      "B": "使用 @BuilderParam 接收AR配置",
+      "C": "使用 ARManager 类",
+      "D": "ArkTS不支持AR组件"
+    },
+    "answer": [
+      "B"
+    ],
+    "explanation": "通过 @BuilderParam 接收AR场景、识别目标等配置，实现可配置的增强现实组件。"
+  },
+  {
+    "id": 835,
+    "type": "multiple",
+    "category": "布局",
+    "difficulty": "困难",
+    "question": "以下哪些是 Grid 的自动布局模式？",
+    "options": {
+      "A": "auto-fill",
+      "B": "auto-fit",
+      "C": "minmax",
+      "D": "repeat"
+    },
+    "answer": [
+      "A",
+      "B"
+    ],
+    "explanation": "Grid 布局支持 auto-fill（自动填充）和 auto-fit（自动适应）等自动布局模式。"
+  },
+  {
+    "id": 836,
+    "type": "single",
+    "category": "动画",
+    "difficulty": "中等",
+    "question": "如何创建淡入淡出动画？",
+    "options": {
+      "A": "使用 fade() 方法",
+      "B": "使用透明度的线性变化",
+      "C": "使用 FadeAnimation",
+      "D": "ArkTS不支持淡入淡出动画"
+    },
+    "answer": [
+      "B"
+    ],
+    "explanation": "通过线性改变组件的不透明度，从完全透明到完全不透明（淡入）或反之（淡出）。"
+  },
+  {
+    "id": 837,
+    "type": "single",
+    "category": "网络请求",
+    "difficulty": "困难",
+    "question": "如何实现请求的零信任安全？",
+    "options": {
+      "A": "使用 http.zeroTrust() 方法",
+      "B": "实施持续验证和最小权限原则",
+      "C": "使用 ZeroTrust 类",
+      "D": "ArkTS不支持零信任安全"
+    },
+    "answer": [
+      "B"
+    ],
+    "explanation": "通过持续验证请求身份、设备和环境，实施最小权限访问控制，实现零信任安全架构。"
+  },
+  {
+    "id": 838,
+    "type": "multiple",
+    "category": "数据存储",
+    "difficulty": "中等",
+    "question": "以下哪些是数据迁移的性能指标？",
+    "options": {
+      "A": "迁移速度",
+      "B": "数据一致性",
+      "C": "系统负载",
+      "D": "迁移成功率"
+    },
+    "answer": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "explanation": "数据迁移需要监控迁移速度、数据一致性、系统负载和迁移成功率等性能指标。"
+  },
+  {
+    "id": 839,
+    "type": "single",
+    "category": "路由导航",
+    "difficulty": "中等",
+    "question": "如何实现路由的访问频率分析？",
+    "options": {
+      "A": "使用 Router.frequency()",
+      "B": "统计各路由的访问次数和模式",
+      "C": "使用 @Frequency 装饰器",
+      "D": "ArkTS不支持访问频率分析"
+    },
+    "answer": [
+      "B"
+    ],
+    "explanation": "通过统计各个路由的访问次数、时间和用户分布，分析热门路径和优化机会。"
+  },
+  {
+    "id": 840,
+    "type": "single",
+    "category": "性能优化",
+    "difficulty": "困难",
+    "question": "如何实现组件的渲染资源回收？",
+    "options": {
+      "A": "使用 @ResourceRecycle 装饰器",
+      "B": "及时释放不再使用的渲染资源",
+      "C": "使用 ResourceRecycler 类",
+      "D": "ArkTS不支持资源回收"
+    },
+    "answer": [
+      "B"
+    ],
+    "explanation": "通过监控组件的生命周期，及时释放纹理、缓存等渲染资源，避免内存泄漏。"
+  },
+  {
+    "id": 841,
+    "type": "single",
+    "category": "基础语法",
+    "difficulty": "中等",
+    "question": "如何实现异步操作的超时控制？",
+    "options": {
+      "A": "使用 Promise.race() 和 setTimeout",
+      "B": "使用 timeout 关键字",
+      "C": "使用 @Timeout 装饰器",
+      "D": "TypeScript不支持异步超时"
+    },
+    "answer": [
+      "A"
+    ],
+    "explanation": "通过 Promise.race() 竞速异步操作和setTimeout超时Promise，实现超时控制：Promise.race([asyncOp, new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), 5000))])"
+  },
+  {
+    "id": 842,
+    "type": "multiple",
+    "category": "UI开发",
+    "difficulty": "中等",
+    "question": "以下哪些是 Web 组件的JavaScript交互方法？",
+    "options": {
+      "A": "runJavaScript",
+      "B": "getHitTestResult",
+      "C": "onConsole",
+      "D": "onAlert"
+    },
+    "answer": [
+      "A",
+      "C",
+      "D"
+    ],
+    "explanation": "Web 组件支持 runJavaScript（执行JS）、onConsole（控制台输出）、onAlert（弹窗）等交互方法。"
+  },
+  {
+    "id": 843,
+    "type": "single",
+    "category": "状态管理",
+    "difficulty": "困难",
+    "question": "如何实现状态管理的CRDT算法？",
+    "options": {
+      "A": "使用 @CRDT 装饰器",
+      "B": "使用无冲突复制数据类型",
+      "C": "使用 CRDTManager 类",
+      "D": "ArkTS不支持CRDT"
+    },
+    "answer": [
+      "B"
+    ],
+    "explanation": "通过CRDT（无冲突复制数据类型）算法，实现在无协调情况下状态的一致性收敛。"
+  },
+  {
+    "id": 844,
+    "type": "single",
+    "category": "组件开发",
+    "difficulty": "中等",
+    "question": "如何创建可配置的机器学习组件？",
+    "options": {
+      "A": "使用 @ML 装饰器",
+      "B": "使用 @BuilderParam 接收模型配置",
+      "C": "使用 MLManager 类",
+      "D": "ArkTS不支持机器学习"
+    },
+    "answer": [
+      "B"
+    ],
+    "explanation": "通过 @BuilderParam 接收机器学习模型、输入输出配置，实现可配置的AI组件。"
+  },
+  {
+    "id": 845,
+    "type": "multiple",
+    "category": "布局",
+    "difficulty": "中等",
+    "question": "以下哪些是 Flex 的基线对齐选项？",
+    "options": {
+      "A": "Baseline",
+      "B": "FirstBaseline",
+      "C": "LastBaseline",
+      "D": "TextTop"
+    },
+    "answer": [
+      "A",
+      "B",
+      "C"
+    ],
+    "explanation": "Flex 布局支持 Baseline（基线）、FirstBaseline（首行基线）、LastBaseline（末行基线）等对齐选项。"
+  },
+  {
+    "id": 846,
+    "type": "single",
+    "category": "动画",
+    "difficulty": "困难",
+    "question": "如何创建体积水动画？",
+    "options": {
+      "A": "使用 volumetricWater()",
+      "B": "使用流体模拟和光线追踪",
+      "C": "使用 WaterAnimation",
+      "D": "ArkTS不支持体积水动画"
+    },
+    "answer": [
+      "B"
+    ],
+    "explanation": "通过流体动力学模拟水面波动，结合光线追踪计算折射反射，创建逼真的水体效果。"
+  },
+  {
+    "id": 847,
+    "type": "single",
+    "category": "网络请求",
+    "difficulty": "中等",
+    "question": "如何实现请求的负载预测？",
+    "options": {
+      "A": "使用 http.predict() 方法",
+      "B": "基于历史数据预测请求负载",
+      "C": "使用 LoadPredictor 类",
+      "D": "ArkTS不支持负载预测"
+    },
+    "answer": [
+      "B"
+    ],
+    "explanation": "通过分析历史请求模式和业务周期，预测未来的请求负载，优化资源分配。"
+  },
+  {
+    "id": 848,
+    "type": "multiple",
+    "category": "数据存储",
+    "difficulty": "困难",
+    "question": "以下哪些是数据备份的恢复策略？",
+    "options": {
+      "A": "全量恢复",
+      "B": "增量恢复",
+      "C": "时间点恢复",
+      "D": "选择性恢复"
+    },
+    "answer": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "explanation": "数据备份支持全量恢复、增量恢复、时间点恢复和选择性恢复等策略。"
+  },
+  {
+    "id": 849,
+    "type": "single",
+    "category": "路由导航",
+    "difficulty": "中等",
+    "question": "如何实现路由的访问权限动态更新？",
+    "options": {
+      "A": "使用 Router.updatePermissions()",
+      "B": "根据用户权限变化更新路由守卫",
+      "C": "使用 @DynamicPermission 装饰器",
+      "D": "ArkTS不支持权限动态更新"
+    },
+    "answer": [
+      "B"
+    ],
+    "explanation": "通过监听用户权限变化，动态更新路由守卫逻辑，实现实时权限控制。"
+  },
+  {
+    "id": 850,
+    "type": "single",
+    "category": "性能优化",
+    "difficulty": "困难",
+    "question": "如何实现组件的渲染延迟加载？",
+    "options": {
+      "A": "使用 @LazyRender 装饰器",
+      "B": "在组件进入视口时开始渲染",
+      "C": "使用 LazyRenderer 类",
+      "D": "ArkTS不支持延迟加载"
+    },
+    "answer": [
+      "B"
+    ],
+    "explanation": "通过Intersection Observer API检测组件是否进入视口，延迟到需要显示时才开始渲染。"
+  },
+  {
+    "id": 851,
+    "type": "single",
+    "category": "基础语法",
+    "difficulty": "困难",
+    "question": "如何实现类型的递归NonNullable？",
+    "options": {
+      "A": "使用 DeepNonNullable<T>",
+      "B": "使用递归条件类型移除null和undefined",
+      "C": "使用 @DeepNonNullable 装饰器",
+      "D": "TypeScript不支持递归NonNullable"
+    },
+    "answer": [
+      "B"
+    ],
+    "explanation": "通过递归条件类型实现深度NonNullable：type DeepNonNullable<T> = T extends null | undefined ? never : { [P in keyof T]: DeepNonNullable<T[P]> }"
+  },
+  {
+    "id": 852,
+    "type": "multiple",
+    "category": "UI开发",
+    "difficulty": "中等",
+    "question": "以下哪些是 TextClock 的本地化配置？",
+    "options": {
+      "A": "locale",
+      "B": "format",
+      "C": "timeZone",
+      "D": "useSystemFormat"
+    },
+    "answer": [
+      "A",
+      "B",
+      "C"
+    ],
+    "explanation": "TextClock 支持 locale（区域设置）、format（格式）、timeZone（时区）等本地化配置。"
+  },
+  {
+    "id": 853,
+    "type": "single",
+    "category": "状态管理",
+    "difficulty": "困难",
+    "question": "如何实现状态管理的事件驱动架构？",
+    "options": {
+      "A": "使用 @EventDriven 装饰器",
+      "B": "使用事件总线和观察者模式",
+      "C": "使用 EventDrivenState 类",
+      "D": "ArkTS不支持事件驱动"
+    },
+    "answer": [
+      "B"
+    ],
+    "explanation": "通过事件总线发布状态变更事件，组件订阅感兴趣的事件，实现松耦合的事件驱动架构。"
+  },
+  {
+    "id": 854,
+    "type": "single",
+    "category": "组件开发",
+    "difficulty": "中等",
+    "question": "如何创建可配置的区块链组件？",
+    "options": {
+      "A": "使用 @Blockchain 装饰器",
+      "B": "使用 @BuilderParam 接收链配置",
+      "C": "使用 BlockchainManager 类",
+      "D": "ArkTS不支持区块链组件"
+    },
+    "answer": [
+      "B"
+    ],
+    "explanation": "通过 @BuilderParam 接收区块链网络、合约等配置，实现可配置的区块链交互组件。"
+  },
+  {
+    "id": 855,
+    "type": "multiple",
+    "category": "布局",
+    "difficulty": "困难",
+    "question": "以下哪些是 WaterFlow 的性能优化属性？",
+    "options": {
+      "A": "cachedCount",
+      "B": "editMode",
+      "C": "layoutDirection",
+      "D": "columnsTemplate"
+    },
+    "answer": [
+      "A",
+      "B"
+    ],
+    "explanation": "WaterFlow 组件的 cachedCount（缓存数量）和 editMode（编辑模式）可以用于性能优化。"
+  },
+  {
+    "id": 856,
+    "type": "single",
+    "category": "动画",
+    "difficulty": "中等",
+    "question": "如何创建缩放进入动画？",
+    "options": {
+      "A": "使用 scaleIn() 方法",
+      "B": "使用缩放从0到1的动画",
+      "C": "使用 ScaleInAnimation",
+      "D": "ArkTS不支持缩放进入动画"
+    },
+    "answer": [
+      "B"
+    ],
+    "explanation": "通过缩放变换从0（不可见）到1（原始大小），创建元素从中心放大的进入效果。"
+  },
+  {
+    "id": 857,
+    "type": "single",
+    "category": "网络请求",
+    "difficulty": "困难",
+    "question": "如何实现请求的混沌工程测试？",
+    "options": {
+      "A": "使用 http.chaos() 方法",
+      "B": "模拟极端网络条件和故障",
+      "C": "使用 ChaosEngine 类",
+      "D": "ArkTS不支持混沌工程"
+    },
+    "answer": [
+      "B"
+    ],
+    "explanation": "通过模拟网络分区、高延迟、服务不可用等极端条件，测试系统的韧性和容错能力。"
+  },
+  {
+    "id": 858,
+    "type": "multiple",
+    "category": "数据存储",
+    "difficulty": "中等",
+    "question": "以下哪些是数据索引的维护时机？",
+    "options": {
+      "A": "数据插入时",
+      "B": "数据更新时",
+      "C": "数据删除时",
+      "D": "定期维护"
+    },
+    "answer": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "explanation": "数据索引需要在数据插入、更新、删除时维护，也需要定期进行优化维护。"
+  },
+  {
+    "id": 859,
+    "type": "single",
+    "category": "路由导航",
+    "difficulty": "中等",
+    "question": "如何实现路由的访问来源追踪？",
+    "options": {
+      "A": "使用 Router.trackSource()",
+      "B": "记录用户进入路由的来源路径",
+      "C": "使用 @TrackSource 装饰器",
+      "D": "ArkTS不支持来源追踪"
+    },
+    "answer": [
+      "B"
+    ],
+    "explanation": "通过记录用户进入每个路由的前一个路径，分析导航流和用户行为路径。"
+  },
+  {
+    "id": 860,
+    "type": "single",
+    "category": "性能优化",
+    "difficulty": "困难",
+    "question": "如何实现组件的渲染并发优化？",
+    "options": {
+      "A": "使用 @ConcurrentRender 装饰器",
+      "B": "使用Web Worker并行处理渲染任务",
+      "C": "使用 ConcurrentRenderer 类",
+      "D": "ArkTS不支持并发渲染"
+    },
+    "answer": [
+      "B"
+    ],
+    "explanation": "通过Web Worker在多个线程中并行处理渲染计算，充分利用多核CPU性能。"
+  },
+  {
+    "id": 861,
+    "type": "single",
+    "category": "基础语法",
+    "difficulty": "中等",
+    "question": "如何实现Promise的错误传播？",
+    "options": {
+      "A": "使用 catch() 方法捕获错误",
+      "B": "使用 throw 在链中传播错误",
+      "C": "使用 @ErrorPropagate 装饰器",
+      "D": "TypeScript不支持错误传播"
+    },
+    "answer": [
+      "A"
+    ],
+    "explanation": "通过Promise链中的catch()方法捕获和处理错误，或使用async/await的try-catch。"
+  },
+  {
+    "id": 862,
+    "type": "multiple",
+    "category": "UI开发",
+    "difficulty": "中等",
+    "question": "以下哪些是 TextInput 的自动完成属性？",
+    "options": {
+      "A": "autoComplete",
+      "B": "suggestions",
+      "C": "autoCorrect",
+      "D": "prediction"
+    },
+    "answer": [
+      "A",
+      "B"
+    ],
+    "explanation": "TextInput 支持 autoComplete（自动完成）和 suggestions（建议列表）等属性。"
+  },
+  {
+    "id": 863,
+    "type": "single",
+    "category": "状态管理",
+    "difficulty": "困难",
+    "question": "如何实现状态管理的时间窗口聚合？",
+    "options": {
+      "A": "使用 @TimeWindow 装饰器",
+      "B": "按时间窗口聚合状态变更",
+      "C": "使用 TimeWindowAggregator 类",
+      "D": "ArkTS不支持时间窗口聚合"
+    },
+    "answer": [
+      "B"
+    ],
+    "explanation": "通过按固定时间窗口聚合状态变更，减少状态同步频率和网络开销。"
+  },
+  {
+    "id": 864,
+    "type": "single",
+    "category": "组件开发",
+    "difficulty": "中等",
+    "question": "如何创建可配置的量子计算组件？",
+    "options": {
+      "A": "使用 @Quantum 装饰器",
+      "B": "使用 @BuilderParam 接收量子电路配置",
+      "C": "使用 QuantumManager 类",
+      "D": "ArkTS不支持量子计算"
+    },
+    "answer": [
+      "B"
+    ],
+    "explanation": "通过 @BuilderParam 接收量子比特数、门操作等配置，实现可配置的量子计算模拟组件。"
+  },
+  {
+    "id": 865,
+    "type": "multiple",
+    "category": "布局",
+    "difficulty": "中等",
+    "question": "以下哪些是 Column 的主轴尺寸属性？",
+    "options": {
+      "A": "width",
+      "B": "height",
+      "C": "minWidth",
+      "D": "maxHeight"
+    },
+    "answer": [
+      "B",
+      "D"
+    ],
+    "explanation": "Column 组件的主轴是垂直方向，因此支持 height（高度）和 maxHeight（最大高度）等属性。"
+  },
+  {
+    "id": 866,
+    "type": "single",
+    "category": "动画",
+    "difficulty": "困难",
+    "question": "如何创建体积火动画？",
+    "options": {
+      "A": "使用 volumetricFire()",
+      "B": "使用粒子系统和噪声纹理",
+      "C": "使用 FireAnimation",
+      "D": "ArkTS不支持体积火动画"
+    },
+    "answer": [
+      "B"
+    ],
+    "explanation": "通过粒子系统模拟火焰粒子，使用噪声纹理控制动态变化，创建逼真的火焰效果。"
+  },
+  {
+    "id": 867,
+    "type": "single",
+    "category": "网络请求",
+    "difficulty": "中等",
+    "question": "如何实现请求的端到端加密？",
+    "options": {
+      "A": "使用 http.encrypt() 方法",
+      "B": "使用TLS和客户端加密",
+      "C": "使用 EndToEndEncryption 类",
+      "D": "ArkTS不支持端到端加密"
+    },
+    "answer": [
+      "B"
+    ],
+    "explanation": "通过TLS传输层安全协议和客户端数据加密，实现从客户端到服务端的端到端数据保护。"
+  },
+  {
+    "id": 868,
+    "type": "multiple",
+    "category": "数据存储",
+    "difficulty": "困难",
+    "question": "以下哪些是数据同步的一致性模型？",
+    "options": {
+      "A": "强一致性",
+      "B": "最终一致性",
+      "C": "因果一致性",
+      "D": "会话一致性"
+    },
+    "answer": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "explanation": "数据同步支持强一致性、最终一致性、因果一致性和会话一致性等模型。"
+  },
+  {
+    "id": 869,
+    "type": "single",
+    "category": "路由导航",
+    "difficulty": "中等",
+    "question": "如何实现路由的访问热度分析？",
+    "options": {
+      "A": "使用 Router.heatmap()",
+      "B": "分析各路由的访问频率和时长",
+      "C": "使用 @Heatmap 装饰器",
+      "D": "ArkTS不支持访问热度分析"
+    },
+    "answer": [
+      "B"
+    ],
+    "explanation": "通过统计路由的访问次数、停留时间和用户互动，生成访问热度分布图。"
+  },
+  {
+    "id": 870,
+    "type": "single",
+    "category": "性能优化",
+    "difficulty": "困难",
+    "question": "如何实现组件的渲染内存优化？",
+    "options": {
+      "A": "使用 @MemoryOptimize 装饰器",
+      "B": "优化纹理和几何数据的内存使用",
+      "C": "使用 MemoryOptimizer 类",
+      "D": "ArkTS不支持内存优化"
+    },
+    "answer": [
+      "B"
+    ],
+    "explanation": "通过压缩纹理、复用几何数据、及时释放资源等技术，优化渲染内存占用。"
+  },
+  {
+    "id": 871,
+    "type": "single",
+    "category": "基础语法",
+    "difficulty": "困难",
+    "question": "如何实现类型的递归Pick？",
+    "options": {
+      "A": "使用 DeepPick<T, K>",
+      "B": "使用递归条件类型和路径选择",
+      "C": "使用 @DeepPick 装饰器",
+      "D": "TypeScript不支持递归Pick"
+    },
+    "answer": [
+      "B"
+    ],
+    "explanation": "通过递归条件类型实现深度Pick：type DeepPick<T, K extends string> = K extends `${infer P}.${infer R}` ? { [Key in P]: DeepPick<T[Key], R> } : K extends keyof T ? T[K] : never"
+  },
+  {
+    "id": 872,
+    "type": "multiple",
+    "category": "UI开发",
+    "difficulty": "中等",
+    "question": "以下哪些是 Image 的加载状态事件？",
+    "options": {
+      "A": "onComplete",
+      "B": "onError",
+      "C": "onProgress",
+      "D": "onLoad"
+    },
+    "answer": [
+      "A",
+      "B",
+      "D"
+    ],
+    "explanation": "Image 组件支持 onComplete（加载完成）、onError（加载错误）、onLoad（加载成功）等事件。"
+  },
+  {
+    "id": 873,
+    "type": "single",
+    "category": "状态管理",
+    "difficulty": "困难",
+    "question": "如何实现状态管理的水印算法？",
+    "options": {
+      "A": "使用 @Watermark 装饰器",
+      "B": "为状态变更添加逻辑时间戳",
+      "C": "使用 WatermarkAlgorithm 类",
+      "D": "ArkTS不支持水印算法"
+    },
+    "answer": [
+      "B"
+    ],
+    "explanation": "通过为状态变更添加逻辑时间戳（水印），支持基于事件时间的状态处理窗口。"
+  },
+  {
+    "id": 874,
+    "type": "single",
+    "category": "组件开发",
+    "difficulty": "中等",
+    "question": "如何创建可配置的脑机接口组件？",
+    "options": {
+      "A": "使用 @BCI 装饰器",
+      "B": "使用 @BuilderParam 接收脑电信号配置",
+      "C": "使用 BCIManager 类",
+      "D": "ArkTS不支持脑机接口"
+    },
+    "answer": [
+      "B"
+    ],
+    "explanation": "通过 @BuilderParam 接收信号处理、模式识别等配置，实现可配置的脑机接口组件。"
+  },
+  {
+    "id": 875,
+    "type": "multiple",
+    "category": "布局",
+    "difficulty": "困难",
+    "question": "以下哪些是 GridRow 的响应式断点触发条件？",
+    "options": {
+      "A": "窗口宽度",
+      "B": "设备方向",
+      "C": "像素密度",
+      "D": "系统主题"
+    },
+    "answer": [
+      "A",
+      "B"
+    ],
+    "explanation": "GridRow 的响应式断点主要基于窗口宽度和设备方向等条件触发。"
+  },
+  {
+    "id": 876,
+    "type": "single",
+    "category": "动画",
+    "difficulty": "中等",
+    "question": "如何创建滑动进入动画？",
+    "options": {
+      "A": "使用 slideIn() 方法",
+      "B": "使用位移动画从屏幕外进入",
+      "C": "使用 SlideInAnimation",
+      "D": "ArkTS不支持滑动进入动画"
+    },
+    "answer": [
+      "B"
+    ],
+    "explanation": "通过位移动画将组件从屏幕左侧、右侧、顶部或底部滑动进入视口。"
+  },
+  {
+    "id": 877,
+    "type": "single",
+    "category": "网络请求",
+    "difficulty": "困难",
+    "question": "如何实现请求的量子安全加密？",
+    "options": {
+      "A": "使用 http.quantumSafe() 方法",
+      "B": "使用抗量子计算加密算法",
+      "C": "使用 QuantumSafeEncryption 类",
+      "D": "ArkTS不支持量子安全加密"
+    },
+    "answer": [
+      "B"
+    ],
+    "explanation": "通过使用格基加密、多变量加密等抗量子计算算法，保护数据免受未来量子计算机攻击。"
+  },
+  {
+    "id": 878,
+    "type": "multiple",
+    "category": "数据存储",
+    "difficulty": "中等",
+    "question": "以下哪些是数据验证的错误处理方式？",
+    "options": {
+      "A": "抛出异常",
+      "B": "返回错误对象",
+      "C": "记录日志",
+      "D": "忽略错误"
+    },
+    "answer": [
+      "A",
+      "B",
+      "C"
+    ],
+    "explanation": "数据验证错误可以通过抛出异常、返回错误对象或记录日志等方式处理，不应忽略错误。"
+  },
+  {
+    "id": 879,
+    "type": "single",
+    "category": "路由导航",
+    "difficulty": "中等",
+    "question": "如何实现路由的访问模式识别？",
+    "options": {
+      "A": "使用 Router.pattern()",
+      "B": "使用机器学习识别用户导航模式",
+      "C": "使用 @Pattern 装饰器",
+      "D": "ArkTS不支持模式识别"
+    },
+    "answer": [
+      "B"
+    ],
+    "explanation": "通过机器学习算法分析用户导航数据，识别常见的访问模式和使用习惯。"
+  },
+  {
+    "id": 880,
+    "type": "single",
+    "category": "性能优化",
+    "difficulty": "困难",
+    "question": "如何实现组件的渲染流水线优化？",
+    "options": {
+      "A": "使用 @Pipeline 装饰器",
+      "B": "优化渲染阶段的执行效率",
+      "C": "使用 PipelineOptimizer 类",
+      "D": "ArkTS不支持流水线优化"
+    },
+    "answer": [
+      "B"
+    ],
+    "explanation": "通过分析渲染流水线的各个阶段（数据准备、布局、绘制等），针对性优化瓶颈阶段。"
+  },
+  {
+    "id": 881,
+    "type": "single",
+    "category": "基础语法",
+    "difficulty": "中等",
+    "question": "如何实现Generator的返回值？",
+    "options": {
+      "A": "使用 return 语句",
+      "B": "使用 yield* 表达式",
+      "C": "使用 @Return 装饰器",
+      "D": "Generator不支持返回值"
+    },
+    "answer": [
+      "A"
+    ],
+    "explanation": "在Generator函数中使用return语句指定返回值，通过迭代器的value属性获取。"
+  },
+  {
+    "id": 882,
+    "type": "multiple",
+    "category": "UI开发",
+    "difficulty": "中等",
+    "question": "以下哪些是 TextTimer 的格式化占位符？",
+    "options": {
+      "A": "hh",
+      "B": "mm",
+      "C": "ss",
+      "D": "SSS"
+    },
+    "answer": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "explanation": "TextTimer 支持 hh（时）、mm（分）、ss（秒）、SSS（毫秒）等格式化占位符。"
+  },
+  {
+    "id": 883,
+    "type": "single",
+    "category": "状态管理",
+    "difficulty": "困难",
+    "question": "如何实现状态管理的Gossip协议？",
+    "options": {
+      "A": "使用 @Gossip 装饰器",
+      "B": "使用流行病传播算法同步状态",
+      "C": "使用 GossipProtocol 类",
+      "D": "ArkTS不支持Gossip协议"
+    },
+    "answer": [
+      "B"
+    ],
+    "explanation": "通过Gossip协议（流行病传播算法）在分布式节点间传播状态变更，实现最终一致性。"
+  },
+  {
+    "id": 884,
+    "type": "single",
+    "category": "组件开发",
+    "difficulty": "中等",
+    "question": "如何创建可配置的元宇宙组件？",
+    "options": {
+      "A": "使用 @Metaverse 装饰器",
+      "B": "使用 @BuilderParam 接收虚拟世界配置",
+      "C": "使用 MetaverseManager 类",
+      "D": "ArkTS不支持元宇宙组件"
+    },
+    "answer": [
+      "B"
+    ],
+    "explanation": "通过 @BuilderParam 接收3D场景、虚拟形象等配置，实现可配置的元宇宙体验组件。"
+  },
+  {
+    "id": 885,
+    "type": "multiple",
+    "category": "布局",
+    "difficulty": "中等",
+    "question": "以下哪些是 Row 的主轴对齐方式？",
+    "options": {
+      "A": "Start",
+      "B": "Center",
+      "C": "End",
+      "D": "SpaceBetween"
+    },
+    "answer": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "explanation": "Row 组件支持 Start（起始）、Center（居中）、End（末尾）、SpaceBetween（两端对齐）等主轴对齐方式。"
+  },
+  {
+    "id": 886,
+    "type": "single",
+    "category": "动画",
+    "difficulty": "困难",
+    "question": "如何创建体积烟雾动画？",
+    "options": {
+      "A": "使用 volumetricSmoke()",
+      "B": "使用流体模拟和粒子系统",
+      "C": "使用 SmokeAnimation",
+      "D": "ArkTS不支持体积烟雾"
+    },
+    "answer": [
+      "B"
+    ],
+    "explanation": "通过流体动力学模拟烟雾运动，结合粒子系统渲染细节，创建逼真的体积烟雾效果。"
+  },
+  {
+    "id": 887,
+    "type": "single",
+    "category": "网络请求",
+    "difficulty": "中等",
+    "question": "如何实现请求的意图识别？",
+    "options": {
+      "A": "使用 http.intent() 方法",
+      "B": "基于请求模式识别用户意图",
+      "C": "使用 IntentRecognizer 类",
+      "D": "ArkTS不支持意图识别"
+    },
+    "answer": [
+      "B"
+    ],
+    "explanation": "通过分析请求参数、频率和上下文，识别用户的操作意图，优化服务响应。"
+  },
+  {
+    "id": 888,
+    "type": "multiple",
+    "category": "数据存储",
+    "difficulty": "困难",
+    "question": "以下哪些是数据迁移的回滚策略？",
+    "options": {
+      "A": "全量回滚",
+      "B": "增量回滚",
+      "C": "时间点回滚",
+      "D": "选择性回滚"
+    },
+    "answer": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "explanation": "数据迁移支持全量回滚、增量回滚、时间点回滚和选择性回滚等策略。"
+  },
+  {
+    "id": 889,
+    "type": "single",
+    "category": "路由导航",
+    "difficulty": "中等",
+    "question": "如何实现路由的访问异常检测？",
+    "options": {
+      "A": "使用 Router.detectAnomaly()",
+      "B": "监控异常的导航模式和频率",
+      "C": "使用 @AnomalyDetection 装饰器",
+      "D": "ArkTS不支持异常检测"
+    },
+    "answer": [
+      "B"
+    ],
+    "explanation": "通过监控异常的访问频率、路径序列和用户行为，检测潜在的安全威胁和系统异常。"
+  },
+  {
+    "id": 890,
+    "type": "single",
+    "category": "性能优化",
+    "difficulty": "困难",
+    "question": "如何实现组件的渲染预测缓存？",
+    "options": {
+      "A": "使用 @PredictiveCache 装饰器",
+      "B": "预缓存可能需要的渲染结果",
+      "C": "使用 PredictiveCacher 类",
+      "D": "ArkTS不支持预测缓存"
+    },
+    "answer": [
+      "B"
+    ],
+    "explanation": "基于用户行为预测，提前缓存可能需要的组件渲染结果，减少渲染延迟。"
+  },
+  {
+    "id": 891,
+    "type": "single",
+    "category": "基础语法",
+    "difficulty": "困难",
+    "question": "如何实现类型的递归Omit？",
+    "options": {
+      "A": "使用 DeepOmit<T, K>",
+      "B": "使用递归条件类型排除指定属性",
+      "C": "使用 @DeepOmit 装饰器",
+      "D": "TypeScript不支持递归Omit"
+    },
+    "answer": [
+      "B"
+    ],
+    "explanation": "通过递归条件类型实现深度Omit：type DeepOmit<T, K> = T extends object ? { [P in keyof T as P extends K ? never : P]: DeepOmit<T[P], K> } : T"
+  },
+  {
+    "id": 892,
+    "type": "multiple",
+    "category": "UI开发",
+    "difficulty": "中等",
+    "question": "以下哪些是 TextArea 的键盘配置？",
+    "options": {
+      "A": "enterKeyType",
+      "B": "textAlign",
+      "C": "caretColor",
+      "D": "maxLines"
+    },
+    "answer": [
+      "A",
+      "C"
+    ],
+    "explanation": "TextArea 支持 enterKeyType（回车键类型）和 caretColor（光标颜色）等键盘配置。"
+  },
+  {
+    "id": 893,
+    "type": "single",
+    "category": "状态管理",
+    "difficulty": "困难",
+    "question": "如何实现状态管理的Paxos算法？",
+    "options": {
+      "A": "使用 @Paxos 装饰器",
+      "B": "使用分布式共识算法确定状态",
+      "C": "使用 PaxosAlgorithm 类",
+      "D": "ArkTS不支持Paxos算法"
+    },
+    "answer": [
+      "B"
+    ],
+    "explanation": "通过Paxos分布式共识算法，在多个节点间就状态值达成一致，保证强一致性。"
+  },
+  {
+    "id": 894,
+    "type": "single",
+    "category": "组件开发",
+    "difficulty": "中等",
+    "question": "如何创建可配置的神经形态计算组件？",
+    "options": {
+      "A": "使用 @Neuromorphic 装饰器",
+      "B": "使用 @BuilderParam 接收脉冲神经网络配置",
+      "C": "使用 NeuromorphicManager 类",
+      "D": "ArkTS不支持神经形态计算"
+    },
+    "answer": [
+      "B"
+    ],
+    "explanation": "通过 @BuilderParam 接收神经元模型、连接权重等配置，实现可配置的神经形态计算组件。"
+  },
+  {
+    "id": 895,
+    "type": "multiple",
+    "category": "布局",
+    "difficulty": "困难",
+    "question": "以下哪些是 Flex 的换行对齐属性？",
+    "options": {
+      "A": "alignContent",
+      "B": "justifyContent",
+      "C": "alignItems",
+      "D": "flexWrap"
+    },
+    "answer": [
+      "A"
+    ],
+    "explanation": "Flex 布局的 alignContent 属性用于控制多行flex容器中行的对齐方式。"
+  },
+  {
+    "id": 896,
+    "type": "single",
+    "category": "动画",
+    "difficulty": "中等",
+    "question": "如何创建旋转退出动画？",
+    "options": {
+      "A": "使用 rotateOut() 方法",
+      "B": "使用旋转和透明度动画组合",
+      "C": "使用 RotateOutAnimation",
+      "D": "ArkTS不支持旋转退出动画"
+    },
+    "answer": [
+      "B"
+    ],
+    "explanation": "通过旋转角度从当前值到目标值，配合透明度从1到0的变化，创建旋转退出效果。"
+  },
+  {
+    "id": 897,
+    "type": "single",
+    "category": "网络请求",
+    "difficulty": "困难",
+    "question": "如何实现请求的联邦学习集成？",
+    "options": {
+      "A": "使用 http.federated() 方法",
+      "B": "使用分布式机器学习训练模型",
+      "C": "使用 FederatedLearning 类",
+      "D": "ArkTS不支持联邦学习"
+    },
+    "answer": [
+      "B"
+    ],
+    "explanation": "通过在客户端本地训练模型，仅上传模型更新而非原始数据，实现隐私保护的分布式机器学习。"
+  },
+  {
+    "id": 898,
+    "type": "multiple",
+    "category": "数据存储",
+    "difficulty": "中等",
+    "question": "以下哪些是数据压缩的评估指标？",
+    "options": {
+      "A": "压缩比",
+      "B": "压缩速度",
+      "C": "解压速度",
+      "D": "CPU占用"
+    },
+    "answer": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "explanation": "数据压缩需要评估压缩比、压缩速度、解压速度和CPU占用等性能指标。"
+  },
+  {
+    "id": 899,
+    "type": "single",
+    "category": "路由导航",
+    "difficulty": "中等",
+    "question": "如何实现路由的访问预测优化？",
+    "options": {
+      "A": "使用 Router.predict()",
+      "B": "基于历史数据预测用户导航路径",
+      "C": "使用 @Predict 装饰器",
+      "D": "ArkTS不支持访问预测"
+    },
+    "answer": [
+      "B"
+    ],
+    "explanation": "通过分析用户历史导航数据，预测下一步可能访问的路由，进行预加载优化。"
+  },
+  {
+    "id": 900,
+    "type": "single",
+    "category": "性能优化",
+    "difficulty": "困难",
+    "question": "如何实现组件的渲染自适应优化？",
+    "options": {
+      "A": "使用 @AdaptiveRender 装饰器",
+      "B": "根据设备能力动态调整渲染质量",
+      "C": "使用 AdaptiveRenderer 类",
+      "D": "ArkTS不支持自适应优化"
+    },
+    "answer": [
+      "B"
+    ],
+    "explanation": "通过检测设备性能、电量和网络条件，动态调整渲染分辨率、帧率和效果质量。"
+  },
+  {
+    "id": 901,
+    "type": "single",
+    "category": "基础语法",
+    "difficulty": "简单",
+    "question": "ArkTS 中，以下哪种方式可以正确定义一个空数组？",
+    "options": {
+      "A": "const arr: number [] = []",
+      "B": "const arr = new Array ()",
+      "C": "const arr: Array<string> = [null]",
+      "D": "const arr = {}"
+    },
+    "answer": [
+      "A"
+    ],
+    "explanation": "ArkTS 中定义空数组的标准方式是使用 [] 并指定类型，如 number [] 表示数字数组；new Array () 虽能创建数组，但类型不明确；[null] 不是空数组；{} 是对象"
+  },
+  {
+    "id": 902,
+    "type": "multiple",
+    "category": "组件开发",
+    "difficulty": "中等",
+    "question": "以下哪些方法可以实现组件的条件渲染？",
+    "options": {
+      "A": "使用 if-else 语句",
+      "B": "使用三目运算符",
+      "C": "使用 switch-case 语句",
+      "D": "使用 visibility 属性"
+    },
+    "answer": [
+      "A",
+      "B",
+      "C"
+    ],
+    "explanation": "ArkTS 支持通过 if-else、三目运算符、switch-case 实现条件渲染；visibility 属性控制显示隐藏但仍占据布局空间，不属于条件渲染"
+  },
+  {
+    "id": 903,
+    "type": "single",
+    "category": "状态管理",
+    "difficulty": "中等",
+    "question": "@Provide 与 @Consume 的作用范围是？",
+    "options": {
+      "A": "跨任意层级的组件",
+      "B": "仅父子组件",
+      "C": "仅兄弟组件",
+      "D": "全应用范围"
+    },
+    "answer": [
+      "A"
+    ],
+    "explanation": "@Provide 与 @Consume 实现跨层级的状态共享，无论组件层级深度如何，只要在同一组件树中即可共享状态"
+  },
+  {
+    "id": 904,
+    "type": "single",
+    "category": "布局设计",
+    "difficulty": "简单",
+    "question": "以下哪种布局适合实现水平或垂直排列的线性布局？",
+    "options": {
+      "A": "Row/Column",
+      "B": "Stack",
+      "C": "Grid",
+      "D": "RelativeContainer"
+    },
+    "answer": [
+      "A"
+    ],
+    "explanation": "Row 用于水平排列组件，Column 用于垂直排列组件，是实现线性布局的基础组件"
+  },
+  {
+    "id": 905,
+    "type": "multiple",
+    "category": "事件处理",
+    "difficulty": "中等",
+    "question": "以下哪些是触摸事件的类型？",
+    "options": {
+      "A": "onTouchStart",
+      "B": "onTouchMove",
+      "C": "onTouchEnd",
+      "D": "onTouchCancel"
+    },
+    "answer": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "explanation": "触摸事件包括 onTouchStart（触摸开始）、onTouchMove（触摸移动）、onTouchEnd（触摸结束）、onTouchCancel（触摸中断）四种类型"
+  },
+  {
+    "id": 906,
+    "type": "single",
+    "category": "UI 组件",
+    "difficulty": "简单",
+    "question": "用于显示进度条的组件是？",
+    "options": {
+      "A": "Progress",
+      "B": "Slider",
+      "C": "ProgressBar",
+      "D": "ProgressIndicator"
+    },
+    "answer": [
+      "A"
+    ],
+    "explanation": "Progress 组件用于显示操作的进度，支持线性进度条和环形进度条，可设置进度值和样式"
+  },
+  {
+    "id": 907,
+    "type": "single",
+    "category": "分布式能力",
+    "difficulty": "困难",
+    "question": "鸿蒙分布式服务框架的核心协议是？",
+    "options": {
+      "A": "DDSP（Distributed Data Sharing Protocol）",
+      "B": "HDSP（Harmony Distributed Service Protocol）",
+      "C": "DMS（Distributed Management Service）",
+      "D": "HDFS（Harmony Distributed File System）"
+    },
+    "answer": [
+      "A"
+    ],
+    "explanation": "DDSP（分布式数据共享协议）是鸿蒙分布式服务框架的核心协议，用于实现跨设备的数据共享和服务调用"
+  },
+  {
+    "id": 908,
+    "type": "multiple",
+    "category": "路由管理",
+    "difficulty": "中等",
+    "question": "以下哪些方法可以获取路由参数？",
+    "options": {
+      "A": "router.getParams ()",
+      "B": "\\(route.params",
+      "C": "router.getState().params",
+      "D": "this.routeParams"
+    },
+    "answer": [
+      "B",
+      "C"
+    ],
+    "explanation": "获取路由参数的方式包括：通过\\)route.params 直接访问，或通过 router.getState ().params 获取；router.getParams () 和 this.routeParams 不是标准 API"
+  },
+  {
+    "id": 909,
+    "type": "single",
+    "category": "样式设置",
+    "difficulty": "简单",
+    "question": "如何设置组件的宽度为父容器的 50%？",
+    "options": {
+      "A": ".width ('50%')",
+      "B": ".width (0.5)",
+      "C": ".width ('half')",
+      "D": ".width ({ percent: 50 })"
+    },
+    "answer": [
+      "A"
+    ],
+    "explanation": "使用.width ('50%') 设置组件宽度为父容器的 50%，百分比字符串是设置相对宽度的标准方式"
+  },
+  {
+    "id": 910,
+    "type": "single",
+    "category": "基础语法",
+    "difficulty": "中等",
+    "question": "ArkTS 中，以下哪种方式可以正确实现数组的映射转换？",
+    "options": {
+      "A": "array.map (item => item * 2)",
+      "B": "array.convert (item => item * 2)",
+      "C": "array.transform (item => item * 2)",
+      "D": "array.change (item => item * 2)"
+    },
+    "answer": [
+      "A"
+    ],
+    "explanation": "map () 方法用于对数组中的每个元素执行回调函数，并返回新的转换后数组，是 ArkTS 中数组映射的标准方法"
+  },
+  {
+    "id": 911,
+    "type": "single",
+    "category": "组件生命周期",
+    "difficulty": "中等",
+    "question": "组件从 DOM 树中移除时会触发哪个生命周期函数？",
+    "options": {
+      "A": "onDestroy ()",
+      "B": "onDisappear ()",
+      "C": "onRemove ()",
+      "D": "onDelete ()"
+    },
+    "answer": [
+      "A"
+    ],
+    "explanation": "onDestroy () 在组件从 DOM 树中移除并销毁时触发，用于释放资源和清理操作"
+  },
+  {
+    "id": 912,
+    "type": "multiple",
+    "category": "状态管理",
+    "difficulty": "困难",
+    "question": "以下哪些状态装饰器支持状态变化通知？",
+    "options": {
+      "A": "@State",
+      "B": "@Prop",
+      "C": "@Link",
+      "D": "@StorageProp"
+    },
+    "answer": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "explanation": "@State、@Prop、@Link、@StorageProp 均为状态装饰器，当状态变化时会通知组件重新渲染"
+  },
+  {
+    "id": 913,
+    "type": "single",
+    "category": "布局设计",
+    "difficulty": "中等",
+    "question": "Stack 布局中，子组件的默认对齐方式是？",
+    "options": {
+      "A": "左上角对齐",
+      "B": "居中对齐",
+      "C": "右下角对齐",
+      "D": "拉伸填充"
+    },
+    "answer": [
+      "A"
+    ],
+    "explanation": "Stack 布局中，子组件默认左上角对齐，可通过 alignContent 属性修改对齐方式"
+  },
+  {
+    "id": 914,
+    "type": "single",
+    "category": "事件处理",
+    "difficulty": "中等",
+    "question": "双击手势（DoubleClick）的默认触发时间间隔是多少？",
+    "options": {
+      "A": "300ms",
+      "B": "500ms",
+      "C": "1000ms",
+      "D": "自定义，无默认值"
+    },
+    "answer": [
+      "B"
+    ],
+    "explanation": "双击手势默认在 500ms 内连续点击两次触发，可通过 interval 参数自定义时间间隔"
+  },
+  {
+    "id": 915,
+    "type": "multiple",
+    "category": "UI 组件",
+    "difficulty": "简单",
+    "question": "以下哪些组件支持输入功能？",
+    "options": {
+      "A": "TextInput",
+      "B": "TextArea",
+      "C": "Search",
+      "D": "Picker"
+    },
+    "answer": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "explanation": "TextInput（单行输入）、TextArea（多行输入）、Search（搜索输入）、Picker（选择输入）均支持用户输入功能"
+  },
+  {
+    "id": 916,
+    "type": "single",
+    "category": "分布式能力",
+    "difficulty": "困难",
+    "question": "分布式设备的认证级别不包括以下哪项？",
+    "options": {
+      "A": "设备级认证",
+      "B": "用户级认证",
+      "C": "应用级认证",
+      "D": "数据级认证"
+    },
+    "answer": [
+      "D"
+    ],
+    "explanation": "分布式设备认证包括设备级、用户级和应用级认证，没有数据级认证这一分类"
+  },
+  {
+    "id": 917,
+    "type": "single",
+    "category": "路由管理",
+    "difficulty": "中等",
+    "question": "如何设置路由的默认页面？",
+    "options": {
+      "A": "在 main_pages.json 中设置第一个页面",
+      "B": "在 app.json 中配置 defaultRoute",
+      "C": "使用 router.setDefaultUrl () 方法",
+      "D": "在 EntryAbility 中指定"
+    },
+    "answer": [
+      "A"
+    ],
+    "explanation": "路由的默认页面是 main_pages.json 配置文件中列出的第一个页面，应用启动时默认加载该页面"
+  },
+  {
+    "id": 918,
+    "type": "multiple",
+    "category": "样式设置",
+    "difficulty": "中等",
+    "question": "以下哪些方法可以设置文本的对齐方式？",
+    "options": {
+      "A": ".textAlign (TextAlign.Center)",
+      "B": ".align (Alignment.Center)",
+      "C": ".textAlignment (TextAlign.Right)",
+      "D": ".setAlignment (TextAlign.Left)"
+    },
+    "answer": [
+      "A",
+      "B"
+    ],
+    "explanation": "文本对齐可通过.textAlign () 直接设置，或通过.align () 设置组件的对齐方式影响文本；其他选项不是标准 API"
+  },
+  {
+    "id": 919,
+    "type": "single",
+    "category": "基础语法",
+    "difficulty": "简单",
+    "question": "ArkTS 中，以下哪种方式可以正确判断变量是否为 null 或 undefined？",
+    "options": {
+      "A": "if (value == null)",
+      "B": "if (value === null || value === undefined)",
+      "C": "if (isNull (value))",
+      "D": "if (isEmpty (value))"
+    },
+    "answer": [
+      "B"
+    ],
+    "explanation": "使用严格相等运算符（===）分别判断 null 和 undefined 是最准确的方式；== 会进行类型转换，可能导致误判；ArkTS 没有 isNull () 或 isEmpty () 全局函数"
+  },
+  {
+    "id": 920,
+    "type": "single",
+    "category": "组件开发",
+    "difficulty": "中等",
+    "question": "@Builder 装饰器的作用是？",
+    "options": {
+      "A": "封装可复用的 UI 片段",
+      "B": "定义组件的构造函数",
+      "C": "实现组件的异步加载",
+      "D": "优化组件的渲染性能"
+    },
+    "answer": [
+      "A"
+    ],
+    "explanation": "@Builder 用于定义可复用的 UI 片段（构建函数），可以在组件的 build () 方法中多次调用，提高代码复用性"
+  },
+  {
+    "id": 921,
+    "type": "multiple",
+    "category": "组件生命周期",
+    "difficulty": "中等",
+    "question": "以下哪些生命周期函数在组件被销毁时会被调用？",
+    "options": {
+      "A": "onDestroy ()",
+      "B": "onDisappear ()",
+      "C": "onPageHide ()",
+      "D": "onFinalize ()"
+    },
+    "answer": [
+      "A",
+      "B"
+    ],
+    "explanation": "组件被销毁时会先触发 onDisappear ()（消失），再触发 onDestroy ()（销毁）；onPageHide () 用于页面隐藏，onFinalize () 不存在"
+  },
+  {
+    "id": 922,
+    "type": "single",
+    "category": "状态管理",
+    "difficulty": "中等",
+    "question": "Preferences 的 delete () 方法的作用是？",
+    "options": {
+      "A": "删除指定键的数据",
+      "B": "清空所有数据",
+      "C": "删除 Preferences 文件",
+      "D": "取消上次修改"
+    },
+    "answer": [
+      "A"
+    ],
+    "explanation": "Preferences 的 delete () 方法用于删除指定键的数据，清空所有数据使用 clear () 方法"
+  },
+  {
+    "id": 923,
+    "type": "single",
+    "category": "布局设计",
+    "difficulty": "中等",
+    "question": "Grid 布局中，columnsTemplate 属性的作用是？",
+    "options": {
+      "A": "定义列的数量和宽度比例",
+      "B": "定义列的间距",
+      "C": "定义列的对齐方式",
+      "D": "定义列的最大宽度"
+    },
+    "answer": [
+      "A"
+    ],
+    "explanation": "columnsTemplate 用于定义 Grid 的列结构，如 '1fr 1fr 1fr' 表示 3 列，每列宽度相等"
+  },
+  {
+    "id": 924,
+    "type": "multiple",
+    "category": "事件处理",
+    "difficulty": "困难",
+    "question": "以下哪些是手势事件的传播阶段？",
+    "options": {
+      "A": "捕获阶段",
+      "B": "目标阶段",
+      "C": "冒泡阶段",
+      "D": "处理阶段"
+    },
+    "answer": [
+      "A",
+      "B",
+      "C"
+    ],
+    "explanation": "手势事件传播分为三个阶段：捕获阶段（从父到子）、目标阶段（到达目标组件）、冒泡阶段（从子到父）"
+  },
+  {
+    "id": 925,
+    "type": "single",
+    "category": "UI 组件",
+    "difficulty": "简单",
+    "question": "用于显示标签页的组件是？",
+    "options": {
+      "A": "Tabs",
+      "B": "TabView",
+      "C": "TabBar",
+      "D": "PageIndicator"
+    },
+    "answer": [
+      "A"
+    ],
+    "explanation": "Tabs 组件用于实现标签页切换功能，包含 TabContent 子组件和可选的 TabBar 导航栏"
+  },
+  {
+    "id": 926,
+    "type": "single",
+    "category": "分布式能力",
+    "difficulty": "困难",
+    "question": "分布式数据对象的同步优先级不包括以下哪项？",
+    "options": {
+      "A": "High",
+      "B": "Medium",
+      "C": "Low",
+      "D": "Immediate"
+    },
+    "answer": [
+      "D"
+    ],
+    "explanation": "分布式数据对象的同步优先级包括 High（高）、Medium（中）、Low（低），没有 Immediate 优先级"
+  },
+  {
+    "id": 927,
+    "type": "multiple",
+    "category": "路由管理",
+    "difficulty": "中等",
+    "question": "以下哪些情况会导致路由栈长度增加？",
+    "options": {
+      "A": "调用 router.pushUrl ()",
+      "B": "调用 router.replaceUrl ()",
+      "C": "从子页面返回父页面",
+      "D": "应用首次启动"
+    },
+    "answer": [
+      "A",
+      "D"
+    ],
+    "explanation": "router.pushUrl () 会添加新页面到路由栈；应用首次启动会创建初始页面，栈长度从 0 变为 1；replaceUrl 不改变栈长度；返回会减少栈长度"
+  },
+  {
+    "id": 928,
+    "type": "single",
+    "category": "样式设置",
+    "difficulty": "中等",
+    "question": "如何设置组件的边框为虚线？",
+    "options": {
+      "A": ".borderStyle (BorderStyle.Dashed)",
+      "B": ".border ({ style: 'dashed' })",
+      "C": ".dashedBorder (true)",
+      "D": ".borderDash ([5, 3])"
+    },
+    "answer": [
+      "A"
+    ],
+    "explanation": "使用.borderStyle () 方法设置边框样式，BorderStyle.Dashed 表示虚线边框；其他选项不是标准 API"
+  },
+  {
+    "id": 929,
+    "type": "single",
+    "category": "基础语法",
+    "difficulty": "中等",
+    "question": "ArkTS 中，以下哪种方式可以正确实现对象的深拷贝？",
+    "options": {
+      "A": "JSON.parse (JSON.stringify (obj))",
+      "B": "{ ...obj }",
+      "C": "Object.assign ({}, obj)",
+      "D": "obj.copy ()"
+    },
+    "answer": [
+      "A"
+    ],
+    "explanation": "使用 JSON 序列化与反序列化是实现对象深拷贝的常用方式；扩展运算符和 Object.assign () 仅实现浅拷贝；ArkTS 对象没有 copy () 方法"
+  },
+  {
+    "id": 930,
+    "type": "multiple",
+    "category": "组件开发",
+    "difficulty": "中等",
+    "question": "以下哪些是自定义组件的属性类型？",
+    "options": {
+      "A": "基本数据类型（number、string 等）",
+      "B": "对象类型",
+      "C": "函数类型",
+      "D": "组件类型"
+    },
+    "answer": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "explanation": "自定义组件的属性支持基本数据类型、对象类型、函数类型（事件回调）和组件类型（子组件）"
+  },
+  {
+    "id": 931,
+    "type": "single",
+    "category": "组件生命周期",
+    "difficulty": "中等",
+    "question": "onAppear () 生命周期函数在什么时候调用？",
+    "options": {
+      "A": "组件显示在界面上时",
+      "B": "组件被创建时",
+      "C": "组件属性更新时",
+      "D": "应用启动时"
+    },
+    "answer": [
+      "A"
+    ],
+    "explanation": "onAppear () 在组件显示在界面上时调用，包括首次显示和从隐藏状态变为显示状态"
+  },
+  {
+    "id": 932,
+    "type": "single",
+    "category": "状态管理",
+    "difficulty": "困难",
+    "question": "如何在非组件类中访问 AppStorage 中的状态？",
+    "options": {
+      "A": "通过 AppStorage.Get () 方法",
+      "B": "使用 @StorageProp 装饰器",
+      "C": "使用 @StorageLink 装饰器",
+      "D": "非组件类无法访问 AppStorage"
+    },
+    "answer": [
+      "A"
+    ],
+    "explanation": "非组件类可通过 AppStorage.Get ('key') 方法获取状态，通过 AppStorage.Set ('key', value) 修改状态；装饰器仅用于组件类"
+  },
+  {
+    "id": 933,
+    "type": "multiple",
+    "category": "布局设计",
+    "difficulty": "中等",
+    "question": "以下哪些布局容器支持设置滚动方向？",
+    "options": {
+      "A": "Scroll",
+      "B": "List",
+      "C": "Grid",
+      "D": "WaterFlow"
+    },
+    "answer": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "explanation": "Scroll（scrollDirection）、List（listDirection）、Grid（scrollDirection）、WaterFlow（scrollDirection）均支持设置滚动方向"
+  },
+  {
+    "id": 934,
+    "type": "single",
+    "category": "事件处理",
+    "difficulty": "中等",
+    "question": "以下哪种事件用于处理键盘输入？",
+    "options": {
+      "A": "onKeyEvent",
+      "B": "onKeyboard",
+      "C": "onInput",
+      "D": "onKeyPress"
+    },
+    "answer": [
+      "A"
+    ],
+    "explanation": "onKeyEvent 用于处理键盘事件，可获取按键类型、按键码等信息；onInput 用于输入框内容变化"
+  },
+  {
+    "id": 935,
+    "type": "single",
+    "category": "UI 组件",
+    "difficulty": "简单",
+    "question": "用于显示加载状态的组件是？",
+    "options": {
+      "A": "LoadingProgress",
+      "B": "Spinner",
+      "C": "Loading",
+      "D": "Indicator"
+    },
+    "answer": [
+      "B"
+    ],
+    "explanation": "Spinner 组件用于显示加载状态，提供多种动画样式，通常在数据加载时使用"
+  },
+  {
+    "id": 936,
+    "type": "multiple",
+    "category": "分布式能力",
+    "difficulty": "困难",
+    "question": "以下哪些是分布式文件系统的操作？",
+    "options": {
+      "A": "文件创建",
+      "B": "文件读取",
+      "C": "文件复制",
+      "D": "文件权限管理"
+    },
+    "answer": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "explanation": "分布式文件系统支持文件创建、读取、复制、权限管理等基本文件操作，与本地文件系统操作类似"
+  },
+  {
+    "id": 937,
+    "type": "single",
+    "category": "路由管理",
+    "difficulty": "中等",
+    "question": "router.getState () 方法返回的对象不包含以下哪项？",
+    "options": {
+      "A": "currentUrl",
+      "B": "params",
+      "C": "history",
+      "D": "length"
+    },
+    "answer": [
+      "C"
+    ],
+    "explanation": "router.getState () 返回的状态对象包含 currentUrl（当前页面）、params（参数）、length（栈长度），不包含 history（历史记录）"
+  },
+  {
+    "id": 938,
+    "type": "multiple",
+    "category": "样式设置",
+    "difficulty": "中等",
+    "question": "以下哪些方法可以设置文本的字体样式？",
+    "options": {
+      "A": ".fontStyle (FontStyle.Italic)",
+      "B": ".font ({ style: FontStyle.Italic })",
+      "C": ".textStyle ('italic')",
+      "D": ".setFontStyle (FontStyle.Normal)"
+    },
+    "answer": [
+      "A",
+      "B"
+    ],
+    "explanation": "可通过.fontStyle () 直接设置或.font () 传入样式对象设置文本字体样式（正常 / 斜体）；其他选项不是标准 API"
+  },
+  {
+    "id": 939,
+    "type": "single",
+    "category": "基础语法",
+    "difficulty": "中等",
+    "question": "ArkTS 中，以下哪种方式可以正确实现数组的过滤？",
+    "options": {
+      "A": "array.filter (item => item > 0)",
+      "B": "array.select (item => item > 0)",
+      "C": "array.find (item => item > 0)",
+      "D": "array.search (item => item > 0)"
+    },
+    "answer": [
+      "A"
+    ],
+    "explanation": "filter () 方法用于过滤数组，返回所有满足条件的元素组成的新数组；find () 只返回第一个满足条件的元素"
+  },
+  {
+    "id": 940,
+    "type": "single",
+    "category": "组件开发",
+    "difficulty": "中等",
+    "question": "@BuilderParam 装饰器的作用是？",
+    "options": {
+      "A": "传递 UI 片段作为参数",
+      "B": "定义组件的构造参数",
+      "C": "标记必选参数",
+      "D": "优化参数传递性能"
+    },
+    "answer": [
+      "A"
+    ],
+    "explanation": "@BuilderParam 用于将 @Builder 定义的 UI 片段作为参数传递给子组件，实现组件 UI 内容的定制化"
+  },
+  {
+    "id": 941,
+    "type": "multiple",
+    "category": "组件生命周期",
+    "difficulty": "中等",
+    "question": "以下哪些情况会触发组件的 onAppear () 方法？",
+    "options": {
+      "A": "组件首次渲染显示",
+      "B": "组件从隐藏状态变为显示状态",
+      "C": "组件属性更新后重新渲染",
+      "D": "应用从后台切换到前台"
+    },
+    "answer": [
+      "A",
+      "B",
+      "D"
+    ],
+    "explanation": "onAppear () 在组件显示时触发，包括首次显示、从隐藏变为显示、应用从后台切换到前台导致组件重新显示"
+  },
+  {
+    "id": 942,
+    "type": "single",
+    "category": "状态管理",
+    "difficulty": "中等",
+    "question": "LocalStorage 的 create () 方法的作用是？",
+    "options": {
+      "A": "创建新的 LocalStorage 实例",
+      "B": "创建新的存储键值对",
+      "C": "创建持久化存储文件",
+      "D": "创建与 AppStorage 的绑定关系"
+    },
+    "answer": [
+      "A"
+    ],
+    "explanation": "LocalStorage.create () 用于创建新的 LocalStorage 实例，可用于组件树内的状态共享"
+  },
+  {
+    "id": 943,
+    "type": "single",
+    "category": "布局设计",
+    "difficulty": "中等",
+    "question": "RelativeContainer 中，如何设置组件 A 在组件 B 的右侧？",
+    "options": {
+      "A": "A 的 alignRules 设置 { left: { anchor: 'B', align: HorizontalAlign.End } }",
+      "B": "A 的 alignRules 设置 { right: { anchor: 'B', align: HorizontalAlign.Start } }",
+      "C": "B 的 alignRules 设置 { right: { anchor: 'A', align: HorizontalAlign.Start } }",
+      "D": "A 的 alignRules 设置 { left: { anchor: 'B', align: HorizontalAlign.Start } }"
+    },
+    "answer": [
+      "A"
+    ],
+    "explanation": "要使 A 在 B 右侧，需设置 A 的左边缘与 B 的右边缘对齐，即 A 的 left 锚定 B 的 HorizontalAlign.End（右边缘）"
+  },
+  {
+    "id": 944,
+    "type": "multiple",
+    "category": "事件处理",
+    "difficulty": "中等",
+    "question": "以下哪些是捏合手势（PinchGesture）的事件参数？",
+    "options": {
+      "A": "scale",
+      "B": "angle",
+      "C": "centerX",
+      "D": "centerY"
+    },
+    "answer": [
+      "A",
+      "C",
+      "D"
+    ],
+    "explanation": "捏合手势参数包括 scale（缩放比例）、centerX/centerY（中心点坐标）；angle 是旋转手势的参数"
+  },
+  {
+    "id": 945,
+    "type": "single",
+    "category": "UI 组件",
+    "difficulty": "简单",
+    "question": "用于显示底部导航栏的组件是？",
+    "options": {
+      "A": "TabContent",
+      "B": "Navigation",
+      "C": "BottomTabBar",
+      "D": "TabBar"
+    },
+    "answer": [
+      "D"
+    ],
+    "explanation": "TabBar 组件可用于实现底部导航栏，通常与 Tabs 组件配合使用，提供页面切换功能"
+  },
+  {
+    "id": 946,
+    "type": "single",
+    "category": "分布式能力",
+    "difficulty": "困难",
+    "question": "分布式服务的发现模式不包括以下哪项？",
+    "options": {
+      "A": "主动发现",
+      "B": "被动发现",
+      "C": "广播发现",
+      "D": "定向发现"
+    },
+    "answer": [
+      "C"
+    ],
+    "explanation": "分布式服务的发现模式包括主动发现（主动搜索）、被动发现（等待被发现）、定向发现（指定设备），没有广播发现模式"
+  },
+  {
+    "id": 947,
+    "type": "multiple",
+    "category": "路由管理",
+    "difficulty": "中等",
+    "question": "以下哪些方法可以关闭当前页面？",
+    "options": {
+      "A": "router.back ()",
+      "B": "router.pop ()",
+      "C": "router.close ()",
+      "D": "router.exit ()"
+    },
+    "answer": [
+      "A",
+      "B"
+    ],
+    "explanation": "router.back () 和 router.pop () 均用于关闭当前页面并返回上一页；router.close () 和 router.exit () 不是标准 API"
+  },
+  {
+    "id": 948,
+    "type": "single",
+    "category": "样式设置",
+    "difficulty": "中等",
+    "question": "如何设置组件的透明度为 50%？",
+    "options": {
+      "A": ".opacity (0.5)",
+      "B": ".alpha (50%)",
+      "C": ".transparent (0.5)",
+      "D": ".setOpacity (50)"
+    },
+    "answer": [
+      "A"
+    ],
+    "explanation": "使用.opacity () 方法设置组件透明度，参数为 0-1 之间的数值，0.5 表示 50% 透明度"
+  },
+  {
+    "id": 949,
+    "type": "single",
+    "category": "基础语法",
+    "difficulty": "简单",
+    "question": "ArkTS 中，以下哪种方式可以正确获取数组的长度？",
+    "options": {
+      "A": "array.length",
+      "B": "array.size ()",
+      "C": "array.getLength ()",
+      "D": "length (array)"
+    },
+    "answer": [
+      "A"
+    ],
+    "explanation": "ArkTS 中通过数组的 length 属性获取数组长度，这是标准的 ECMAScript 规范"
+  },
+  {
+    "id": 950,
+    "type": "multiple",
+    "category": "组件开发",
+    "difficulty": "中等",
+    "question": "以下哪些是自定义组件的样式设置方式？",
+    "options": {
+      "A": "通过链式方法（如.width ()）",
+      "B": "通过 @Styles 装饰器",
+      "C": "通过 CSS 文件",
+      "D": "通过 style 属性"
+    },
+    "answer": [
+      "A",
+      "B"
+    ],
+    "explanation": "ArkTS 自定义组件通过链式方法和 @Styles 装饰器设置样式；不支持 CSS 文件，也没有 style 属性"
+  },
+  {
+    "id": 951,
+    "type": "single",
+    "category": "组件生命周期",
+    "difficulty": "中等",
+    "question": "onPageHide () 与 onDisappear () 的执行顺序是？",
+    "options": {
+      "A": "onPageHide () 先执行，onDisappear () 后执行",
+      "B": "onDisappear () 先执行，onPageHide () 后执行",
+      "C": "同时执行",
+      "D": "没有固定顺序"
+    },
+    "answer": [
+      "A"
+    ],
+    "explanation": "页面隐藏时，先执行页面级的 onPageHide ()，再执行组件级的 onDisappear ()"
+  },
+  {
+    "id": 952,
+    "type": "single",
+    "category": "状态管理",
+    "difficulty": "中等",
+    "question": "Preferences 的 getAll () 方法返回的是什么？",
+    "options": {
+      "A": "所有键值对组成的对象",
+      "B": "所有键组成的数组",
+      "C": "所有值组成的数组",
+      "D": "存储的条目数量"
+    },
+    "answer": [
+      "A"
+    ],
+    "explanation": "Preferences 的 getAll () 方法返回一个包含所有键值对的对象，可用于遍历所有存储的数据"
+  },
+  {
+    "id": 953,
+    "type": "multiple",
+    "category": "布局设计",
+    "difficulty": "中等",
+    "question": "以下哪些布局容器支持设置子组件间距？",
+    "options": {
+      "A": "Row",
+      "B": "Column",
+      "C": "Grid",
+      "D": "List"
+    },
+    "answer": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "explanation": "Row/Column（spacing）、Grid（rowSpacing/columnSpacing）、List（space）均支持设置子组件间距"
+  },
+  {
+    "id": 954,
+    "type": "single",
+    "category": "事件处理",
+    "difficulty": "中等",
+    "question": "以下哪种事件用于处理组件的尺寸变化？",
+    "options": {
+      "A": "onSizeChange",
+      "B": "onResize",
+      "C": "onDimensionChange",
+      "D": "onLayoutChange"
+    },
+    "answer": [
+      "A"
+    ],
+    "explanation": "onSizeChange 事件在组件尺寸发生变化时触发，可获取组件的新宽度和高度"
+  },
+  {
+    "id": 955,
+    "type": "single",
+    "category": "UI 组件",
+    "difficulty": "简单",
+    "question": "用于显示提示消息的组件是？",
+    "options": {
+      "A": "Toast",
+      "B": "Message",
+      "C": "Tip",
+      "D": "Alert"
+    },
+    "answer": [
+      "A"
+    ],
+    "explanation": "Toast 组件用于显示短暂的提示消息，通常在一段时间后自动消失，不阻断用户操作"
+  },
+  {
+    "id": 956,
+    "type": "multiple",
+    "category": "分布式能力",
+    "difficulty": "困难",
+    "question": "以下哪些是分布式任务的执行结果状态？",
+    "options": {
+      "A": "SUCCESS",
+      "B": "FAILURE",
+      "C": "TIMEOUT",
+      "D": "CANCELLED"
+    },
+    "answer": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "explanation": "分布式任务执行结果状态包括成功（SUCCESS）、失败（FAILURE）、超时（TIMEOUT）、已取消（CANCELLED）"
+  },
+  {
+    "id": 957,
+    "type": "single",
+    "category": "路由管理",
+    "difficulty": "中等",
+    "question": "router.clear () 方法的作用是？",
+    "options": {
+      "A": "清空路由栈",
+      "B": "清除当前页面的参数",
+      "C": "清除路由历史记录",
+      "D": "重置路由配置"
+    },
+    "answer": [
+      "A"
+    ],
+    "explanation": "router.clear () 用于清空路由栈中的所有页面，通常与 router.pushUrl () 配合使用，实现跳转到新页面并清除历史"
+  },
+  {
+    "id": 958,
+    "type": "multiple",
+    "category": "样式设置",
+    "difficulty": "中等",
+    "question": "以下哪些方法可以设置组件的背景图片？",
+    "options": {
+      "A": ".backgroundImage (\\(r('app.media.bg'))",
+      "B": ".backgroundImage('https://example.com/bg.png')",
+      "C": ".imageBackground(\\)r('app.media.bg'))",
+      "D": ".setBackgroundImage(\\(r('app.media.bg'))"
+    },
+    "answer": [
+      "A",
+      "B"
+    ],
+    "explanation": "使用.backgroundImage()方法设置背景图片，支持本地资源（\\)r）和网络图片 URL；其他选项不是标准 API"
+  },
+  {
+    "id": 959,
+    "type": "single",
+    "category": "基础语法",
+    "difficulty": "中等",
+    "question": "ArkTS 中，以下哪种方式可以正确实现数组的排序？",
+    "options": {
+      "A": "array.sort ((a, b) => a - b)",
+      "B": "array.orderBy ((a, b) => a - b)",
+      "C": "array.arrange ((a, b) => a - b)",
+      "D": "sorted (array, (a, b) => a - b)"
+    },
+    "answer": [
+      "A"
+    ],
+    "explanation": "sort () 方法用于对数组进行排序，接受比较函数作为参数；其他选项不是 ArkTS 的数组排序方法"
+  },
+  {
+    "id": 960,
+    "type": "single",
+    "category": "组件开发",
+    "difficulty": "中等",
+    "question": "@Extend 与 @Styles 的主要区别是？",
+    "options": {
+      "A": "@Extend 用于扩展组件，@Styles 用于定义样式片段",
+      "B": "@Extend 支持参数，@Styles 不支持",
+      "C": "@Extend 是全局的，@Styles 是局部的",
+      "D": "@Extend 用于组件，@Styles 用于页面"
+    },
+    "answer": [
+      "A"
+    ],
+    "explanation": "@Extend 用于扩展特定组件，为其添加新的样式方法；@Styles 用于定义可复用的样式片段，可应用于多个组件"
+  },
+  {
+    "id": 961,
+    "type": "multiple",
+    "category": "组件生命周期",
+    "difficulty": "中等",
+    "question": "以下哪些生命周期函数在应用退出时会被调用？",
+    "options": {
+      "A": "onDestroy ()",
+      "B": "onDisappear ()",
+      "C": "onPageHide ()",
+      "D": "onExit ()"
+    },
+    "answer": [
+      "A",
+      "B",
+      "C"
+    ],
+    "explanation": "应用退出时，当前页面组件会依次触发 onPageHide ()、onDisappear ()、onDestroy () 生命周期函数；onExit () 不存在"
+  },
+  {
+    "id": 962,
+    "type": "single",
+    "category": "状态管理",
+    "difficulty": "中等",
+    "question": "AppStorage 与 LocalStorage 的同步方式是？",
+    "options": {
+      "A": "通过 link 方法建立单向同步",
+      "B": "自动双向同步",
+      "C": "需要手动同步",
+      "D": "无法同步"
+    },
+    "answer": [
+      "A"
+    ],
+    "explanation": "可通过 LocalStorage.link ('key') 方法将 LocalStorage 的状态与 AppStorage 同步，建立从 AppStorage 到 LocalStorage 的单向同步"
+  },
+  {
+    "id": 963,
+    "type": "single",
+    "category": "布局设计",
+    "difficulty": "中等",
+    "question": "Flex 布局中，justifyContent 属性的作用是？",
+    "options": {
+      "A": "设置主轴方向上的对齐方式",
+      "B": "设置交叉轴方向上的对齐方式",
+      "C": "设置子组件的换行方式",
+      "D": "设置子组件的排列顺序"
+    },
+    "answer": [
+      "A"
+    ],
+    "explanation": "justifyContent 用于设置 Flex 容器中子组件在主轴方向上的对齐方式，如居中、两端对齐等"
+  },
+  {
+    "id": 964,
+    "type": "multiple",
+    "category": "事件处理",
+    "difficulty": "中等",
+    "question": "以下哪些是滑动手势（SwipeGesture）的方向？",
+    "options": {
+      "A": "SwipeDirection.Up",
+      "B": "SwipeDirection.Down",
+      "C": "SwipeDirection.Left",
+      "D": "SwipeDirection.Right"
+    },
+    "answer": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "explanation": "滑动手势支持上（Up）、下（Down）、左（Left）、右（Right）四个方向，可单独或组合设置"
+  },
+  {
+    "id": 965,
+    "type": "single",
+    "category": "UI 组件",
+    "difficulty": "简单",
+    "question": "用于显示对话框的组件是？",
+    "options": {
+      "A": "Dialog",
+      "B": "AlertDialog",
+      "C": "Popup",
+      "D": "Modal"
+    },
+    "answer": [
+      "A"
+    ],
+    "explanation": "Dialog 组件用于创建自定义对话框，支持自定义内容和按钮，可阻断用户操作直到关闭"
+  },
+  {
+    "id": 966,
+    "type": "single",
+    "category": "分布式能力",
+    "difficulty": "困难",
+    "question": "分布式数据同步的冲突解决策略不包括以下哪项？",
+    "options": {
+      "A": "覆盖策略",
+      "B": "合并策略",
+      "C": "忽略策略",
+      "D": "重试策略"
+    },
+    "answer": [
+      "D"
+    ],
+    "explanation": "分布式数据同步的冲突解决策略包括覆盖、合并、忽略，没有重试策略（重试是解决网络问题的机制）"
+  },
+  {
+    "id": 967,
+    "type": "multiple",
+    "category": "路由管理",
+    "difficulty": "中等",
+    "question": "以下哪些是路由配置文件 main_pages.json 的作用？",
+    "options": {
+      "A": "定义应用的页面路径",
+      "B": "设置默认启动页面",
+      "C": "配置页面的路由参数",
+      "D": "指定页面的生命周期"
+    },
+    "answer": [
+      "A",
+      "B"
+    ],
+    "explanation": "main_pages.json 用于定义应用的所有页面路径和设置默认启动页面（第一个页面）；不负责配置参数或生命周期"
+  },
+  {
+    "id": 968,
+    "type": "single",
+    "category": "样式设置",
+    "difficulty": "中等",
+    "question": "如何设置组件的阴影模糊半径？",
+    "options": {
+      "A": ".shadow ({ radius: 10 })",
+      "B": ".shadowRadius (10)",
+      "C": ".setShadowBlur (10)",
+      "D": ".shadow ({ blur: 10 })"
+    },
+    "answer": [
+      "A"
+    ],
+    "explanation": "通过.shadow () 方法的 radius 参数设置阴影模糊半径，值越大阴影越模糊"
+  },
+  {
+    "id": 969,
+    "type": "single",
+    "category": "基础语法",
+    "difficulty": "简单",
+    "question": "ArkTS 中，以下哪种方式可以正确创建一个 Promise 对象？",
+    "options": {
+      "A": "new Promise ((resolve, reject) => { ... })",
+      "B": "Promise.create ((resolve, reject) => { ... })",
+      "C": "Promise ((resolve, reject) => { ... })",
+      "D": "createPromise ((resolve, reject) => { ... })"
+    },
+    "answer": [
+      "A"
+    ],
+    "explanation": "创建 Promise 对象的标准方式是使用 new Promise () 构造函数，传入执行器函数"
+  },
+  {
+    "id": 970,
+    "type": "multiple",
+    "category": "组件开发",
+    "difficulty": "中等",
+    "question": "以下哪些是自定义组件的事件传递方式？",
+    "options": {
+      "A": "通过函数参数传递",
+      "B": "通过 @Event 装饰器",
+      "C": "通过 EventEmitter",
+      "D": "通过全局事件总线"
+    },
+    "answer": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "explanation": "自定义组件的事件传递方式包括函数参数、@Event 装饰器、EventEmitter 和全局事件总线等多种方式"
+  },
+  {
+    "id": 971,
+    "type": "single",
+    "category": "组件生命周期",
+    "difficulty": "中等",
+    "question": "onUpdate () 生命周期函数的参数是什么？",
+    "options": {
+      "A": "更新前后的属性值",
+      "B": "更新的时间戳",
+      "C": "更新的属性名称",
+      "D": "没有参数"
+    },
+    "answer": [
+      "A"
+    ],
+    "explanation": "onUpdate () 接收一个对象参数，包含更新前（prev）和更新后（curr）的属性值，用于比较属性变化"
+  },
+  {
+    "id": 972,
+    "type": "single",
+    "category": "状态管理",
+    "difficulty": "中等",
+    "question": "Preferences 的 flush () 方法是同步还是异步操作？",
+    "options": {
+      "A": "同步操作",
+      "B": "异步操作",
+      "C": "既可同步也可异步",
+      "D": "根据数据量自动决定"
+    },
+    "answer": [
+      "B"
+    ],
+    "explanation": "Preferences 的 flush () 方法是异步操作，将内存中的数据写入磁盘，返回 Promise 对象"
+  },
+  {
+    "id": 973,
+    "type": "multiple",
+    "category": "布局设计",
+    "difficulty": "中等",
+    "question": "以下哪些布局容器支持设置滚动条？",
+    "options": {
+      "A": "Scroll",
+      "B": "List",
+      "C": "Grid",
+      "D": "WaterFlow"
+    },
+    "answer": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "explanation": "Scroll（scrollBar）、List（scrollBar）、Grid（scrollBar）、WaterFlow（scrollBar）均支持设置滚动条显示方式"
+  },
+  {
+    "id": 974,
+    "type": "single",
+    "category": "事件处理",
+    "difficulty": "中等",
+    "question": "以下哪种事件用于处理组件的点击操作？",
+    "options": {
+      "A": "onClick",
+      "B": "onTap",
+      "C": "onPress",
+      "D": "onSelect"
+    },
+    "answer": [
+      "A"
+    ],
+    "explanation": "onClick 事件用于处理组件的点击操作，是最常用的交互事件之一"
+  },
+  {
+    "id": 975,
+    "type": "single",
+    "category": "UI 组件",
+    "difficulty": "简单",
+    "question": "用于显示滑块选择器的组件是？",
+    "options": {
+      "A": "Slider",
+      "B": "Range",
+      "C": "Selector",
+      "D": "SliderPicker"
+    },
+    "answer": [
+      "A"
+    ],
+    "explanation": "Slider 组件用于通过滑动选择一个范围内的值，可设置最小值、最大值和步长"
+  },
+  {
+    "id": 976,
+    "type": "multiple",
+    "category": "分布式能力",
+    "difficulty": "困难",
+    "question": "以下哪些是分布式设备的类型？",
+    "options": {
+      "A": "phone",
+      "B": "tablet",
+      "C": "tv",
+      "D": "wearable"
+    },
+    "answer": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "explanation": "鸿蒙分布式设备类型包括手机（phone）、平板（tablet）、电视（tv）、可穿戴设备（wearable）等"
+  },
+  {
+    "id": 977,
+    "type": "single",
+    "category": "路由管理",
+    "difficulty": "中等",
+    "question": "router.enableAlertBeforeBackPage () 的参数类型是什么？",
+    "options": {
+      "A": "boolean",
+      "B": "string",
+      "C": "object",
+      "D": "function"
+    },
+    "answer": [
+      "C"
+    ],
+    "explanation": "router.enableAlertBeforeBackPage () 接受一个对象参数，包含 message（提示消息）和 confirm（确认回调）等属性"
+  },
+  {
+    "id": 978,
+    "type": "multiple",
+    "category": "样式设置",
+    "difficulty": "中等",
+    "question": "以下哪些方法可以设置文本的颜色？",
+    "options": {
+      "A": ".fontColor (Color.Red)",
+      "B": ".textColor (Color.Red)",
+      "C": ".color (Color.Red)",
+      "D": ".setTextColor (Color.Red)"
+    },
+    "answer": [
+      "A"
+    ],
+    "explanation": "使用.fontColor () 方法设置文本颜色，参数为 Color 对象或颜色字符串；其他选项不是标准 API"
+  },
+  {
+    "id": 979,
+    "type": "single",
+    "category": "基础语法",
+    "difficulty": "中等",
+    "question": "ArkTS 中，以下哪种方式可以正确实现数组的归约（累加）？",
+    "options": {
+      "A": "array.reduce ((sum, item) => sum + item, 0)",
+      "B": "array.sum ((sum, item) => sum + item)",
+      "C": "array.accumulate ((sum, item) => sum + item)",
+      "D": "reduce (array, (sum, item) => sum + item, 0)"
+    },
+    "answer": [
+      "A"
+    ],
+    "explanation": "reduce () 方法用于对数组进行归约操作，接受回调函数和初始值，可实现累加等功能"
+  },
+  {
+    "id": 980,
+    "type": "single",
+    "category": "组件开发",
+    "difficulty": "中等",
+    "question": "自定义组件中，如何引用子组件的方法？",
+    "options": {
+      "A": "通过 ref 属性获取组件实例",
+      "B": "通过 @Child 装饰器",
+      "C": "通过 getChild () 方法",
+      "D": "ArkTS 不支持引用子组件方法"
+    },
+    "answer": [
+      "A"
+    ],
+    "explanation": "通过为子组件设置 ref 属性，可在父组件中获取子组件实例，进而调用子组件的方法"
+  },
+  {
+    "id": 981,
+    "type": "multiple",
+    "category": "组件生命周期",
+    "difficulty": "中等",
+    "question": "以下哪些生命周期函数在组件属性更新时会被调用？",
+    "options": {
+      "A": "onUpdate ()",
+      "B": "onAppear ()",
+      "C": "build ()",
+      "D": "onRefresh ()"
+    },
+    "answer": [
+      "A",
+      "C"
+    ],
+    "explanation": "组件属性更新时会调用 onUpdate ()（处理更新逻辑）和 build ()（重新渲染）；onAppear () 在显示时调用，onRefresh () 不存在"
+  },
+  {
+    "id": 982,
+    "type": "single",
+    "category": "状态管理",
+    "difficulty": "中等",
+    "question": "LocalStorage 的容量限制是？",
+    "options": {
+      "A": "没有固定限制，取决于内存",
+      "B": "1MB",
+      "C": "5MB",
+      "D": "与 AppStorage 共享容量"
+    },
+    "answer": [
+      "A"
+    ],
+    "explanation": "LocalStorage 是内存中的状态存储，没有固定容量限制，实际受设备内存大小限制"
+  },
+  {
+    "id": 983,
+    "type": "single",
+    "category": "布局设计",
+    "difficulty": "中等",
+    "question": "Flex 布局中，flexWrap 属性的作用是？",
+    "options": {
+      "A": "设置子组件是否换行",
+      "B": "设置子组件的排列方向",
+      "C": "设置子组件的对齐方式",
+      "D": "设置子组件的缩放比例"
+    },
+    "answer": [
+      "A"
+    ],
+    "explanation": "flexWrap 用于设置当子组件总宽度超过容器宽度时是否换行，可选值为 NoWrap（不换行）、Wrap（换行）等"
+  },
+  {
+    "id": 984,
+    "type": "multiple",
+    "category": "事件处理",
+    "difficulty": "中等",
+    "question": "以下哪些是长按手势（LongPressGesture）的事件回调？",
+    "options": {
+      "A": "onActionStart",
+      "B": "onActionUpdate",
+      "C": "onActionEnd",
+      "D": "onActionCancel"
+    },
+    "answer": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "explanation": "长按手势支持 onActionStart（开始）、onActionUpdate（更新）、onActionEnd（结束）、onActionCancel（取消）四个阶段的回调"
+  },
+  {
+    "id": 985,
+    "type": "single",
+    "category": "UI 组件",
+    "difficulty": "简单",
+    "question": "用于显示日期选择器的组件是？",
+    "options": {
+      "A": "DatePicker",
+      "B": "CalendarPicker",
+      "C": "DateSelector",
+      "D": "Calendar"
+    },
+    "answer": [
+      "A"
+    ],
+    "explanation": "DatePicker 组件用于选择日期（年、月、日），支持设置日期范围和默认选中日期"
+  },
+  {
+    "id": 986,
+    "type": "single",
+    "category": "分布式能力",
+    "difficulty": "困难",
+    "question": "分布式服务的调用超时时间默认是多少？",
+    "options": {
+      "A": "3 秒",
+      "B": "5 秒",
+      "C": "10 秒",
+      "D": "无默认超时"
+    },
+    "answer": [
+      "B"
+    ],
+    "explanation": "分布式服务调用的默认超时时间为 5 秒，可通过 timeout 参数自定义超时时间"
+  },
+  {
+    "id": 987,
+    "type": "multiple",
+    "category": "路由管理",
+    "difficulty": "中等",
+    "question": "以下哪些是路由动画的配置属性？",
+    "options": {
+      "A": "duration",
+      "B": "curve",
+      "C": "delay",
+      "D": "direction"
+    },
+    "answer": [
+      "A",
+      "B",
+      "C"
+    ],
+    "explanation": "路由动画配置包括 duration（时长）、curve（曲线）、delay（延迟）；direction 是手势方向，不是动画属性"
+  },
+  {
+    "id": 988,
+    "type": "single",
+    "category": "样式设置",
+    "difficulty": "中等",
+    "question": "如何设置组件的边框宽度？",
+    "options": {
+      "A": ".borderWidth (2)",
+      "B": ".border ({ width: 2 })",
+      "C": ".setBorderWidth (2)",
+      "D": ".borderWidth ('2px')"
+    },
+    "answer": [
+      "A"
+    ],
+    "explanation": "使用.borderWidth () 方法设置组件的边框宽度，参数为数字（像素值）；.border () 也可设置，但选项 A 更直接"
+  },
+  {
+    "id": 989,
+    "type": "single",
+    "category": "基础语法",
+    "difficulty": "简单",
+    "question": "ArkTS 中，以下哪种方式可以正确判断数组是否包含某个元素？",
+    "options": {
+      "A": "array.includes (item)",
+      "B": "array.contains (item)",
+      "C": "array.has (item)",
+      "D": "includes (array, item)"
+    },
+    "answer": [
+      "A"
+    ],
+    "explanation": "includes () 方法用于判断数组是否包含指定元素，返回布尔值；其他选项不是 ArkTS 的数组方法"
+  },
+  {
+    "id": 990,
+    "type": "multiple",
+    "category": "组件开发",
+    "difficulty": "中等",
+    "question": "以下哪些是自定义组件的复用场景？",
+    "options": {
+      "A": "列表项组件",
+      "B": "按钮组件",
+      "C": "表单输入组件",
+      "D": "页面级组件"
+    },
+    "answer": [
+      "A",
+      "B",
+      "C"
+    ],
+    "explanation": "列表项、按钮、表单输入等具有通用性的组件适合复用；页面级组件通常具有独特性，复用场景较少"
+  },
+  {
+    "id": 991,
+    "type": "single",
+    "category": "组件生命周期",
+    "difficulty": "中等",
+    "question": "onCreate () 生命周期函数的主要作用是？",
+    "options": {
+      "A": "初始化组件状态和数据",
+      "B": "渲染组件 UI",
+      "C": "处理组件属性更新",
+      "D": "释放组件资源"
+    },
+    "answer": [
+      "A"
+    ],
+    "explanation": "onCreate () 在组件创建时调用，主要用于初始化组件的状态、数据和事件监听等"
+  },
+  {
+    "id": 992,
+    "type": "single",
+    "category": "状态管理",
+    "difficulty": "中等",
+    "question": "Preferences 的文件存储路径在哪个目录下？",
+    "options": {
+      "A": "应用沙箱目录下的 preferences",
+      "B": "应用的 cache 目录",
+      "C": "应用的 files 目录",
+      "D": "系统的 preferences 目录"
+    },
+    "answer": [
+      "A"
+    ],
+    "explanation": "Preferences 数据存储在应用沙箱目录下的 preferences 子目录中，确保数据隔离和安全性"
+  },
+  {
+    "id": 993,
+    "type": "multiple",
+    "category": "布局设计",
+    "difficulty": "中等",
+    "question": "以下哪些布局容器支持设置权重？",
+    "options": {
+      "A": "Row",
+      "B": "Column",
+      "C": "Grid",
+      "D": "Flex"
+    },
+    "answer": [
+      "A",
+      "B",
+      "D"
+    ],
+    "explanation": "Row、Column（通过 flexWeight ()）和 Flex（通过 flex ()）支持设置权重，控制子组件的空间分配；Grid 不支持权重设置"
+  },
+  {
+    "id": 994,
+    "type": "single",
+    "category": "事件处理",
+    "difficulty": "中等",
+    "question": "以下哪种事件用于处理输入框内容变化？",
+    "options": {
+      "A": "onChange",
+      "B": "onInput",
+      "C": "onTextChange",
+      "D": "onValueChange"
+    },
+    "answer": [
+      "D"
+    ],
+    "explanation": "onValueChange 事件在输入框内容变化时触发，可获取输入的最新值"
+  },
+  {
+    "id": 995,
+    "type": "single",
+    "category": "UI 组件",
+    "difficulty": "简单",
+    "question": "用于显示下拉刷新控件的组件是？",
+    "options": {
+      "A": "Refresh",
+      "B": "PullToRefresh",
+      "C": "SwipeRefresh",
+      "D": "RefreshControl"
+    },
+    "answer": [
+      "A"
+    ],
+    "explanation": "Refresh 组件用于实现下拉刷新功能，包裹在可滚动组件外部，下拉时触发刷新回调"
+  },
+  {
+    "id": 996,
+    "type": "multiple",
+    "category": "分布式能力",
+    "difficulty": "困难",
+    "question": "以下哪些是分布式安全机制？",
+    "options": {
+      "A": "设备认证",
+      "B": "数据加密",
+      "C": "权限控制",
+      "D": "访问审计"
+    },
+    "answer": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "explanation": "分布式安全机制包括设备认证、数据加密、权限控制和访问审计等，确保跨设备交互的安全性"
+  },
+  {
+    "id": 997,
+    "type": "single",
+    "category": "路由管理",
+    "difficulty": "中等",
+    "question": "router.pushUrl () 的 options 参数中，url 属性的格式是？",
+    "options": {
+      "A": "页面在 main_pages.json 中的路径",
+      "B": "页面的绝对路径",
+      "C": "页面的相对路径",
+      "D": "页面的类名"
+    },
+    "answer": [
+      "A"
+    ],
+    "explanation": "router.pushUrl () 的 url 属性应填写页面在 main_pages.json 中配置的路径，如 'pages/DetailPage'"
+  },
+  {
+    "id": 998,
+    "type": "multiple",
+    "category": "样式设置",
+    "difficulty": "中等",
+    "question": "以下哪些方法可以设置组件的高度？",
+    "options": {
+      "A": ".height (100)",
+      "B": ".height ('100%')",
+      "C": ".height (Length.FILL)",
+      "D": ".setHeight (100)"
+    },
+    "answer": [
+      "A",
+      "B",
+      "C"
+    ],
+    "explanation": ".height () 支持数字（像素）、百分比字符串和 Length.FILL（填充父容器）；.setHeight () 不是标准 API"
+  },
+  {
+    "id": 999,
+    "type": "single",
+    "category": "基础语法",
+    "difficulty": "中等",
+    "question": "ArkTS 中，以下哪种方式可以正确实现对象的属性遍历？",
+    "options": {
+      "A": "for (const key in obj) { ... }",
+      "B": "obj.forEach ((key, value) => { ... })",
+      "C": "for (const [key, value] of obj) { ... }",
+      "D": "Object.each (obj, (key, value) => { ... })"
+    },
+    "answer": [
+      "A"
+    ],
+    "explanation": "使用 for...in 循环可遍历对象的可枚举属性；forEach () 是数组方法，对象不能直接使用；其他选项不是标准方式"
+  },
+  {
+    "id": 1000,
+    "type": "single",
+    "category": "组件开发",
+    "difficulty": "中等",
+    "question": "自定义组件中，如何定义插槽（slot）？",
+    "options": {
+      "A": "使用 Slot 组件",
+      "B": "使用 @Slot 装饰器",
+      "C": " 使用<slot>标签 ",
+      "D": "ArkTS 不支持插槽"
+    },
+    "answer": [
+      "A"
+    ],
+    "explanation": "ArkTS 中通过 Slot 组件定义插槽，允许父组件传入自定义内容，实现组件的内容定制"
+  },
+  {
+    "id": 1001,
+    "type": "multiple",
+    "category": "组件生命周期",
+    "difficulty": "中等",
+    "question": "以下哪些生命周期函数是页面级组件特有的？",
+    "options": {
+      "A": "onPageShow ()",
+      "B": "onPageHide ()",
+      "C": "onBackPress ()",
+      "D": "onCreate ()"
+    },
+    "answer": [
+      "A",
+      "B",
+      "C"
+    ],
+    "explanation": "onPageShow ()、onPageHide ()、onBackPress () 是页面级组件特有的生命周期；onCreate () 是所有组件共有的"
+  },
+  {
+    "id": 1002,
+    "type": "single",
+    "category": "状态管理",
+    "difficulty": "中等",
+    "question": "AppStorage 的 Set () 方法是否会触发组件重新渲染？",
+    "options": {
+      "A": "是，会触发所有绑定该状态的组件重新渲染",
+      "B": "否，需要手动触发",
+      "C": "仅触发当前组件重新渲染",
+      "D": "仅触发父组件重新渲染"
+    },
+    "answer": [
+      "A"
+    ],
+    "explanation": "AppStorage 的 Set () 方法修改状态后，会自动通知所有通过 @StorageProp 或 @StorageLink 绑定该状态的组件重新渲染"
+  },
+  {
+    "id": 1003,
+    "type": "single",
+    "category": "布局设计",
+    "difficulty": "中等",
+    "question": "Grid 布局中，rowsTemplate 属性的作用是？",
+    "options": {
+      "A": "定义行的数量和高度比例",
+      "B": "定义行的间距",
+      "C": "定义行的对齐方式",
+      "D": "定义行的最大高度"
+    },
+    "answer": [
+      "A"
+    ],
+    "explanation": "rowsTemplate 用于定义 Grid 的行结构，如 '1fr 1fr' 表示 2 行，每行高度相等"
+  },
+  {
+    "id": 1004,
+    "type": "multiple",
+    "category": "事件处理",
+    "difficulty": "中等",
+    "question": "以下哪些是旋转手势（RotateGesture）的事件参数？",
+    "options": {
+      "A": "angle",
+      "B": "rotation",
+      "C": "centerX",
+      "D": "centerY"
+    },
+    "answer": [
+      "A",
+      "C",
+      "D"
+    ],
+    "explanation": "旋转手势参数包括 angle（旋转角度）、centerX/centerY（旋转中心点坐标）；rotation 不是标准参数"
+  },
+  {
+    "id": 1005,
+    "type": "single",
+    "category": "UI 组件",
+    "difficulty": "简单",
+    "question": "用于显示图片轮播的组件是？",
+    "options": {
+      "A": "Swiper",
+      "B": "Carousel",
+      "C": "SlideShow",
+      "D": "ImageSlider"
+    },
+    "answer": [
+      "A"
+    ],
+    "explanation": "Swiper 组件用于实现图片轮播或内容切换，支持自动播放、指示器等功能"
+  },
+  {
+    "id": 1006,
+    "type": "single",
+    "category": "分布式能力",
+    "difficulty": "困难",
+    "question": "分布式数据对象的同步频率单位是？",
+    "options": {
+      "A": "毫秒",
+      "B": "秒",
+      "C": "分钟",
+      "D": "自定义单位"
+    },
+    "answer": [
+      "A"
+    ],
+    "explanation": "分布式数据对象的同步频率以毫秒为单位，如设置为 1000 表示每 1000 毫秒同步一次"
+  },
+  {
+    "id": 1007,
+    "type": "multiple",
+    "category": "路由管理",
+    "difficulty": "中等",
+    "question": "以下哪些是路由参数的类型？",
+    "options": {
+      "A": "字符串",
+      "B": "数字",
+      "C": "布尔值",
+      "D": "对象"
+    },
+    "answer": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "explanation": "路由参数支持字符串、数字、布尔值等基本类型，以及对象等复杂类型"
+  },
+  {
+    "id": 1008,
+    "type": "single",
+    "category": "样式设置",
+    "difficulty": "中等",
+    "question": "如何设置组件的背景为径向渐变？",
+    "options": {
+      "A": ".backgroundGradient ({ type: GradientType.Radial, colors: [...] })",
+      "B": ".radialGradient ({ colors: [...] })",
+      "C": ".background ({ gradient: { type: 'radial', colors: [...] } })",
+      "D": ".setBackgroundGradient ('radial', [...])"
+    },
+    "answer": [
+      "A"
+    ],
+    "explanation": "通过.backgroundGradient () 方法设置径向渐变，指定 type 为 GradientType.Radial"
+  },
+  {
+    "id": 1009,
+    "type": "single",
+    "category": "基础语法",
+    "difficulty": "简单",
+    "question": "ArkTS 中，以下哪种方式可以正确将字符串转换为数字？",
+    "options": {
+      "A": "Number (str)",
+      "B": "parseInt (str)",
+      "C": "str.toNumber ()",
+      "D": "toNumber (str)"
+    },
+    "answer": [
+      "A"
+    ],
+    "explanation": "使用 Number () 构造函数可将字符串转换为数字，支持整数和小数；parseInt () 仅转换为整数；其他选项不是标准方式"
+  },
+  {
+    "id": 1010,
+    "type": "multiple",
+    "category": "组件开发",
+    "difficulty": "中等",
+    "question": "以下哪些是自定义组件的属性验证规则？",
+    "options": {
+      "A": "类型验证",
+      "B": "范围验证",
+      "C": "必填验证",
+      "D": "格式验证"
+    },
+    "answer": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "explanation": "自定义组件的属性验证包括类型、范围（如数值范围）、必填（是否必须传递）、格式（如邮箱格式）等规则"
+  },
+  {
+    "id": 1011,
+    "type": "single",
+    "category": "组件生命周期",
+    "difficulty": "中等",
+    "question": "onBackPress () 生命周期函数的作用是？",
+    "options": {
+      "A": "处理返回键事件",
+      "B": "页面返回前的清理操作",
+      "C": "返回上一页",
+      "D": "记录返回历史"
+    },
+    "answer": [
+      "A"
+    ],
+    "explanation": "onBackPress () 用于处理返回键事件，返回 true 可阻止默认返回行为，实现自定义返回逻辑"
+  },
+  {
+    "id": 1012,
+    "type": "single",
+    "category": "状态管理",
+    "difficulty": "中等",
+    "question": "Preferences 的 clear () 方法的作用是？",
+    "options": {
+      "A": "清空所有存储的数据",
+      "B": "删除 Preferences 文件",
+      "C": "清除内存中的数据，保留磁盘数据",
+      "D": "重置 Preferences 配置"
+    },
+    "answer": [
+      "A"
+    ],
+    "explanation": "Preferences 的 clear () 方法用于清空所有存储的数据，包括内存和磁盘中的数据"
+  },
+  {
+    "id": 1013,
+    "type": "multiple",
+    "category": "布局设计",
+    "difficulty": "中等",
+    "question": "以下哪些布局容器支持设置对齐方式？",
+    "options": {
+      "A": "Row",
+      "B": "Column",
+      "C": "Stack",
+      "D": "RelativeContainer"
+    },
+    "answer": [
+      "A",
+      "B",
+      "C"
+    ],
+    "explanation": "Row/Column（justifyContent/alignItems）、Stack（alignContent）支持设置对齐方式；RelativeContainer 通过锚点设置对齐"
+  },
+  {
+    "id": 1014,
+    "type": "single",
+    "category": "事件处理",
+    "difficulty": "中等",
+    "question": "以下哪种事件用于处理组件的长按操作？",
+    "options": {
+      "A": "onLongPress",
+      "B": "onLongClick",
+      "C": "onPressLong",
+      "D": "onLongTouch"
+    },
+    "answer": [
+      "A"
+    ],
+    "explanation": "onLongPress 事件用于处理组件的长按操作，可设置长按时间阈值"
+  },
+  {
+    "id": 1015,
+    "type": "single",
+    "category": "UI 组件",
+    "difficulty": "简单",
+    "question": "用于显示进度环的组件是？",
+    "options": {
+      "A": "Progress",
+      "B": "CircleProgress",
+      "C": "RingProgress",
+      "D": "ArcProgress"
+    },
+    "answer": [
+      "A"
+    ],
+    "explanation": "Progress 组件通过设置 type 为 ProgressType.Ring 可显示环形进度条（进度环）"
+  },
+  {
+    "id": 1016,
+    "type": "multiple",
+    "category": "分布式能力",
+    "difficulty": "困难",
+    "question": "以下哪些是分布式任务的类型？",
+    "options": {
+      "A": "计算任务",
+      "B": "媒体任务",
+      "C": "通信任务",
+      "D": "存储任务"
+    },
+    "answer": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "explanation": "分布式任务包括计算、媒体、通信、存储等多种类型，可根据任务性质分配到不同设备执行"
+  },
+  {
+    "id": 1017,
+    "type": "single",
+    "category": "路由管理",
+    "difficulty": "中等",
+    "question": "router.replaceUrl () 与 router.pushUrl () 的主要区别是？",
+    "options": {
+      "A": "replaceUrl 替换当前页面，pushUrl 添加新页面",
+      "B": "replaceUrl 不保留历史记录，pushUrl 保留",
+      "C": "replaceUrl 用于返回，pushUrl 用于前进",
+      "D": "replaceUrl 有动画，pushUrl 无动画"
+    },
+    "answer": [
+      "A"
+    ],
+    "explanation": "router.replaceUrl () 用新页面替换当前页面，路由栈长度不变；router.pushUrl () 在栈顶添加新页面，栈长度增加"
+  },
+  {
+    "id": 1018,
+    "type": "multiple",
+    "category": "样式设置",
+    "difficulty": "中等",
+    "question": "以下哪些方法可以设置文本的字体家族？",
+    "options": {
+      "A": ".fontFamily ('sans-serif')",
+      "B": ".font ({ family: 'serif' })",
+      "C": ".setFontFamily ('monospace')",
+      "D": ".textFont ('sans-serif')"
+    },
+    "answer": [
+      "A",
+      "B"
+    ],
+    "explanation": "可通过.fontFamily () 直接设置或.font () 传入家族名称设置文本字体；其他选项不是标准 API"
+  },
+  {
+    "id": 1019,
+    "type": "single",
+    "category": "基础语法",
+    "difficulty": "中等",
+    "question": "ArkTS 中，以下哪种方式可以正确实现数组的扁平化？",
+    "options": {
+      "A": "array.flat ()",
+      "B": "array.flatten ()",
+      "C": "flat (array)",
+      "D": "array.expand ()"
+    },
+    "answer": [
+      "A"
+    ],
+    "explanation": "flat () 方法用于将多维数组扁平化，返回一个新的一维数组；其他选项不是 ArkTS 的数组方法"
+  },
+  {
+    "id": 1020,
+    "type": "single",
+    "category": "组件开发",
+    "difficulty": "中等",
+    "question": "自定义组件中，如何实现组件的样式继承？",
+    "options": {
+      "A": "通过 @Extend 装饰器扩展父组件样式",
+      "B": "使用 extends 关键字继承",
+      "C": "通过 style 属性传递",
+      "D": "ArkTS 不支持样式继承"
+    },
+    "answer": [
+      "A"
+    ],
+    "explanation": "ArkTS 通过 @Extend 装饰器扩展已有组件的样式，实现样式的复用和继承；不支持类的继承方式"
+  },
+  {
+    "id": 1021,
+    "type": "multiple",
+    "category": "组件生命周期",
+    "difficulty": "中等",
+    "question": "以下哪些生命周期函数在应用从后台切换到前台时会被调用？",
+    "options": {
+      "A": "onPageShow ()",
+      "B": "onAppear ()",
+      "C": "onForeground ()",
+      "D": "onResume ()"
+    },
+    "answer": [
+      "A",
+      "B"
+    ],
+    "explanation": "应用从后台切换到前台时，当前页面组件会触发 onPageShow () 和 onAppear ()；onForeground () 和 onResume () 不存在"
+  },
+  {
+    "id": 1022,
+    "type": "single",
+    "category": "状态管理",
+    "difficulty": "中等",
+    "question": "LocalStorage 的 get () 方法如果获取不存在的键，会返回什么？",
+    "options": {
+      "A": "undefined",
+      "B": "null",
+      "C": "默认值",
+      "D": "抛出异常"
+    },
+    "answer": [
+      "A"
+    ],
+    "explanation": "LocalStorage 的 get () 方法获取不存在的键时返回 undefined，与 AppStorage 不同（需指定默认值）"
+  },
+  {
+    "id": 1023,
+    "type": "single",
+    "category": "布局设计",
+    "difficulty": "中等",
+    "question": "Flex 布局中，alignItems 属性的作用是？",
+    "options": {
+      "A": "设置交叉轴方向上的对齐方式",
+      "B": "设置主轴方向上的对齐方式",
+      "C": "设置单个子组件的对齐方式",
+      "D": "设置子组件的换行方式"
+    },
+    "answer": [
+      "A"
+    ],
+    "explanation": "alignItems 用于设置 Flex 容器中所有子组件在交叉轴方向上的对齐方式"
+  },
+  {
+    "id": 1024,
+    "type": "multiple",
+    "category": "事件处理",
+    "difficulty": "中等",
+    "question": "以下哪些是输入框的状态变化事件？",
+    "options": {
+      "A": "onFocus",
+      "B": "onBlur",
+      "C": "onSelect",
+      "D": "onEdit"
+    },
+    "answer": [
+      "A",
+      "B"
+    ],
+    "explanation": "输入框的状态变化事件包括 onFocus（获取焦点）和 onBlur（失去焦点）；onSelect 用于选择事件，onEdit 不存在"
   }
 ]

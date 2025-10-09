@@ -458,7 +458,7 @@ export struct HomePage {
         .fontColor('#2C3E50')
 
       // 描述文字
-      Text('ArkTs从入门到精通,陪您一路成长～')
+      Text('ArkTs从入门到精通,陪您一路成长')
         .fontSize(16)
         .fontColor($r('app.color.secondary_text_color'))
         .margin({ top: 8 })
@@ -529,15 +529,13 @@ export struct HomePage {
           this.FunctionIcon('我的日记', $r('app.media.ic_diary'), () => {
             router.pushUrl({ url: 'pages/DiaryPage' })
           })
-          Blank().width('20%')
-          Blank().width('20%')
           // 空白占位
-          // this.FunctionIcon('我的offer', $r('app.media.icon_fun_offer'), () => {
-          //   router.pushUrl({ url: 'pages/MyOfferPage' })
-          // })
-          // this.FunctionIcon('offer对比', $r('app.media.icon_vs'), () => {
-          //   router.pushUrl({ url: 'pages/OfferComparisonPage' })
-          // })
+          this.FunctionIcon('我的offer', $r('app.media.icon_fun_offer'), () => {
+            router.pushUrl({ url: 'pages/MyOfferPage' })
+          })
+          this.FunctionIcon('offer对比', $r('app.media.icon_vs'), () => {
+            router.pushUrl({ url: 'pages/OfferComparisonPage' })
+          })
         }
         .width('100%')
         .justifyContent(FlexAlign.SpaceBetween)
@@ -550,7 +548,7 @@ export struct HomePage {
       Column() {
         // 工具专区标题
         Row() {
-          Text('常用工具')
+          Text('工具专区')
             .fontSize(18)
             .fontWeight(FontWeight.Bold)
             .fontColor('#333333')
@@ -596,7 +594,6 @@ export struct HomePage {
         .width('100%')
         .justifyContent(FlexAlign.SpaceBetween)
         .margin({ bottom: 24 })
-        .visibility(Visibility.None)
 
       }
       .padding(8)

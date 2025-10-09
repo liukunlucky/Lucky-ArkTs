@@ -18,12 +18,12 @@
         "name": "release",
         "material": {
           "storeFile": "/Users/monkey/Documents/Harmony/发布相关/arkts/release.p12",
-          "storePassword": "00000019305C10B3F47C5F9411B9483D9E57DF9F16655239593511FAAF288066392EB92E9CBB57DA70",
-          "keyAlias": "zl_reader",
-          "keyPassword": "00000019D4E368716D59A4D07657F4023EEEC6CCB257DAF73623DC7DF4919571E7A431D5DA450D80B6",
+          "storePassword": "0000001B5BAE2C30DD55DC428228A53899B1263FED676C77C845BD74BCDE26F3974DACD3DF363EE0A70B2E",
+          "keyAlias": "lucky_arkts",
+          "keyPassword": "0000001B9CA4A48807A3D98B3E49A66C35C53C7B99A312571B342A1947B968D9C498D90F95F0D77E408C94",
           "signAlg": "SHA256withECDSA",
-          "profile": "/Users/monkey/Documents/Harmony/发布相关/arkts/ArkTs-profile-releaseRelease.p7b",
-          "certpath": "/Users/monkey/Documents/Harmony/发布相关/arkts/release.cer"
+          "profile": "/Users/monkey/Documents/Harmony/发布相关/arkts/release-liukunRelease.p7b",
+          "certpath": "/Users/monkey/Documents/Harmony/发布相关/arkts/release-liukun.cer"
         }
       }
     ],
