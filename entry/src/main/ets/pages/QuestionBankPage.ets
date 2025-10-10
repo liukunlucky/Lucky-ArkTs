@@ -8,7 +8,7 @@ interface QuestionOptions {
   D: string
 }
 
-interface Question {
+export interface Question {
   id: number
   question: string
   options: QuestionOptions

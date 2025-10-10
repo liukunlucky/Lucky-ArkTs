@@ -29,6 +29,11 @@
     "pages/RegexTestPage",
     "pages/ColorConverterPage",
     "pages/QRCodePage",
-    "pages/PasswordGeneratorPage"
+    "pages/PasswordGeneratorPage",
+    "pages/HashToolPage",
+    "pages/UuidGeneratorPage",
+    "pages/MyInterviewPage",
+    "pages/KnowledgeRecitePage",
+    "pages/AddInterviewRecordPage"
   ]
 }

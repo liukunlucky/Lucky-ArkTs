@@ -99,6 +99,10 @@ export struct HomePage {
     medium: { total: 0, correct: 0, accuracy: 0 },
     hard: { total: 0, correct: 0, accuracy: 0 }
   }
+
+  // 展开/折叠状态
+  @State functionSectionExpanded: boolean = false
+  @State toolSectionExpanded: boolean = false
   @State allCategories: string[] = []
 
   async aboutToAppear() {
@@ -472,73 +476,131 @@ export struct HomePage {
   @Builder FunctionIconsSection() {
     Column() {
       Column() {
-        // 笔试专区标题
+        // 功能专区标题
         Row() {
           Text('功能专区')
             .fontSize(18)
             .fontWeight(FontWeight.Bold)
             .fontColor('#333333')
+          
+          Blank()
+          
+          // 展开/折叠按钮
+          Row() {
+            Text(this.functionSectionExpanded ? '收起' : '展开')
+              .fontSize(14)
+              .fontColor('#666666')
+              .margin({ right: 4 })
+            
+            Image($r('sys.media.ohos_ic_public_arrow_down'))
+              .width(16)
+              .height(16)
+              .fillColor('#666666')
+              .rotate({ angle: this.functionSectionExpanded ? 180 : 0 })
+              .animation({
+                duration: 300,
+                curve: Curve.EaseInOut
+              })
+          }
+          .onClick(() => {
+            animateTo({
+              duration: 300,
+              curve: Curve.EaseInOut
+            }, () => {
+              this.functionSectionExpanded = !this.functionSectionExpanded
+            })
+          })
         }
         .width('100%')
-        .justifyContent(FlexAlign.Start)
+        .justifyContent(FlexAlign.SpaceBetween)
+        .alignItems(VerticalAlign.Center)
         .padding(4)
-        // 第一行图标
-        Row() {
-          this.FunctionIcon('知识库', $r('app.media.icon_article'), () => {
-            router.pushUrl({ url: 'pages/ArticlePage' })
-          })
-          this.FunctionIcon('视频课程', $r('app.media.icon_video'), () => {
-            router.pushUrl({ url: 'pages/VideoCoursePage' })
-          })
-          this.FunctionIcon('示例代码', $r('app.media.icon_code'), () => {
-            router.pushUrl({ url: 'pages/SampleCodePage' })
-          })
-          this.FunctionIcon('学习路线', $r('app.media.icon_learning_path'), () => {
-            router.pushUrl({ url: 'pages/LearningPathPage' })
-          })
-        }
-        .width('100%')
-        .justifyContent(FlexAlign.SpaceBetween)
-        .margin({ bottom: 24 })
+        // 功能图标区域
+        Column() {
+          // 第一行图标（默认显示）
+          Row() {
+            this.FunctionIcon('知识库', $r('app.media.icon_article'), () => {
+              router.pushUrl({ url: 'pages/ArticlePage' })
+            })
+            this.FunctionIcon('视频课程', $r('app.media.icon_video'), () => {
+              router.pushUrl({ url: 'pages/VideoCoursePage' })
+            })
+            this.FunctionIcon('示例代码', $r('app.media.icon_code'), () => {
+              router.pushUrl({ url: 'pages/SampleCodePage' })
+            })
+            this.FunctionIcon('学习路线', $r('app.media.icon_learning_path'), () => {
+              router.pushUrl({ url: 'pages/LearningPathPage' })
+            })
+          }
+          .width('100%')
+          .justifyContent(FlexAlign.SpaceBetween)
+          .margin({ bottom: this.functionSectionExpanded ? 24 : 0 })
 
-        // 第二行图标
-        Row() {
-          this.FunctionIcon('我的收藏', $r('app.media.ic_favorite'), () => {
-            router.pushUrl({ url: 'pages/FavoritesPage' })
-          })
-          this.FunctionIcon('我的错题', $r('app.media.ic_wrong_questions'), () => {
-            router.pushUrl({ url: 'pages/WrongQuestionsPage' })
-          })
-          this.FunctionIcon('我的统计', $r('app.media.ic_statistics'), () => {
-            router.pushUrl({ url: 'pages/StatisticsPage' })
-          })
+          // 展开时显示的其他图标
+          if (this.functionSectionExpanded) {
+            // 第二行图标
+            Row() {
+              this.FunctionIcon('我的收藏', $r('app.media.ic_favorite'), () => {
+                router.pushUrl({ url: 'pages/FavoritesPage' })
+              })
+              this.FunctionIcon('我的错题', $r('app.media.ic_wrong_questions'), () => {
+                router.pushUrl({ url: 'pages/WrongQuestionsPage' })
+              })
+              this.FunctionIcon('我的统计', $r('app.media.ic_statistics'), () => {
+                router.pushUrl({ url: 'pages/StatisticsPage' })
+              })
+              this.FunctionIcon('我的成就', $r('app.media.ic_achievement'), () => {
+                router.pushUrl({ url: 'pages/AchievementPage' })
+              })
+            }
+            .width('100%')
+            .justifyContent(FlexAlign.SpaceBetween)
+            .margin({ bottom: 24 })
+            .transition({ type: TransitionType.Insert, opacity: 0, translate: { y: -20 } })
+            .transition({ type: TransitionType.Delete, opacity: 0, translate: { y: -20 } })
 
-          this.FunctionIcon('我的成就', $r('app.media.ic_achievement'), () => {
-            router.pushUrl({ url: 'pages/AchievementPage' })
-          })
-        }
-        .width('100%')
-        .justifyContent(FlexAlign.SpaceBetween)
-        .margin({ bottom: 24 })
+            // 第三行图标
+            Row() {
+              this.FunctionIcon('我的目标', $r('app.media.icon_traget'), () => {
+                router.pushUrl({ url: 'pages/GoalsPage' })
+              })
+              this.FunctionIcon('我的日记', $r('app.media.ic_diary'), () => {
+                router.pushUrl({ url: 'pages/DiaryPage' })
+              })
+              this.FunctionIcon('我的offer', $r('app.media.icon_fun_offer'), () => {
+                router.pushUrl({ url: 'pages/MyOfferPage' })
+              })
+              this.FunctionIcon('我的面试', $r('app.media.icon_fun_mianshi'), () => {
+                router.pushUrl({ url: 'pages/MyInterviewPage' })
+              })
+            }
+            .width('100%')
+            .justifyContent(FlexAlign.SpaceBetween)
+            .margin({ bottom: 24 })
+            .transition({ type: TransitionType.Insert, opacity: 0, translate: { y: -20 } })
+            .transition({ type: TransitionType.Delete, opacity: 0, translate: { y: -20 } })
 
-        // 第三行图标
-        Row() {
-          this.FunctionIcon('我的目标', $r('app.media.icon_traget'), () => {
-            router.pushUrl({ url: 'pages/GoalsPage' })
-          })
-          this.FunctionIcon('我的日记', $r('app.media.ic_diary'), () => {
-            router.pushUrl({ url: 'pages/DiaryPage' })
-          })
-          // 空白占位
-          this.FunctionIcon('我的offer', $r('app.media.icon_fun_offer'), () => {
-            router.pushUrl({ url: 'pages/MyOfferPage' })
-          })
-          this.FunctionIcon('offer对比', $r('app.media.icon_vs'), () => {
-            router.pushUrl({ url: 'pages/OfferComparisonPage' })
-          })
+            // 第四行图标
+            Row() {
+              this.FunctionIcon('知识背诵', $r('app.media.icon_fun_beisong'), () => {
+                router.pushUrl({ url: 'pages/KnowledgeRecitePage' })
+              })
+              Blank().width('20%')
+              Blank().width('20%')
+              Blank().width('20%')
+            }
+            .width('100%')
+            .justifyContent(FlexAlign.SpaceBetween)
+            .margin({ bottom: 24 })
+            .transition({ type: TransitionType.Insert, opacity: 0, translate: { y: -20 } })
+            .transition({ type: TransitionType.Delete, opacity: 0, translate: { y: -20 } })
+          }
         }
-        .width('100%')
-        .justifyContent(FlexAlign.SpaceBetween)
+        .animation({
+          duration: 300,
+          curve: Curve.EaseInOut
+        })
+
       }
       .padding(8)
       .margin({ bottom: 32 })
@@ -552,48 +614,108 @@ export struct HomePage {
             .fontSize(18)
             .fontWeight(FontWeight.Bold)
             .fontColor('#333333')
+          
+          Blank()
+          
+          // 展开/折叠按钮
+          Row() {
+            Text(this.toolSectionExpanded ? '收起' : '展开')
+              .fontSize(14)
+              .fontColor('#666666')
+              .margin({ right: 4 })
+            
+            Image($r('sys.media.ohos_ic_public_arrow_down'))
+              .width(16)
+              .height(16)
+              .fillColor('#666666')
+              .rotate({ angle: this.toolSectionExpanded ? 180 : 0 })
+              .animation({
+                duration: 300,
+                curve: Curve.EaseInOut
+              })
+          }
+          .onClick(() => {
+            animateTo({
+              duration: 300,
+              curve: Curve.EaseInOut
+            }, () => {
+              this.toolSectionExpanded = !this.toolSectionExpanded
+            })
+          })
         }
         .width('100%')
-        .justifyContent(FlexAlign.Start)
+        .justifyContent(FlexAlign.SpaceBetween)
+        .alignItems(VerticalAlign.Center)
         .padding(4)
         
-        // 程序员常用工具 - 第一行
-        Row() {
-          this.FunctionIcon('JSON工具', $r('app.media.icon_json'), () => {
-            router.pushUrl({ url: 'pages/JsonFormatterPage' })
-          })
-          this.FunctionIcon('Base64', $r('app.media.icon_base64'), () => {
-            router.pushUrl({ url: 'pages/Base64ToolPage' })
-          })
-          this.FunctionIcon('URL编码', $r('app.media.icon_url'), () => {
-            router.pushUrl({ url: 'pages/UrlToolPage' })
-          })
-          this.FunctionIcon('时间戳', $r('app.media.icon_timestamp'), () => {
-            router.pushUrl({ url: 'pages/TimestampToolPage' })
-          })
-        }
-        .width('100%')
-        .justifyContent(FlexAlign.SpaceBetween)
-        .margin({ bottom: 16 })
+        // 工具图标区域
+        Column() {
+          // 第一行图标（默认显示）
+          Row() {
+            this.FunctionIcon('JSON工具', $r('app.media.icon_json'), () => {
+              router.pushUrl({ url: 'pages/JsonFormatterPage' })
+            })
+            this.FunctionIcon('Base64', $r('app.media.icon_base64'), () => {
+              router.pushUrl({ url: 'pages/Base64ToolPage' })
+            })
+            this.FunctionIcon('URL编码', $r('app.media.icon_url'), () => {
+              router.pushUrl({ url: 'pages/UrlToolPage' })
+            })
+            this.FunctionIcon('时间戳', $r('app.media.icon_timestamp'), () => {
+              router.pushUrl({ url: 'pages/TimestampToolPage' })
+            })
+          }
+          .width('100%')
+          .justifyContent(FlexAlign.SpaceBetween)
+          .margin({ bottom: this.toolSectionExpanded ? 16 : 0 })
 
-        // 程序员常用工具 - 第二行
-        Row() {
-          this.FunctionIcon('正则测试', $r('app.media.icon_regax'), () => {
-            router.pushUrl({ url: 'pages/RegexTestPage' })
-          })
-          this.FunctionIcon('颜色转换', $r('app.media.icon_color_trans'), () => {
-            router.pushUrl({ url: 'pages/ColorConverterPage' })
-          })
-          this.FunctionIcon('二维码', $r('app.media.icon_qrcode'), () => {
-            router.pushUrl({ url: 'pages/QRCodePage' })
-          })
-          this.FunctionIcon('密码生成', $r('app.media.icon_pass'), () => {
-            router.pushUrl({ url: 'pages/PasswordGeneratorPage' })
-          })
+          // 展开时显示的其他图标
+          if (this.toolSectionExpanded) {
+            // 第二行图标
+            Row() {
+              this.FunctionIcon('正则测试', $r('app.media.icon_regax'), () => {
+                router.pushUrl({ url: 'pages/RegexTestPage' })
+              })
+              this.FunctionIcon('颜色转换', $r('app.media.icon_color_trans'), () => {
+                router.pushUrl({ url: 'pages/ColorConverterPage' })
+              })
+              this.FunctionIcon('二维码', $r('app.media.icon_qrcode'), () => {
+                router.pushUrl({ url: 'pages/QRCodePage' })
+              })
+              this.FunctionIcon('密码生成', $r('app.media.icon_pass'), () => {
+                router.pushUrl({ url: 'pages/PasswordGeneratorPage' })
+              })
+            }
+            .width('100%')
+            .justifyContent(FlexAlign.SpaceBetween)
+            .margin({ bottom: 16 })
+            .transition({ type: TransitionType.Insert, opacity: 0, translate: { y: -20 } })
+            .transition({ type: TransitionType.Delete, opacity: 0, translate: { y: -20 } })
+
+            // 第三行图标
+            Row() {
+              this.FunctionIcon('offer对比', $r('app.media.icon_vs'), () => {
+                router.pushUrl({ url: 'pages/OfferComparisonPage' })
+              })
+              this.FunctionIcon('Hash工具', $r('app.media.icon_code'), () => {
+                router.pushUrl({ url: 'pages/HashToolPage' })
+              })
+              this.FunctionIcon('UUID生成', $r('app.media.icon_uuid'), () => {
+                router.pushUrl({ url: 'pages/UuidGeneratorPage' })
+              })
+              Blank().width('20%')
+            }
+            .width('100%')
+            .justifyContent(FlexAlign.SpaceBetween)
+            .margin({ bottom: 16 })
+            .transition({ type: TransitionType.Insert, opacity: 0, translate: { y: -20 } })
+            .transition({ type: TransitionType.Delete, opacity: 0, translate: { y: -20 } })
+          }
         }
-        .width('100%')
-        .justifyContent(FlexAlign.SpaceBetween)
-        .margin({ bottom: 24 })
+        .animation({
+          duration: 300,
+          curve: Curve.EaseInOut
+        })
 
       }
       .padding(8)
