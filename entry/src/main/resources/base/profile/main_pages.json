@@ -34,6 +34,7 @@
     "pages/UuidGeneratorPage",
     "pages/MyInterviewPage",
     "pages/KnowledgeRecitePage",
-    "pages/AddInterviewRecordPage"
+    "pages/AddInterviewRecordPage",
+    "pages/ApiQueryPage"
   ]
 }

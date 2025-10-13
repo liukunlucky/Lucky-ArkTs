@@ -103,6 +103,9 @@ export struct HomePage {
   // 展开/折叠状态
   @State functionSectionExpanded: boolean = false
   @State toolSectionExpanded: boolean = false
+  
+  // 热门功能配置 - 可以根据需要配置哪些功能显示热门标签
+  private hotFunctions: Set<string> = new Set(['API查询', '知识库', '视频课程', 'JSON工具', '颜色转换'])
   @State allCategories: string[] = []
 
   async aboutToAppear() {
@@ -519,6 +522,9 @@ export struct HomePage {
         Column() {
           // 第一行图标（默认显示）
           Row() {
+            this.FunctionIcon('API查询', $r('app.media.icon_code'), () => {
+              router.pushUrl({ url: 'pages/ApiQueryPage' })
+            })
             this.FunctionIcon('知识库', $r('app.media.icon_article'), () => {
               router.pushUrl({ url: 'pages/ArticlePage' })
             })
@@ -527,9 +533,6 @@ export struct HomePage {
             })
             this.FunctionIcon('示例代码', $r('app.media.icon_code'), () => {
               router.pushUrl({ url: 'pages/SampleCodePage' })
-            })
-            this.FunctionIcon('学习路线', $r('app.media.icon_learning_path'), () => {
-              router.pushUrl({ url: 'pages/LearningPathPage' })
             })
           }
           .width('100%')
@@ -540,6 +543,9 @@ export struct HomePage {
           if (this.functionSectionExpanded) {
             // 第二行图标
             Row() {
+              this.FunctionIcon('学习路线', $r('app.media.icon_learning_path'), () => {
+                router.pushUrl({ url: 'pages/LearningPathPage' })
+              })
               this.FunctionIcon('我的收藏', $r('app.media.ic_favorite'), () => {
                 router.pushUrl({ url: 'pages/FavoritesPage' })
               })
@@ -548,9 +554,6 @@ export struct HomePage {
               })
               this.FunctionIcon('我的统计', $r('app.media.ic_statistics'), () => {
                 router.pushUrl({ url: 'pages/StatisticsPage' })
-              })
-              this.FunctionIcon('我的成就', $r('app.media.ic_achievement'), () => {
-                router.pushUrl({ url: 'pages/AchievementPage' })
               })
             }
             .width('100%')
@@ -561,6 +564,9 @@ export struct HomePage {
 
             // 第三行图标
             Row() {
+              this.FunctionIcon('我的成就', $r('app.media.ic_achievement'), () => {
+                router.pushUrl({ url: 'pages/AchievementPage' })
+              })
               this.FunctionIcon('我的目标', $r('app.media.icon_traget'), () => {
                 router.pushUrl({ url: 'pages/GoalsPage' })
               })
@@ -569,9 +575,6 @@ export struct HomePage {
               })
               this.FunctionIcon('我的offer', $r('app.media.icon_fun_offer'), () => {
                 router.pushUrl({ url: 'pages/MyOfferPage' })
-              })
-              this.FunctionIcon('我的面试', $r('app.media.icon_fun_mianshi'), () => {
-                router.pushUrl({ url: 'pages/MyInterviewPage' })
               })
             }
             .width('100%')
@@ -585,7 +588,9 @@ export struct HomePage {
               this.FunctionIcon('知识背诵', $r('app.media.icon_fun_beisong'), () => {
                 router.pushUrl({ url: 'pages/KnowledgeRecitePage' })
               })
-              Blank().width('20%')
+              this.FunctionIcon('我的面试', $r('app.media.icon_fun_mianshi'), () => {
+                router.pushUrl({ url: 'pages/MyInterviewPage' })
+              })
               Blank().width('20%')
               Blank().width('20%')
             }
@@ -655,14 +660,14 @@ export struct HomePage {
             this.FunctionIcon('JSON工具', $r('app.media.icon_json'), () => {
               router.pushUrl({ url: 'pages/JsonFormatterPage' })
             })
+            this.FunctionIcon('颜色转换', $r('app.media.icon_color_trans'), () => {
+              router.pushUrl({ url: 'pages/ColorConverterPage' })
+            })
             this.FunctionIcon('Base64', $r('app.media.icon_base64'), () => {
               router.pushUrl({ url: 'pages/Base64ToolPage' })
             })
             this.FunctionIcon('URL编码', $r('app.media.icon_url'), () => {
               router.pushUrl({ url: 'pages/UrlToolPage' })
-            })
-            this.FunctionIcon('时间戳', $r('app.media.icon_timestamp'), () => {
-              router.pushUrl({ url: 'pages/TimestampToolPage' })
             })
           }
           .width('100%')
@@ -676,8 +681,8 @@ export struct HomePage {
               this.FunctionIcon('正则测试', $r('app.media.icon_regax'), () => {
                 router.pushUrl({ url: 'pages/RegexTestPage' })
               })
-              this.FunctionIcon('颜色转换', $r('app.media.icon_color_trans'), () => {
-                router.pushUrl({ url: 'pages/ColorConverterPage' })
+              this.FunctionIcon('时间戳', $r('app.media.icon_timestamp'), () => {
+                router.pushUrl({ url: 'pages/TimestampToolPage' })
               })
               this.FunctionIcon('二维码', $r('app.media.icon_qrcode'), () => {
                 router.pushUrl({ url: 'pages/QRCodePage' })
@@ -729,14 +734,22 @@ export struct HomePage {
   @Builder FunctionIcon(title: string, icon: Resource, onClick: () => void) {
     Column() {
       Stack() {
-
         Image(icon)
           .width(32)
           .height(32)
-          .fillColor('#F36D40')
+          .fillColor('#007DFF')
+        
+        // 热门标签 - 显示在右上角
+        if (this.hotFunctions.has(title)) {
+          Image($r('app.media.icon_hot'))
+            .width(28)
+            .height(14)
+            .position({ x: 40, y: 8 })
+        }
       }
       .width(60)
-      .height(60).margin({bottom: 6})
+      .height(60)
+      .margin({bottom: 6})
 
       Text(title)
         .fontSize(12)

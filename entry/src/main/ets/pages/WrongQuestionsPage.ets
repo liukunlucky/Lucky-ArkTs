@@ -186,11 +186,10 @@ struct WrongQuestionsPage {
 
   @Builder EmptySection() {
     Column() {
-      Image($r('app.media.ic_wrong_empty'))
-        .width(120)
-        .height(120)
-        .fillColor('#CCCCCC')
-      
+      Image($r('app.media.icon_empty'))
+        .width(173)
+        .height(128)
+
       Text('暂无错题记录')
         .fontSize(18)
         .fontColor('#666666')
