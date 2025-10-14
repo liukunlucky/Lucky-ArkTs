@@ -35,6 +35,9 @@
     "pages/MyInterviewPage",
     "pages/KnowledgeRecitePage",
     "pages/AddInterviewRecordPage",
-    "pages/ApiQueryPage"
+    "pages/ApiQueryPage",
+    "pages/InterviewPage",
+    "pages/CodeGeneratorPage",
+    "pages/InterviewArticleDetailPage"
   ]
 }

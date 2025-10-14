@@ -100,12 +100,10 @@ export struct HomePage {
     hard: { total: 0, correct: 0, accuracy: 0 }
   }
 
-  // 展开/折叠状态
-  @State functionSectionExpanded: boolean = false
-  @State toolSectionExpanded: boolean = false
+  // 移除展开/折叠状态，保持展开
   
   // 热门功能配置 - 可以根据需要配置哪些功能显示热门标签
-  private hotFunctions: Set<string> = new Set(['API查询', '知识库', '视频课程', 'JSON工具', '颜色转换'])
+  private hotFunctions: Set<string> = new Set(['API查询', '知识库', '视频课程', '面试宝典', 'JSON工具', '颜色转换'])
   @State allCategories: string[] = []
 
   async aboutToAppear() {
@@ -485,44 +483,16 @@ export struct HomePage {
             .fontSize(18)
             .fontWeight(FontWeight.Bold)
             .fontColor('#333333')
-          
-          Blank()
-          
-          // 展开/折叠按钮
-          Row() {
-            Text(this.functionSectionExpanded ? '收起' : '展开')
-              .fontSize(14)
-              .fontColor('#666666')
-              .margin({ right: 4 })
-            
-            Image($r('sys.media.ohos_ic_public_arrow_down'))
-              .width(16)
-              .height(16)
-              .fillColor('#666666')
-              .rotate({ angle: this.functionSectionExpanded ? 180 : 0 })
-              .animation({
-                duration: 300,
-                curve: Curve.EaseInOut
-              })
-          }
-          .onClick(() => {
-            animateTo({
-              duration: 300,
-              curve: Curve.EaseInOut
-            }, () => {
-              this.functionSectionExpanded = !this.functionSectionExpanded
-            })
-          })
         }
         .width('100%')
-        .justifyContent(FlexAlign.SpaceBetween)
+        .justifyContent(FlexAlign.Start)
         .alignItems(VerticalAlign.Center)
         .padding(4)
         // 功能图标区域
         Column() {
           // 第一行图标（默认显示）
           Row() {
-            this.FunctionIcon('API查询', $r('app.media.icon_code'), () => {
+            this.FunctionIcon('API查询', $r('app.media.icon_api'), () => {
               router.pushUrl({ url: 'pages/ApiQueryPage' })
             })
             this.FunctionIcon('知识库', $r('app.media.icon_article'), () => {
@@ -537,10 +507,9 @@ export struct HomePage {
           }
           .width('100%')
           .justifyContent(FlexAlign.SpaceBetween)
-          .margin({ bottom: this.functionSectionExpanded ? 24 : 0 })
+          .margin({ bottom: 24 })
 
-          // 展开时显示的其他图标
-          if (this.functionSectionExpanded) {
+          // 其他功能图标
             // 第二行图标
             Row() {
               this.FunctionIcon('学习路线', $r('app.media.icon_learning_path'), () => {
@@ -591,20 +560,17 @@ export struct HomePage {
               this.FunctionIcon('我的面试', $r('app.media.icon_fun_mianshi'), () => {
                 router.pushUrl({ url: 'pages/MyInterviewPage' })
               })
-              Blank().width('20%')
-              Blank().width('20%')
+              this.FunctionIcon('面试宝典', $r('app.media.icon_mianshi'), () => {
+                router.pushUrl({ url: 'pages/InterviewPage' })
+              })
+              this.FunctionIcon('代码生成器', $r('app.media.icon_generate'), () => {
+                router.pushUrl({ url: 'pages/CodeGeneratorPage' })
+              })
             }
             .width('100%')
             .justifyContent(FlexAlign.SpaceBetween)
             .margin({ bottom: 24 })
-            .transition({ type: TransitionType.Insert, opacity: 0, translate: { y: -20 } })
-            .transition({ type: TransitionType.Delete, opacity: 0, translate: { y: -20 } })
-          }
         }
-        .animation({
-          duration: 300,
-          curve: Curve.EaseInOut
-        })
 
       }
       .padding(8)
@@ -619,37 +585,9 @@ export struct HomePage {
             .fontSize(18)
             .fontWeight(FontWeight.Bold)
             .fontColor('#333333')
-          
-          Blank()
-          
-          // 展开/折叠按钮
-          Row() {
-            Text(this.toolSectionExpanded ? '收起' : '展开')
-              .fontSize(14)
-              .fontColor('#666666')
-              .margin({ right: 4 })
-            
-            Image($r('sys.media.ohos_ic_public_arrow_down'))
-              .width(16)
-              .height(16)
-              .fillColor('#666666')
-              .rotate({ angle: this.toolSectionExpanded ? 180 : 0 })
-              .animation({
-                duration: 300,
-                curve: Curve.EaseInOut
-              })
-          }
-          .onClick(() => {
-            animateTo({
-              duration: 300,
-              curve: Curve.EaseInOut
-            }, () => {
-              this.toolSectionExpanded = !this.toolSectionExpanded
-            })
-          })
         }
         .width('100%')
-        .justifyContent(FlexAlign.SpaceBetween)
+        .justifyContent(FlexAlign.Start)
         .alignItems(VerticalAlign.Center)
         .padding(4)
         
@@ -672,10 +610,9 @@ export struct HomePage {
           }
           .width('100%')
           .justifyContent(FlexAlign.SpaceBetween)
-          .margin({ bottom: this.toolSectionExpanded ? 16 : 0 })
+          .margin({ bottom: 16 })
 
-          // 展开时显示的其他图标
-          if (this.toolSectionExpanded) {
+          // 其他工具图标
             // 第二行图标
             Row() {
               this.FunctionIcon('正则测试', $r('app.media.icon_regax'), () => {
@@ -713,14 +650,7 @@ export struct HomePage {
             .width('100%')
             .justifyContent(FlexAlign.SpaceBetween)
             .margin({ bottom: 16 })
-            .transition({ type: TransitionType.Insert, opacity: 0, translate: { y: -20 } })
-            .transition({ type: TransitionType.Delete, opacity: 0, translate: { y: -20 } })
-          }
         }
-        .animation({
-          duration: 300,
-          curve: Curve.EaseInOut
-        })
 
       }
       .padding(8)
