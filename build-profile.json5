@@ -7,22 +7,22 @@
         "material": {
           "certpath": "/Users/monkey/.ohos/config/default_Lucky_arkts__TXVveBhzmfckSyYTqjfy6M0dtyvkXGq6H1iMU3znis=.cer",
           "keyAlias": "debugKey",
-          "keyPassword": "0000001BD0EC296B91FC3AF76B5DBA08E1D5C865D6279A6FC449D5BD9F8FF3F4A4C80ECF60AC2D2ACBACDA",
+          "keyPassword": "0000001B5B3265BC69CD69E3B9D64B24BD068BAFE2FAE4E8EAD0CA77C47BEB23623B7E7FC4B8C61573AD5D",
           "profile": "/Users/monkey/.ohos/config/default_Lucky_arkts__TXVveBhzmfckSyYTqjfy6M0dtyvkXGq6H1iMU3znis=.p7b",
           "signAlg": "SHA256withECDSA",
           "storeFile": "/Users/monkey/.ohos/config/default_Lucky_arkts__TXVveBhzmfckSyYTqjfy6M0dtyvkXGq6H1iMU3znis=.p12",
-          "storePassword": "0000001B893E3C2E3EEB3960B18D8B8FE3D89CE27D9057293604D9CF4CF248AE8A27261DAE8F63720F684E"
+          "storePassword": "0000001BD1EC22018D0551F979DD8E45EE98AC22552895511A1B597E4E3DA987993858A5B539413A955260"
         }
       },
       {
         "name": "release",
         "material": {
           "storeFile": "/Users/monkey/Documents/Harmony/发布相关/arkts/release.p12",
-          "storePassword": "0000001B5BAE2C30DD55DC428228A53899B1263FED676C77C845BD74BCDE26F3974DACD3DF363EE0A70B2E",
+          "storePassword": "0000001BB64334D01FE187108640FB76BC23C7E8D8AF681CCAEB6F1B519FB6FCAF523BE2B2DADF2B791D55",
           "keyAlias": "lucky_arkts",
-          "keyPassword": "0000001B9CA4A48807A3D98B3E49A66C35C53C7B99A312571B342A1947B968D9C498D90F95F0D77E408C94",
+          "keyPassword": "0000001B4D5635196BA40484A17A6A9557B42159CD383F1940E78954D566DD63A70061E4AD953C2F15182F",
           "signAlg": "SHA256withECDSA",
-          "profile": "/Users/monkey/Documents/Harmony/发布相关/arkts/release-liukunRelease.p7b",
+          "profile": "/Users/monkey/Documents/Harmony/发布相关/arkts/arkTs-release-profileRelease.p7b",
           "certpath": "/Users/monkey/Documents/Harmony/发布相关/arkts/release-liukun.cer"
         }
       }

@@ -93,36 +93,71 @@ export struct ProfilePage {
   }
 
   build() {
-    Scroll() {
-      Column() {
-        // 个人信息区域
-        this.ProfileSection()
-        
-        // 统计数据区域
-        this.StatsSection()
-        
-        // 功能菜单区域
-        this.MenuSection()
-        
-        // 设置区域
-        this.SettingsSection()
-      }
-      .width('100%')
-      .padding({ left: 16, right: 16, top: 20, bottom: 20 })
-      .bindSheet($$this.showAboutSheet, this.AboutSheet(), {
-        height: 400,
-        dragBar: true,
-        showClose: false,
-        preferType:SheetType.CENTER,
-        backgroundColor: $r('app.color.surface_color'),
-        onDisappear: () => {
-          // 移除状态重置，避免与深色模式切换冲突
-          this.showAboutSheet = false;
+    Column() {
+      this.HeaderSection()
+      Scroll() {
+        Column() {
+          // 顶部导航栏
+          // 个人信息区域
+          this.ProfileSection()
+
+          // 统计数据区域
+          this.StatsSection()
+
+          // 功能菜单区域
+          this.MenuSection()
+
+          // 设置区域
+          this.SettingsSection()
         }
-      })
+        .width('100%')
+        .padding({ left: 16, right: 16, top: 20, bottom: 20 })
+        .bindSheet($$this.showAboutSheet, this.AboutSheet(), {
+          height: 400,
+          dragBar: true,
+          showClose: false,
+          preferType:SheetType.CENTER,
+          backgroundColor: $r('app.color.surface_color'),
+          onDisappear: () => {
+            // 移除状态重置，避免与深色模式切换冲突
+            this.showAboutSheet = false;
+          }
+        })
+      }
+      .backgroundColor('#F5F5F5')
+      .layoutWeight(1)
+      .height('100%')
     }
-    .backgroundColor('#F5F5F5')
-    .height('100%')
+
+  }
+
+  @Builder HeaderSection() {
+    Row() {
+      Image($r('app.media.ic_back'))
+        .width(24)
+        .height(24)
+        .fillColor('#333333')
+        .onClick(() => {
+          router.back()
+        })
+
+      Text('设置')
+        .fontSize(18)
+        .fontWeight(FontWeight.Medium)
+        .fontColor('#333333')
+        .layoutWeight(1)
+        .textAlign(TextAlign.Center)
+
+      // 占位，保持居中
+      Column()
+        .width(24)
+        .height(24)
+    }
+    .width('100%')
+    .height(56)
+    .padding({ left: 16, right: 16 })
+    .backgroundColor('#FFFFFF')
+    .shadow({ radius: 2, color: '#1A000000', offsetX: 0, offsetY: 1 })
   }
 
   @Builder ProfileSection() {

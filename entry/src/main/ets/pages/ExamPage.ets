@@ -101,25 +101,58 @@ export struct ExamPage {
   }
 
   build() {
-    Scroll() {
-      Column() {
-        // 页面标题
-        this.HeaderSection()
-        
-        // 考核卡片列表
-        this.ExamCardsSection()
-        
-        // 历史记录
-        this.HistorySection()
+    Column() {
+      this.HeaderSection()
+      Scroll() {
+        Column() {
+          // 页面标题
+          this.HeaderSection1()
+
+          // 考核卡片列表
+          this.ExamCardsSection()
+
+          // 历史记录
+          this.HistorySection()
+        }
+        .width('100%')
+        .padding({ left: 16, right: 16, top: 20, bottom: 20 })
       }
-      .width('100%')
-      .padding({ left: 16, right: 16, top: 20, bottom: 20 })
+      .backgroundColor('#F5F5F5')
+      .height('100%')
+      .layoutWeight(1)
     }
-    .backgroundColor('#F5F5F5')
-    .height('100%')
+
   }
 
   @Builder HeaderSection() {
+    Row() {
+      Image($r('app.media.ic_back'))
+        .width(24)
+        .height(24)
+        .fillColor('#333333')
+        .onClick(() => {
+          router.back()
+        })
+
+      Text('考核中心')
+        .fontSize(18)
+        .fontWeight(FontWeight.Medium)
+        .fontColor('#333333')
+        .layoutWeight(1)
+        .textAlign(TextAlign.Center)
+
+      // 占位，保持居中
+      Column()
+        .width(24)
+        .height(24)
+    }
+    .width('100%')
+    .height(56)
+    .padding({ left: 16, right: 16 })
+    .backgroundColor('#FFFFFF')
+    .shadow({ radius: 2, color: '#1A000000', offsetX: 0, offsetY: 1 })
+  }
+  @Builder HeaderSection1() {
     Column() {
       Text('考核中心')
         .fontSize(28)

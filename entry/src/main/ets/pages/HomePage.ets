@@ -76,6 +76,7 @@ interface Question {
 }
 
 @Component
+@Entry
 export struct HomePage {
   @State currentDate: string = ''
   @State currentWeekday: string = ''
@@ -428,6 +429,13 @@ export struct HomePage {
     }
   }
 
+  private navigateToSetting() {
+    router.pushUrl({
+      url: 'pages/ProfilePage'
+    }).catch((_error: Error) => {
+    });
+  }
+
   build() {
     Scroll() {
       Column() {
@@ -454,28 +462,83 @@ export struct HomePage {
   }
 
   @Builder GreetingSection() {
-    Column({ space: 8 }) {
-      // App名称
-      Text('ArkTs学习手册')
-        .fontSize(28)
-        .fontWeight(FontWeight.Bold)
-        .fontFamily('cjzj')
-        .fontColor('#2C3E50')
+    Row() {
+      Column({ space: 8 }) {
+        // App名称
+        Text('ArkTs学习手册')
+          .fontSize(28)
+          .fontWeight(FontWeight.Bold)
+          .fontFamily('cjzj')
+          .fontColor('#2C3E50')
 
-      // 描述文字
-      Text('ArkTs从入门到精通,陪您一路成长')
-        .fontSize(16)
-        .fontColor($r('app.color.secondary_text_color'))
-        .margin({ top: 8 })
-    }
-    .padding(16)
-    .width('100%')
-    .backgroundColor(Color.White)
-    .alignItems(HorizontalAlign.Start)
+        // 描述文字
+        Text('ArkTs从入门到精通,陪您一路成长')
+          .fontSize(16)
+          .fontColor($r('app.color.secondary_text_color'))
+          .margin({ top: 8 })
+      }
+      .alignItems(HorizontalAlign.Start)
+      Blank()
+
+      // setting按钮
+      Button() {
+        Image($r('app.media.icon_settings'))
+          .width(24)
+          .height(24)
+          .fillColor($r('app.color.primary_text_color'))
+      }
+      .width(40)
+      .height(40)
+      .backgroundColor('#F8F9FA')
+      .borderRadius(20)
+      .onClick((): void => this.navigateToSetting())
+    }.width('100%')
+    .backgroundColor($r('app.color.surface_color'))
+    .padding({ left: 20, right: 20, top: 20, bottom: 10 })
+
   }
 
   @Builder FunctionIconsSection() {
     Column() {
+      Column() {
+        // 练习&考核专区标题
+        Row() {
+          Text('练习&考核')
+            .fontSize(18)
+            .fontWeight(FontWeight.Bold)
+            .fontColor('#333333')
+        }
+        .width('100%')
+        .justifyContent(FlexAlign.Start)
+        .alignItems(VerticalAlign.Center)
+        .padding(4)
+        // 功能图标区域
+        Column() {
+          // 第一行图标（默认显示）
+          Row() {
+            this.FunctionIcon('题库中心', $r('app.media.ic_question_bank'), () => {
+              router.pushUrl({ url: 'pages/QuestionBankPage' })
+            })
+            this.FunctionIcon('考核中心', $r('app.media.ic_exam'), () => {
+              router.pushUrl({ url: 'pages/ExamPage' })
+            })
+            this.FunctionIcon('学习路线', $r('app.media.icon_learning_path'), () => {
+              router.pushUrl({ url: 'pages/LearningPathPage' })
+            })
+            this.FunctionIcon('错题本', $r('app.media.ic_wrong_questions'), () => {
+              router.pushUrl({ url: 'pages/WrongQuestionsPage' })
+            })
+          }
+          .width('100%')
+          .justifyContent(FlexAlign.SpaceBetween)
+          .margin({ bottom: 24 })
+        }
+
+      }
+      .padding(8)
+      .margin({ bottom: 32 })
+      .backgroundColor(Color.White)
+      .borderRadius(12)
       Column() {
         // 功能专区标题
         Row() {
@@ -512,17 +575,17 @@ export struct HomePage {
           // 其他功能图标
             // 第二行图标
             Row() {
-              this.FunctionIcon('学习路线', $r('app.media.icon_learning_path'), () => {
-                router.pushUrl({ url: 'pages/LearningPathPage' })
-              })
               this.FunctionIcon('我的收藏', $r('app.media.ic_favorite'), () => {
                 router.pushUrl({ url: 'pages/FavoritesPage' })
               })
-              this.FunctionIcon('我的错题', $r('app.media.ic_wrong_questions'), () => {
-                router.pushUrl({ url: 'pages/WrongQuestionsPage' })
-              })
               this.FunctionIcon('我的统计', $r('app.media.ic_statistics'), () => {
                 router.pushUrl({ url: 'pages/StatisticsPage' })
+              })
+              this.FunctionIcon('知识背诵', $r('app.media.icon_fun_beisong'), () => {
+                router.pushUrl({ url: 'pages/KnowledgeRecitePage' })
+              })
+              this.FunctionIcon('代码生成器', $r('app.media.icon_generate'), () => {
+                router.pushUrl({ url: 'pages/CodeGeneratorPage' })
               })
             }
             .width('100%')
@@ -554,18 +617,14 @@ export struct HomePage {
 
             // 第四行图标
             Row() {
-              this.FunctionIcon('知识背诵', $r('app.media.icon_fun_beisong'), () => {
-                router.pushUrl({ url: 'pages/KnowledgeRecitePage' })
-              })
               this.FunctionIcon('我的面试', $r('app.media.icon_fun_mianshi'), () => {
                 router.pushUrl({ url: 'pages/MyInterviewPage' })
               })
               this.FunctionIcon('面试宝典', $r('app.media.icon_mianshi'), () => {
                 router.pushUrl({ url: 'pages/InterviewPage' })
               })
-              this.FunctionIcon('代码生成器', $r('app.media.icon_generate'), () => {
-                router.pushUrl({ url: 'pages/CodeGeneratorPage' })
-              })
+              Blank().width('20%')
+              Blank().width('20%')
             }
             .width('100%')
             .justifyContent(FlexAlign.SpaceBetween)

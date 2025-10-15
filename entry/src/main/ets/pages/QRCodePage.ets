@@ -63,7 +63,7 @@ struct QRCodePage {
       }
 
       // 截取组件快照
-      const pixelMap = await componentSnapshot.get('qrCodeComponent')
+      const pixelMap = await componentSnapshot.get('qrcode-component')
       
       // 创建图片打包器
       const imagePackerApi = image.createImagePacker()
