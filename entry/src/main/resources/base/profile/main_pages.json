@@ -1,5 +1,6 @@
 {
   "src": [
+    "pages/WelcomePage",
     "pages/Index",
     "pages/QuestionBankPage",
     "pages/HomePage",
@@ -39,6 +40,8 @@
     "pages/ApiQueryPage",
     "pages/InterviewPage",
     "pages/CodeGeneratorPage",
-    "pages/InterviewArticleDetailPage"
+    "pages/InterviewArticleDetailPage",
+    "pages/BigCompanyQuestionsPage",
+    "pages/BigCompanyQuestionDetailPage"
   ]
 }

@@ -373,7 +373,7 @@ export struct ProfilePage {
         router.pushUrl({ url: 'pages/WrongQuestionsPage' })
       })
 
-      this.MenuItem('学习路线', '查看学习进度', $r('app.media.ic_learning_path'), () => {
+      this.MenuItem('学习路线', '查看学习进度', $r('app.media.icon_learning_path'), () => {
         router.pushUrl({ url: 'pages/LearningPathPage' })
       })
 
@@ -527,7 +527,7 @@ export struct ProfilePage {
 
       // 应用信息
       Column() {
-        Text('ArkTs学习手册')
+        Text('ArkTs知识宝典')
           .fontSize(18)
           .fontWeight(FontWeight.Bold)
           .fontColor($r('app.color.primary_text_color'))
@@ -551,7 +551,7 @@ export struct ProfilePage {
       Blank()
 
       // 版权信息
-      Text('© 2025 ArkTs学习手册团队')
+      Text('© 2025 ArkTs知识宝典团队')
         .fontSize(12)
         .fontColor($r('app.color.tertiary_text_color'))
         .margin({ bottom: 20 })

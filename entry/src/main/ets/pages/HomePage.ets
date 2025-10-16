@@ -2,6 +2,9 @@ import router from '@ohos.router'
 import { util } from '@kit.ArkTS'
 import { DatabaseManager, WrongQuestion } from '../common/DatabaseManager'
 import { DifficultyColorStyle } from './DailyQuestionPage'
+import { promptAction } from '@kit.ArkUI'
+import { common } from '@kit.AbilityKit'
+import { preferences } from '@kit.ArkData'
 
 interface QuestionOptions {
   A: string
@@ -28,6 +31,13 @@ interface UserStats {
   totalStudyTime: number
   level: number
   experience: number
+}
+
+interface CheckInInfo {
+  lastCheckInDate: string
+  consecutiveDays: number
+  totalCheckInDays: number
+  todayCheckedIn: boolean
 }
 
 interface AnswerRecord {
@@ -93,6 +103,12 @@ export struct HomePage {
     level: 1,
     experience: 0
   }
+  @State checkInInfo: CheckInInfo = {
+    lastCheckInDate: '',
+    consecutiveDays: 0,
+    totalCheckInDays: 0,
+    todayCheckedIn: false
+  }
 
   @State categoryStats: CategoryStat[] = []
   @State difficultyStats: DifficultyStats = {
@@ -118,6 +134,7 @@ export struct HomePage {
     await this.loadWrongQuestion()
     await this.loadUserStats()
     await this.loadStatistics()
+    await this.loadCheckInInfo()
   }
 
 
@@ -258,6 +275,122 @@ export struct HomePage {
     } catch (error) {
       console.error('加载用户统计失败:', error)
     }
+  }
+
+  async loadCheckInInfo() {
+    try {
+      const context = getContext(this) as common.UIAbilityContext
+      const prefs = await preferences.getPreferences(context, 'check_in_prefs')
+      const lastCheckInDateStr: string = await prefs.get('lastCheckInDate', '') as string
+      const consecutiveDays: number = await prefs.get('consecutiveDays', 0) as number
+      const totalCheckInDays: number = await prefs.get('totalCheckInDays', 0) as number
+      
+      const today = new Date().toDateString()
+      const todayCheckedIn = lastCheckInDateStr === today
+      
+      this.checkInInfo = {
+        lastCheckInDate: lastCheckInDateStr,
+        consecutiveDays: consecutiveDays,
+        totalCheckInDays: totalCheckInDays,
+        todayCheckedIn: todayCheckedIn
+      }
+    } catch (error) {
+      console.error('加载签到信息失败:', error)
+    }
+  }
+
+  async performCheckIn() {
+    try {
+      const today = new Date().toDateString()
+      const yesterday = new Date(Date.now() - 24 * 60 * 60 * 1000).toDateString()
+      
+      if (this.checkInInfo.todayCheckedIn) {
+        promptAction.showToast({ message: '今天已经签到过了！' })
+        return
+      }
+      
+      let newConsecutiveDays = 1
+      if (this.checkInInfo.lastCheckInDate === yesterday) {
+        // 连续签到
+        newConsecutiveDays = this.checkInInfo.consecutiveDays + 1
+      }
+      
+      const newTotalDays = this.checkInInfo.totalCheckInDays + 1
+      
+      // 计算经验奖励
+      let expReward = 10 // 基础经验
+      if (newConsecutiveDays >= 7) {
+        expReward += 20 // 连续7天额外奖励
+      }
+      if (newConsecutiveDays >= 30) {
+        expReward += 50 // 连续30天额外奖励
+      }
+      
+      // 更新用户经验和等级
+      const newExp = this.userStats.experience + expReward
+      const newLevel = Math.floor(newExp / 100) + 1 // 每100经验升一级
+      
+      // 保存签到信息
+      const context = getContext(this) as common.UIAbilityContext
+      const prefs = await preferences.getPreferences(context, 'check_in_prefs')
+      await prefs.put('lastCheckInDate', today)
+      await prefs.put('consecutiveDays', newConsecutiveDays)
+      await prefs.put('totalCheckInDays', newTotalDays)
+      await prefs.flush()
+      
+      // 保存用户等级和经验到数据库
+      const dbManager = DatabaseManager.getInstance()
+      await dbManager.updateUserLevel(newLevel, newExp)
+      
+      // 更新状态
+      this.checkInInfo = {
+        lastCheckInDate: today,
+        consecutiveDays: newConsecutiveDays,
+        totalCheckInDays: newTotalDays,
+        todayCheckedIn: true
+      }
+      
+      this.userStats.level = newLevel
+      this.userStats.experience = newExp
+      
+      promptAction.showToast({ 
+        message: `签到成功！获得${expReward}经验，连续签到${newConsecutiveDays}天` 
+      })
+      
+    } catch (error) {
+      console.error('签到失败:', error)
+      promptAction.showToast({ message: '签到失败，请重试' })
+    }
+  }
+
+  // 显示反馈对话框
+  showFeedbackDialog() {
+    promptAction.showDialog({
+      title: '反馈建议',
+      message: '感谢您的反馈！请选择反馈类型：',
+      buttons: [
+        {
+          text: '功能建议',
+          color: '#007DFF'
+        },
+        {
+          text: '问题反馈',
+          color: '#007DFF'
+        },
+        {
+          text: '取消',
+          color: '#666666'
+        }
+      ]
+    }).then((result) => {
+      if (result.index === 0) {
+        promptAction.showToast({ message: '功能建议已记录，感谢您的建议！' })
+      } else if (result.index === 1) {
+        promptAction.showToast({ message: '问题反馈已记录，我们会尽快处理！' })
+      }
+    }).catch((error: Error) => {
+      console.error('显示反馈对话框失败:', error)
+    })
   }
 
   async loadStatistics() {
@@ -442,6 +575,9 @@ export struct HomePage {
         // 顶部问候语
         this.GreetingSection()
         
+        // 签到卡片 - 移到问候语下面
+        this.CheckInCard()
+        
         // 功能图标区域
         this.FunctionIconsSection()
         
@@ -465,7 +601,7 @@ export struct HomePage {
     Row() {
       Column({ space: 8 }) {
         // App名称
-        Text('ArkTs学习手册')
+        Text('ArkTs知识宝典')
           .fontSize(28)
           .fontWeight(FontWeight.Bold)
           .fontFamily('cjzj')
@@ -494,6 +630,7 @@ export struct HomePage {
       .onClick((): void => this.navigateToSetting())
     }.width('100%')
     .backgroundColor($r('app.color.surface_color'))
+    .margin({bottom: 16})
     .padding({ left: 20, right: 20, top: 20, bottom: 10 })
 
   }
@@ -512,31 +649,44 @@ export struct HomePage {
         .justifyContent(FlexAlign.Start)
         .alignItems(VerticalAlign.Center)
         .padding(4)
-        // 功能图标区域
-        Column() {
-          // 第一行图标（默认显示）
-          Row() {
+        
+        // 功能图标区域 - 使用Grid布局
+        Grid() {
+          GridItem() {
             this.FunctionIcon('题库中心', $r('app.media.ic_question_bank'), () => {
               router.pushUrl({ url: 'pages/QuestionBankPage' })
             })
+          }
+          GridItem() {
             this.FunctionIcon('考核中心', $r('app.media.ic_exam'), () => {
               router.pushUrl({ url: 'pages/ExamPage' })
             })
+          }
+          GridItem() {
             this.FunctionIcon('学习路线', $r('app.media.icon_learning_path'), () => {
               router.pushUrl({ url: 'pages/LearningPathPage' })
             })
+          }
+          GridItem() {
             this.FunctionIcon('错题本', $r('app.media.ic_wrong_questions'), () => {
               router.pushUrl({ url: 'pages/WrongQuestionsPage' })
             })
           }
-          .width('100%')
-          .justifyContent(FlexAlign.SpaceBetween)
-          .margin({ bottom: 24 })
+          GridItem() {
+            this.FunctionIcon('大厂真题', $r('sys.media.ohos_ic_public_copy'), () => {
+              router.pushUrl({ url: 'pages/BigCompanyQuestionsPage' })
+            })
+          }
         }
+        .columnsTemplate('1fr')
+        .rowsGap(8)
+        .columnsGap(0)
+        .width('100%')
+        .margin({ top: 8, bottom: 16 })
 
       }
-      .padding(8)
-      .margin({ bottom: 32 })
+      .padding(16)
+      .margin({ bottom: 16 })
       .backgroundColor(Color.White)
       .borderRadius(12)
       Column() {
@@ -551,89 +701,89 @@ export struct HomePage {
         .justifyContent(FlexAlign.Start)
         .alignItems(VerticalAlign.Center)
         .padding(4)
-        // 功能图标区域
-        Column() {
-          // 第一行图标（默认显示）
-          Row() {
+        
+        // 功能图标区域 - 使用Grid布局
+        Grid() {
+          GridItem() {
             this.FunctionIcon('API查询', $r('app.media.icon_api'), () => {
               router.pushUrl({ url: 'pages/ApiQueryPage' })
             })
+          }
+          GridItem() {
             this.FunctionIcon('知识库', $r('app.media.icon_article'), () => {
               router.pushUrl({ url: 'pages/ArticlePage' })
             })
-            this.FunctionIcon('视频课程', $r('app.media.icon_video'), () => {
-              router.pushUrl({ url: 'pages/VideoCoursePage' })
-            })
+          }
+          // GridItem() {
+          //   this.FunctionIcon('视频课程', $r('app.media.icon_video'), () => {
+          //     router.pushUrl({ url: 'pages/VideoCoursePage' })
+          //   })
+          // }
+          GridItem() {
             this.FunctionIcon('示例代码', $r('app.media.icon_code'), () => {
               router.pushUrl({ url: 'pages/SampleCodePage' })
             })
           }
-          .width('100%')
-          .justifyContent(FlexAlign.SpaceBetween)
-          .margin({ bottom: 24 })
-
-          // 其他功能图标
-            // 第二行图标
-            Row() {
-              this.FunctionIcon('我的收藏', $r('app.media.ic_favorite'), () => {
-                router.pushUrl({ url: 'pages/FavoritesPage' })
-              })
-              this.FunctionIcon('我的统计', $r('app.media.ic_statistics'), () => {
-                router.pushUrl({ url: 'pages/StatisticsPage' })
-              })
-              this.FunctionIcon('知识背诵', $r('app.media.icon_fun_beisong'), () => {
-                router.pushUrl({ url: 'pages/KnowledgeRecitePage' })
-              })
-              this.FunctionIcon('代码生成器', $r('app.media.icon_generate'), () => {
-                router.pushUrl({ url: 'pages/CodeGeneratorPage' })
-              })
-            }
-            .width('100%')
-            .justifyContent(FlexAlign.SpaceBetween)
-            .margin({ bottom: 24 })
-            .transition({ type: TransitionType.Insert, opacity: 0, translate: { y: -20 } })
-            .transition({ type: TransitionType.Delete, opacity: 0, translate: { y: -20 } })
-
-            // 第三行图标
-            Row() {
-              this.FunctionIcon('我的成就', $r('app.media.ic_achievement'), () => {
-                router.pushUrl({ url: 'pages/AchievementPage' })
-              })
-              this.FunctionIcon('我的目标', $r('app.media.icon_traget'), () => {
-                router.pushUrl({ url: 'pages/GoalsPage' })
-              })
-              this.FunctionIcon('我的日记', $r('app.media.ic_diary'), () => {
-                router.pushUrl({ url: 'pages/DiaryPage' })
-              })
-              this.FunctionIcon('我的offer', $r('app.media.icon_fun_offer'), () => {
-                router.pushUrl({ url: 'pages/MyOfferPage' })
-              })
-            }
-            .width('100%')
-            .justifyContent(FlexAlign.SpaceBetween)
-            .margin({ bottom: 24 })
-            .transition({ type: TransitionType.Insert, opacity: 0, translate: { y: -20 } })
-            .transition({ type: TransitionType.Delete, opacity: 0, translate: { y: -20 } })
-
-            // 第四行图标
-            Row() {
-              this.FunctionIcon('我的面试', $r('app.media.icon_fun_mianshi'), () => {
-                router.pushUrl({ url: 'pages/MyInterviewPage' })
-              })
-              this.FunctionIcon('面试宝典', $r('app.media.icon_mianshi'), () => {
-                router.pushUrl({ url: 'pages/InterviewPage' })
-              })
-              Blank().width('20%')
-              Blank().width('20%')
-            }
-            .width('100%')
-            .justifyContent(FlexAlign.SpaceBetween)
-            .margin({ bottom: 24 })
+          GridItem() {
+            this.FunctionIcon('我的收藏', $r('app.media.ic_favorite'), () => {
+              router.pushUrl({ url: 'pages/FavoritesPage' })
+            })
+          }
+          GridItem() {
+            this.FunctionIcon('我的统计', $r('app.media.ic_statistics'), () => {
+              router.pushUrl({ url: 'pages/StatisticsPage' })
+            })
+          }
+          GridItem() {
+            this.FunctionIcon('知识背诵', $r('app.media.icon_fun_beisong'), () => {
+              router.pushUrl({ url: 'pages/KnowledgeRecitePage' })
+            })
+          }
+          GridItem() {
+            this.FunctionIcon('代码生成器', $r('app.media.icon_generate'), () => {
+              router.pushUrl({ url: 'pages/CodeGeneratorPage' })
+            })
+          }
+          GridItem() {
+            this.FunctionIcon('我的成就', $r('app.media.ic_achievement'), () => {
+              router.pushUrl({ url: 'pages/AchievementPage' })
+            })
+          }
+          GridItem() {
+            this.FunctionIcon('我的目标', $r('app.media.icon_traget'), () => {
+              router.pushUrl({ url: 'pages/GoalsPage' })
+            })
+          }
+          GridItem() {
+            this.FunctionIcon('我的日记', $r('app.media.ic_diary'), () => {
+              router.pushUrl({ url: 'pages/DiaryPage' })
+            })
+          }
+          GridItem() {
+            this.FunctionIcon('我的offer', $r('app.media.icon_fun_offer'), () => {
+              router.pushUrl({ url: 'pages/MyOfferPage' })
+            })
+          }
+          GridItem() {
+            this.FunctionIcon('我的面试', $r('app.media.icon_fun_mianshi'), () => {
+              router.pushUrl({ url: 'pages/MyInterviewPage' })
+            })
+          }
+          GridItem() {
+            this.FunctionIcon('面试宝典', $r('app.media.icon_mianshi'), () => {
+              router.pushUrl({ url: 'pages/InterviewPage' })
+            })
+          }
         }
+        .columnsTemplate('1fr')
+        .rowsGap(8)
+        .columnsGap(0)
+        .width('100%')
+        .margin({ top: 8, bottom: 16 })
 
       }
-      .padding(8)
-      .margin({ bottom: 32 })
+      .padding(16)
+      .margin({ bottom: 16 })
       .backgroundColor(Color.White)
       .borderRadius(12)
 
@@ -650,70 +800,73 @@ export struct HomePage {
         .alignItems(VerticalAlign.Center)
         .padding(4)
         
-        // 工具图标区域
-        Column() {
-          // 第一行图标（默认显示）
-          Row() {
+        // 工具图标区域 - 使用Grid布局
+        Grid() {
+          GridItem() {
             this.FunctionIcon('JSON工具', $r('app.media.icon_json'), () => {
               router.pushUrl({ url: 'pages/JsonFormatterPage' })
             })
+          }
+          GridItem() {
             this.FunctionIcon('颜色转换', $r('app.media.icon_color_trans'), () => {
               router.pushUrl({ url: 'pages/ColorConverterPage' })
             })
+          }
+          GridItem() {
             this.FunctionIcon('Base64', $r('app.media.icon_base64'), () => {
               router.pushUrl({ url: 'pages/Base64ToolPage' })
             })
+          }
+          GridItem() {
             this.FunctionIcon('URL编码', $r('app.media.icon_url'), () => {
               router.pushUrl({ url: 'pages/UrlToolPage' })
             })
           }
-          .width('100%')
-          .justifyContent(FlexAlign.SpaceBetween)
-          .margin({ bottom: 16 })
-
-          // 其他工具图标
-            // 第二行图标
-            Row() {
-              this.FunctionIcon('正则测试', $r('app.media.icon_regax'), () => {
-                router.pushUrl({ url: 'pages/RegexTestPage' })
-              })
-              this.FunctionIcon('时间戳', $r('app.media.icon_timestamp'), () => {
-                router.pushUrl({ url: 'pages/TimestampToolPage' })
-              })
-              this.FunctionIcon('二维码', $r('app.media.icon_qrcode'), () => {
-                router.pushUrl({ url: 'pages/QRCodePage' })
-              })
-              this.FunctionIcon('密码生成', $r('app.media.icon_pass'), () => {
-                router.pushUrl({ url: 'pages/PasswordGeneratorPage' })
-              })
-            }
-            .width('100%')
-            .justifyContent(FlexAlign.SpaceBetween)
-            .margin({ bottom: 16 })
-            .transition({ type: TransitionType.Insert, opacity: 0, translate: { y: -20 } })
-            .transition({ type: TransitionType.Delete, opacity: 0, translate: { y: -20 } })
-
-            // 第三行图标
-            Row() {
-              this.FunctionIcon('offer对比', $r('app.media.icon_vs'), () => {
-                router.pushUrl({ url: 'pages/OfferComparisonPage' })
-              })
-              this.FunctionIcon('Hash工具', $r('app.media.icon_code'), () => {
-                router.pushUrl({ url: 'pages/HashToolPage' })
-              })
-              this.FunctionIcon('UUID生成', $r('app.media.icon_uuid'), () => {
-                router.pushUrl({ url: 'pages/UuidGeneratorPage' })
-              })
-              Blank().width('20%')
-            }
-            .width('100%')
-            .justifyContent(FlexAlign.SpaceBetween)
-            .margin({ bottom: 16 })
+          GridItem() {
+            this.FunctionIcon('正则测试', $r('app.media.icon_regax'), () => {
+              router.pushUrl({ url: 'pages/RegexTestPage' })
+            })
+          }
+          GridItem() {
+            this.FunctionIcon('时间戳', $r('app.media.icon_timestamp'), () => {
+              router.pushUrl({ url: 'pages/TimestampToolPage' })
+            })
+          }
+          GridItem() {
+            this.FunctionIcon('二维码', $r('app.media.icon_qrcode'), () => {
+              router.pushUrl({ url: 'pages/QRCodePage' })
+            })
+          }
+          GridItem() {
+            this.FunctionIcon('密码生成', $r('app.media.icon_pass'), () => {
+              router.pushUrl({ url: 'pages/PasswordGeneratorPage' })
+            })
+          }
+          GridItem() {
+            this.FunctionIcon('offer对比', $r('app.media.icon_vs'), () => {
+              router.pushUrl({ url: 'pages/OfferComparisonPage' })
+            })
+          }
+          GridItem() {
+            this.FunctionIcon('Hash工具', $r('app.media.icon_code'), () => {
+              router.pushUrl({ url: 'pages/HashToolPage' })
+            })
+          }
+          GridItem() {
+            this.FunctionIcon('UUID生成', $r('app.media.icon_uuid'), () => {
+              router.pushUrl({ url: 'pages/UuidGeneratorPage' })
+            })
+          }
         }
+        .columnsTemplate('1fr')
+        .rowsGap(8)
+        .columnsGap(0)
+        .width('100%')
+        .margin({ top: 8, bottom: 16 })
 
       }
-      .padding(8)
-      .margin({ bottom: 32 })
+      .padding(16)
+      .margin({ bottom: 16 })
       .backgroundColor(Color.White)
       .borderRadius(12)
     }.padding({left: 16, right: 16}).margin({top: 16})
@@ -721,11 +874,11 @@ export struct HomePage {
   }
 
   @Builder FunctionIcon(title: string, icon: Resource, onClick: () => void) {
-    Column() {
+    Row() {
       Stack() {
         Image(icon)
-          .width(32)
-          .height(32)
+          .width(48)
+          .height(48)
           .fillColor('#007DFF')
         
         // 热门标签 - 显示在右上角
@@ -733,21 +886,26 @@ export struct HomePage {
           Image($r('app.media.icon_hot'))
             .width(28)
             .height(14)
-            .position({ x: 40, y: 8 })
+            .position({ x: 50, y: 0 })
         }
       }
-      .width(60)
-      .height(60)
-      .margin({bottom: 6})
+      .width(72)
+      .height(72)
+      .margin({right: 12})
 
       Text(title)
-        .fontSize(12)
-        .fontColor('#666666')
-        .fontWeight(FontWeight.Bold)
-        .textAlign(TextAlign.Center)
+        .fontSize(14)
+        .fontColor('#333333')
+        .fontWeight(FontWeight.Medium)
+        .textAlign(TextAlign.Start)
+        .flexGrow(1)
     }
-    .width('20%')
-    .alignItems(HorizontalAlign.Center)
+    .width('100%')
+    .height(72)
+    .alignItems(VerticalAlign.Center)
+    .padding({ left: 12, right: 12, top: 8, bottom: 8 })
+    .backgroundColor('#F8F9FA')
+    .borderRadius(12)
     .onClick(onClick)
   }
 
@@ -826,6 +984,119 @@ export struct HomePage {
       .padding({ left: 8, right: 8, top: 4, bottom: 4 })
       .borderRadius(8)
       .margin({ right: 8 })
+  }
+
+  @Builder CheckInCard() {
+    Column() {
+      Row() {
+        Text('每日签到')
+          .fontSize(18)
+          .fontWeight(FontWeight.Bold)
+          .fontColor('#FFFFFF')
+        
+        Blank()
+        
+        Text(this.checkInInfo.todayCheckedIn ? '已签到' : '签到')
+          .fontSize(14)
+          .fontColor('#FFFFFF')
+          .opacity(this.checkInInfo.todayCheckedIn ? 0.7 : 1.0)
+      }
+      .width('100%')
+      .margin({ bottom: 16 })
+
+      Column() {
+        Row() {
+          Column() {
+            Text(`${this.checkInInfo.consecutiveDays}`)
+              .fontSize(24)
+              .fontWeight(FontWeight.Bold)
+              .fontColor('#FF6B35')
+            Text('连续签到天数')
+              .fontSize(12)
+              .fontColor('#666666')
+              .margin({ top: 4 })
+          }
+          .alignItems(HorizontalAlign.Center)
+
+          Blank()
+
+          Column() {
+            Text(`${this.checkInInfo.totalCheckInDays}`)
+              .fontSize(24)
+              .fontWeight(FontWeight.Bold)
+              .fontColor('#4CAF50')
+            Text('累计签到天数')
+              .fontSize(12)
+              .fontColor('#666666')
+              .margin({ top: 4 })
+          }
+          .alignItems(HorizontalAlign.Center)
+
+          Blank()
+
+          Column() {
+            Text(`LV.${this.userStats.level}`)
+              .fontSize(20)
+              .fontWeight(FontWeight.Bold)
+              .fontColor('#2196F3')
+            Text(`${this.userStats.experience}经验`)
+              .fontSize(12)
+              .fontColor('#666666')
+              .margin({ top: 4 })
+          }
+          .alignItems(HorizontalAlign.Center)
+        }
+        .width('100%')
+        .padding(16)
+
+        if (!this.checkInInfo.todayCheckedIn) {
+          Button('立即签到')
+            .width('100%')
+            .height(40)
+            .backgroundColor('#FF6B35')
+            .fontColor('#FFFFFF')
+            .fontSize(16)
+            .fontWeight(FontWeight.Bold)
+            .borderRadius(8)
+            .margin({ top: 16 })
+            .onClick(() => {
+              this.performCheckIn()
+            })
+        } else {
+          Row() {
+            Image($r('sys.media.ohos_ic_public_ok'))
+              .width(20)
+              .height(20)
+              .fillColor('#4CAF50')
+            Text('今日已签到')
+              .fontSize(16)
+              .fontColor('#4CAF50')
+              .fontWeight(FontWeight.Bold)
+              .margin({ left: 8 })
+          }
+          .width('100%')
+          .height(40)
+          .justifyContent(FlexAlign.Center)
+          .alignItems(VerticalAlign.Center)
+          .backgroundColor('#E8F5E8')
+          .borderRadius(8)
+          .margin({ top: 16 })
+        }
+      }
+      .width('100%')
+      .padding(16)
+      .backgroundColor('#FFFFFF')
+      .borderRadius(12)
+      .shadow({ radius: 8, color: '#1A000000', offsetX: 0, offsetY: 2 })
+    }
+    .padding(16)
+    .linearGradient({
+      angle: 180,
+      colors: [['#CC4CAF50', 0.0], ['#CC81C784', 1.0]]
+    })
+    .borderRadius(12)
+    .shadow({ radius: 8, color: '#1A000000', offsetX: 0, offsetY: 2 })
+    .margin({ left: 16, right: 16, bottom: 16 })
   }
 
   @Builder WrongQuestionCard() {
