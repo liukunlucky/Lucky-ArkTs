@@ -1,9 +1,9 @@
 {
   "app": {
-    "bundleName": "top.modee.arkts",
+    "bundleName": "com.super.arkts",
     "vendor": "example",
-    "versionCode": 1004002,
-    "versionName": "1.4.2",
+    "versionCode": 1002000,
+    "versionName": "1.2.0",
     "icon": "$media:layered_image",
     "label": "$string:app_name"
   }

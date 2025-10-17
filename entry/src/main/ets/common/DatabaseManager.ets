@@ -466,26 +466,6 @@ export class DatabaseManager {
     }
   }
 
-  // 更新用户等级和经验
-  async updateUserLevel(level: number, experience: number): Promise<void> {
-    if (!this.rdbStore) {
-      throw new Error('数据库未初始化')
-    }
-
-    try {
-      await this.rdbStore.executeSql(`
-        UPDATE user_stats 
-        SET level = ?, experience = ?, updated_at = CURRENT_TIMESTAMP
-        WHERE id = 1
-      `, [level, experience])
-      
-      console.info(`用户等级更新成功: LV.${level}, 经验: ${experience}`)
-    } catch (error) {
-      console.error('更新用户等级失败:', error)
-      throw new Error('更新用户等级失败')
-    }
-  }
-
   // 记录答题
   async recordAnswer(questionId: number, userAnswer: string, correctAnswer: string, 
                     isCorrect: boolean, answerTime: number, questionType: string, 
