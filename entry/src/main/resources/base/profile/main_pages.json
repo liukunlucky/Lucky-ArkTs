@@ -42,6 +42,8 @@
     "pages/CodeGeneratorPage",
     "pages/InterviewArticleDetailPage",
     "pages/BigCompanyQuestionsPage",
-    "pages/BigCompanyQuestionDetailPage"
+    "pages/BigCompanyQuestionDetailPage",
+    "pages/WorkshopPage",
+    "pages/ComponentPreviewPage"
   ]
 }
