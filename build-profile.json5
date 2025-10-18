@@ -7,11 +7,11 @@
         "material": {
           "certpath": "/Users/monkey/.ohos/config/default_Lucky_arkts__TXVveBhzmfckSyYTqjfy6M0dtyvkXGq6H1iMU3znis=.cer",
           "keyAlias": "debugKey",
-          "keyPassword": "0000001BB737C90239FDB9EC5AD2022AF147ECA8A9FD319CD81038B862724F55023A16A3B987F60EF6E6D5",
+          "keyPassword": "0000001BC045E3FDA6B1386D717C0CB5550B5D27DDFEC2296E71619AAEE3C522731A9695BFCB14E28A52AF",
           "profile": "/Users/monkey/.ohos/config/default_Lucky_arkts__TXVveBhzmfckSyYTqjfy6M0dtyvkXGq6H1iMU3znis=.p7b",
           "signAlg": "SHA256withECDSA",
           "storeFile": "/Users/monkey/.ohos/config/default_Lucky_arkts__TXVveBhzmfckSyYTqjfy6M0dtyvkXGq6H1iMU3znis=.p12",
-          "storePassword": "0000001BF5DA16DCEC9FCD9488FC6115F44BA177F7F8E061E96A8990D6FDF8AFBEAAD5095804FD5BAEDC49"
+          "storePassword": "0000001B62CC07296AC98838704999A2969144D102F6368EBE8A096C61B5A4E74680B31449D89B58A0460E"
         }
       },
       {

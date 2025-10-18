@@ -441,7 +441,10 @@ export struct HomePage {
       Column() {
         // 顶部问候语
         this.GreetingSection()
-        
+
+        // ArkTS代码工坊
+        this.WorkshopCard()
+
         // 功能图标区域
         this.FunctionIconsSection()
         
@@ -494,6 +497,7 @@ export struct HomePage {
       .onClick((): void => this.navigateToSetting())
     }.width('100%')
     .backgroundColor($r('app.color.surface_color'))
+    .margin({bottom: 16})
     .padding({ left: 20, right: 20, top: 20, bottom: 10 })
 
   }
@@ -698,7 +702,7 @@ export struct HomePage {
               this.FunctionIcon('offer对比', $r('app.media.icon_vs'), () => {
                 router.pushUrl({ url: 'pages/OfferComparisonPage' })
               })
-              this.FunctionIcon('Hash工具', $r('app.media.icon_code'), () => {
+              this.FunctionIcon('Hash工具', $r('app.media.icon_hash'), () => {
                 router.pushUrl({ url: 'pages/HashToolPage' })
               })
               this.FunctionIcon('UUID生成', $r('app.media.icon_uuid'), () => {
@@ -726,8 +730,7 @@ export struct HomePage {
         Image(icon)
           .width(32)
           .height(32)
-          .fillColor('#2E8D77')
-        
+
         // 热门标签 - 显示在右上角
         if (this.hotFunctions.has(title)) {
           Image($r('app.media.icon_hot'))
@@ -1255,5 +1258,76 @@ export struct HomePage {
         const defaultStyle: DifficultyColorStyle = { bg: '#F5F5F5', text: '#666666' }
         return defaultStyle
     }
+  }
+
+  @Builder WorkshopCard() {
+    Column() {
+      Grid() {
+        GridItem() {
+          Column() {
+            // 图标区域
+            Column() {
+              Image($r('sys.media.ohos_ic_public_copy'))
+                .width(44)
+                .height(44)
+                .fillColor('#FFFFFF')
+            }
+            .width(72)
+            .height(72)
+            .backgroundColor('#2E8D77')
+            .borderRadius(18)
+            .justifyContent(FlexAlign.Center)
+            .alignItems(HorizontalAlign.Center)
+            .shadow({ radius: 10, color: '#336366F1', offsetX: 0, offsetY: 3 })
+
+            // 文字区域
+            Column() {
+              Text('ArkTS代码工坊')
+                .fontSize(16)
+                .fontWeight(FontWeight.Bold)
+                .fontColor('#1F2937')
+                .textAlign(TextAlign.Center)
+                .maxLines(1)
+                .textOverflow({ overflow: TextOverflow.Ellipsis })
+                .width('100%')
+
+              Text('组件预览 · 实时编辑')
+                .fontSize(11)
+                .fontColor('#6B7280')
+                .textAlign(TextAlign.Center)
+                .margin({ top: 6 })
+                .maxLines(1)
+                .textOverflow({ overflow: TextOverflow.Ellipsis })
+                .width('100%')
+            }
+            .alignItems(HorizontalAlign.Center)
+            .margin({ top: 16 })
+            .width('100%')
+          }
+          .width('100%')
+          .height(160)
+          .padding({ left: 12, right: 12, top: 20, bottom: 20 })
+          .backgroundColor('#FFFFFF')
+          .borderRadius(16)
+          .shadow({ radius: 8, color: '#1A000000', offsetX: 0, offsetY: 2 })
+          .justifyContent(FlexAlign.SpaceBetween)
+          .alignItems(HorizontalAlign.Center)
+          .onClick(() => {
+            // 导航到代码工坊页面
+            router.pushUrl({
+              url: 'pages/WorkshopPage'
+            }).catch((error: Error) => {
+              console.error('导航到代码工坊页面失败:', error)
+            })
+          })
+        }
+      }
+      .columnsTemplate('1fr')
+      .rowsTemplate('1fr')
+      .width('100%')
+      .height(160)
+    }
+    .width('100%')
+    .padding({ left: 16, right: 16, bottom: 16 })
   }
 }

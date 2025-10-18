@@ -39,6 +39,8 @@
     "pages/ApiQueryPage",
     "pages/InterviewPage",
     "pages/CodeGeneratorPage",
-    "pages/InterviewArticleDetailPage"
+    "pages/InterviewArticleDetailPage",
+    "pages/WorkshopPage",
+    "pages/ComponentPreviewPage"
   ]
 }
